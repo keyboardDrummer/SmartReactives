@@ -4,11 +4,11 @@ namespace SmartReactives.Test.Reactive
 {
 	class Waiter
 	{
-		private bool _waiting = true;
+		bool waiting = true;
 
 		public void Wait()
 		{
-			while (_waiting)
+			while (waiting)
 			{
 				Thread.Sleep(10);
 			}
@@ -16,7 +16,7 @@ namespace SmartReactives.Test.Reactive
 
 		public void Release()
 		{
-			_waiting = false;
+			waiting = false;
 		}
 	}
 }

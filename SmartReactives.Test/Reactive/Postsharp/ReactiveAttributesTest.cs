@@ -19,18 +19,18 @@ namespace SmartReactives.Test.Reactive.Postsharp
 			Assert.AreEqual(2, counter);
 		}
 
-		//[Test] //TODO deze test is niet goed meer.
-		//public void EfficientModeDependentWithSetter()
-		//{
-		//	var efficientMode = new EfficientMode();
-		//	var counter = 0;
-		//	ObservableUtility.FromProperty(() => efficientMode.DependentWithSetter).Subscribe(_ => counter++);
+		[Test]
+		public void EfficientModeDependentWithSetter()
+		{
+			var efficientMode = new EfficientMode();
+			var counter = 0;
+			ObservableUtility.FromProperty(() => efficientMode.DependentWithSetter).Subscribe(_ => counter++);
 
-		//	Assert.AreEqual(1, counter);
-		//	efficientMode.Source = !efficientMode.Source;
+			Assert.AreEqual(1, counter);
+			efficientMode.Source = !efficientMode.Source;
 
-		//	Assert.AreEqual(1, counter);
-		//}
+			Assert.AreEqual(1, counter);
+		}
 
 		[Test]
 		public void AutomaticModeDependent()

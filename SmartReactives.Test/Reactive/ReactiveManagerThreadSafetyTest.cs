@@ -78,46 +78,6 @@ namespace SmartReactives.Test.Reactive
 			Assert.AreEqual(20000, dependencyCount);
 		}
 
-		//[Ignore("test is not entirely stable.")]
-		//[Test] TODO remove.
-		//private void ReactiveManagerBackwardThreadSafety()
-		//{
-		//	var notifier = new Dependent();
-
-		//	var firsts = Enumerable.Range(0, 10000).Select(_ => new object()).ToList();
-		//	var first = new Thread(() =>
-		//	{
-		//		ReactiveManager.Evaluate(notifier, () =>
-		//		{
-		//			foreach (var obj in firsts)
-		//			{
-		//				ReactiveManager.WasRead(obj);
-		//			}
-		//			return true;
-		//		});
-		//	});
-		//	var seconds = Enumerable.Range(0, 10000).Select(_ => new object()).ToList();
-		//	var second = new Thread(() =>
-		//	{
-		//		ReactiveManager.Evaluate(notifier, () =>
-		//		{
-		//			foreach (var obj in seconds)
-		//			{
-		//				ReactiveManager.WasRead(obj);
-		//			}
-		//			return true;
-		//		});
-		//	});
-
-		//	first.Start();
-		//	second.Start();
-		//	first.Join();
-		//	second.Join();
-
-		//	var dependencyCount = ReactiveManager.GetDependencies(notifier).Count();
-		//	Assert.AreEqual(20000, dependencyCount);
-		//}
-
 		/// <summary>
 		/// Makes a sink and 2 sources. The sink is only dependent on actualSource. However during evaluation of sink, we make sure another thread evaluates fakeSource.
 		/// We assert that this does not cause the sink to become connected to fakeSource.

@@ -16,18 +16,18 @@ namespace SmartReactives.Test.Reactive
 {
 	public class ReactiveVariableTest
 	{
-		private const int NotificationWhenDependentChangesToSameValue = 1; //Ideally 0
-		private const int NotificationWhenSourceChangesToSameValue = 0; //Ideally 0
-		private const int WorksWithoutInitialPropertyAccess = 0; //Ideally 1
-		private const int RecordsChangingDependenciesWithoutAccess = 0;
+		const int NotificationWhenDependentChangesToSameValue = 1; //Ideally 0
+		const int NotificationWhenSourceChangesToSameValue = 0; //Ideally 0
+		const int WorksWithoutInitialPropertyAccess = 0; //Ideally 1
+		const int RecordsChangingDependenciesWithoutAccess = 0;
 
 		[Test]
 		public void ReactiveVariable()
 		{
 			var test = new Source();
 			var rx = new ObservableExpression<string>(() => test.Woop ? "foo" : "bar");
-			int counter = 0;
-			int expectation = 0;
+			var counter = 0;
+			var expectation = 0;
 			Assert.AreEqual("bar", rx.Evaluate());
 			rx.Subscribe(s => counter++);
 			test.Woop = true;
@@ -46,7 +46,7 @@ namespace SmartReactives.Test.Reactive
 			var first = new Source();
 			var second = new Source();
 			var rx = new ObservableExpression<string>(() => first.Woop ? "foo" : (second.Woop ? "bar" : "zoo"));
-			int counter = 0;
+			var counter = 0;
 			Assert.AreEqual("zoo", rx.Evaluate());
 			rx.Subscribe(s => counter++);
 			second.Woop = true;
@@ -69,37 +69,12 @@ namespace SmartReactives.Test.Reactive
 			Assert.AreEqual(4, counter);
 		}
 
-		
-		private class SimpleSink : HasNotifyPropertyChanged
-		{
-			public SimpleSink(Source source)
-			{
-				Source = source;
-			}
-
-			[SmartNotifyPropertyChanged]
-			public Source Source
-			{
-				get;
-				set;
-			}
-
-			[SmartNotifyPropertyChanged]
-			public bool Boop
-			{
-				get
-				{
-					return Source.Woop;
-				}
-			}
-		}
-
 		[Test]
 		public void ActiveAfterUsage()
 		{
 			var source = new Source();
 			var user = new SimpleSink(source);
-			int counter = 0;
+			var counter = 0;
 			user.PropertyChanged += (sender, args) => counter++;
 
 			Assert.AreEqual(0, counter);
@@ -117,7 +92,7 @@ namespace SmartReactives.Test.Reactive
 			var source1 = new Source();
 			var source2 = new Source();
 			var user = new SimpleSink(source1);
-			int counter = 0;
+			var counter = 0;
 			ObservableUtility.FromProperty(() => user.Boop).Skip(1).Subscribe(value => counter++);
 
 			Assert.AreEqual(0, counter);
@@ -144,38 +119,6 @@ namespace SmartReactives.Test.Reactive
 			Assert.AreEqual(false, user.Boop);
 		}
 
-		private class ComplexSink : HasNotifyPropertyChanged
-		{
-			public ComplexSink(Source source, Source source2)
-			{
-				Source = source;
-				Source2 = source2;
-			}
-
-			[SmartNotifyPropertyChanged]
-			public Source Source
-			{
-				get;
-				set;
-			}
-
-			[SmartNotifyPropertyChanged]
-			public Source Source2
-			{
-				get;
-				set;
-			}
-
-			[SmartNotifyPropertyChanged]
-			public string Complex
-			{
-				get
-				{
-					return Source.Woop ? "foo" : (Source2.Woop ? "bar" : "zoo");
-				}
-			}
-		}
-
 		[Test]
 		public void TestChangingDependenciesForSinkTrap()
 		{
@@ -183,14 +126,11 @@ namespace SmartReactives.Test.Reactive
 			first.Woop = true;
 			var second = new Source();
 			var sink = new ComplexSink(first, second);
-			int counter = 0;
-			int expectation = 0;
+			var counter = 0;
+			var expectation = 0;
 			Assert.AreEqual("foo", sink.Complex);
 			first.Woop = false;
-			ObservableUtility.FromProperty(() => sink.Complex, false).Subscribe(value =>
-			{
-				counter++;
-			});
+			ObservableUtility.FromProperty(() => sink.Complex, false).Subscribe(value => { counter++; });
 			Assert.AreEqual(expectation, counter);
 			second.Woop = true;
 			Assert.AreEqual(expectation += RecordsChangingDependenciesWithoutAccess, counter);
@@ -202,12 +142,9 @@ namespace SmartReactives.Test.Reactive
 			var source = new Source();
 			var sink = new SimpleSink(source);
 
-			int counter = 0;
-			int expectation = 0;
-			ObservableUtility.FromProperty(() => sink.Boop, false).Subscribe(value =>
-			{
-				counter++;
-			});
+			var counter = 0;
+			var expectation = 0;
+			ObservableUtility.FromProperty(() => sink.Boop, false).Subscribe(value => { counter++; });
 			Assert.AreEqual(expectation, counter);
 			source.FlipWoop();
 			Assert.AreEqual(expectation += WorksWithoutInitialPropertyAccess, counter);
@@ -219,13 +156,10 @@ namespace SmartReactives.Test.Reactive
 			var first = new Source();
 			var second = new Source();
 			var sink = new ComplexSink(first, second);
-			int counter = 0;
-			int expectation = 0;
+			var counter = 0;
+			var expectation = 0;
 			Assert.AreEqual("zoo", sink.Complex);
-			ObservableUtility.FromProperty(() => sink.Complex).Skip(1).Subscribe(value =>
-			{
-				counter++;
-			});
+			ObservableUtility.FromProperty(() => sink.Complex).Skip(1).Subscribe(value => { counter++; });
 			Assert.AreEqual(expectation, counter);
 			second.Woop = true;
 			Assert.AreEqual(++expectation, counter);
@@ -251,39 +185,11 @@ namespace SmartReactives.Test.Reactive
 			Assert.AreEqual(expectation += NotificationWhenDependentChangesToSameValue, counter);
 		}
 
-		private class SinkChain : HasNotifyPropertyChanged
-		{
-			[SmartNotifyPropertyChanged]
-			public bool Source
-			{
-				get;
-				set;
-			}
-
-			[SmartNotifyPropertyChanged]
-			public bool InnerSink
-			{
-				get
-				{
-					return !Source;
-				}
-			}
-
-			[SmartNotifyPropertyChanged]
-			public bool OuterSink
-			{
-				get
-				{
-					return !InnerSink;
-				}
-			}
-		}
-
 		[Test]
 		public void TestSinkChain()
 		{
 			var sink = new SinkChain();
-			int outerCounter = 0;
+			var outerCounter = 0;
 			Assert.AreEqual(false, sink.OuterSink);
 			Assert.AreEqual(true, sink.InnerSink);
 			ObservableUtility.FromProperty(() => sink.OuterSink).Skip(1).Subscribe(value => outerCounter++);
@@ -292,29 +198,6 @@ namespace SmartReactives.Test.Reactive
 			Assert.AreEqual(true, sink.OuterSink);
 			Assert.AreEqual(false, sink.InnerSink);
 			Assert.AreEqual(1, outerCounter);
-		}
-
-		private class BadSetterFixed : HasNotifyPropertyChanged
-		{
-			private readonly Source _source;
-
-			public BadSetterFixed(Source source)
-			{
-				_source = source;
-			}
-
-			[SmartNotifyPropertyChanged]
-			public bool Bad
-			{
-				get
-				{
-					return _source.Woop;
-				}
-				set
-				{
-					_source.Woop = value;
-				}
-			}
 		}
 
 		[Test]
@@ -356,10 +239,7 @@ namespace SmartReactives.Test.Reactive
 			var topExpectation = 0;
 			var midExpectation = 0;
 
-			top.Subscribe(_ =>
-			{
-				topCounter++;
-			});
+			top.Subscribe(_ => { topCounter++; });
 			mid.Subscribe(_ => midCounter++);
 			Assert.AreEqual(source1.Woop, top.Evaluate());
 			Assert.AreEqual(topExpectation, topCounter);
@@ -374,51 +254,15 @@ namespace SmartReactives.Test.Reactive
 			Assert.AreEqual(++midExpectation, midCounter);
 		}
 
-		private class Tree : HasNotifyPropertyChanged
-		{
-			private readonly IList<Tree> _children;
-
-			public Tree(IList<Tree> children = null, bool successful = false)
-			{
-				_children = children ?? new List<Tree>();
-				Successful = successful;
-			}
-
-			[SmartNotifyPropertyChanged]
-			public IList<Tree> Children
-			{
-				get
-				{
-					return _children;
-				}
-			}
-
-			[SmartNotifyPropertyChanged]
-			public bool Successful
-			{
-				get;
-				set;
-			}
-
-			[SmartNotifyPropertyChanged]
-			public bool HasSuccessfulBlood
-			{
-				get
-				{
-					return Successful || Children.Any(child => child.HasSuccessfulBlood);
-				}
-			}
-		}
-
 		[Test]
 		public void TestTree()
 		{
 			var bottom1 = new Tree();
 			var bottom2 = new Tree();
-			var bottoms1 = new List<Tree> { bottom1, bottom2};
+			var bottoms1 = new List<Tree> {bottom1, bottom2};
 			var mid1 = new Tree(bottoms1);
 			var mid2 = new Tree();
-			var mids = new List<Tree> { mid1, mid2 };
+			var mids = new List<Tree> {mid1, mid2};
 			var top = new Tree(mids);
 
 			var counter = 0;
@@ -443,6 +287,88 @@ namespace SmartReactives.Test.Reactive
 			Assert.AreEqual(true, top.HasSuccessfulBlood);
 			bottom2.Successful = true;
 			Assert.AreEqual(expectation, counter);
+		}
+		
+		class SimpleSink : HasNotifyPropertyChanged
+		{
+			public SimpleSink(Source source)
+			{
+				Source = source;
+			}
+
+			[SmartNotifyPropertyChanged]
+			public Source Source { get; set; }
+
+			[SmartNotifyPropertyChanged]
+			public bool Boop => Source.Woop;
+		}
+
+		class ComplexSink : HasNotifyPropertyChanged
+		{
+			public ComplexSink(Source source, Source source2)
+			{
+				Source = source;
+				Source2 = source2;
+			}
+
+			[SmartNotifyPropertyChanged]
+			public Source Source { get; }
+
+			[SmartNotifyPropertyChanged]
+			public Source Source2 { get; set; }
+
+			[SmartNotifyPropertyChanged]
+			public string Complex => Source.Woop ? "foo" : (Source2.Woop ? "bar" : "zoo");
+		}
+
+		class SinkChain : HasNotifyPropertyChanged
+		{
+			[SmartNotifyPropertyChanged]
+			public bool Source { get; set; }
+
+			[SmartNotifyPropertyChanged]
+			public bool InnerSink => !Source;
+
+			[SmartNotifyPropertyChanged]
+			public bool OuterSink => !InnerSink;
+		}
+
+		class BadSetterFixed : HasNotifyPropertyChanged
+		{
+			readonly Source source;
+
+			public BadSetterFixed(Source source)
+			{
+				this.source = source;
+			}
+
+			[SmartNotifyPropertyChanged]
+			public bool Bad
+			{
+				get { return source.Woop; }
+				set { source.Woop = value; }
+			}
+		}
+
+		class Tree : HasNotifyPropertyChanged
+		{
+			public Tree(IList<Tree> children = null, bool successful = false)
+			{
+				Children = children ?? new List<Tree>();
+				Successful = successful;
+			}
+
+			[SmartNotifyPropertyChanged]
+			public IList<Tree> Children { get; }
+
+			[SmartNotifyPropertyChanged]
+			public bool Successful { get; set; }
+
+			[SmartNotifyPropertyChanged]
+			public bool HasSuccessfulBlood
+			{
+				get { return Successful || Children.Any(child => child.HasSuccessfulBlood); }
+			}
 		}
 	}
 }

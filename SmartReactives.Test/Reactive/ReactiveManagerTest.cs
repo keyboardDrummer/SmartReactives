@@ -11,42 +11,6 @@ namespace SmartReactives.Test.Reactive
 	public class ReactiveManagerTest
 	{
 		public static bool RecoversAfterMissedChange = true;
-		private class EqualityBasedOnId
-		{
-			private readonly int _id;
-
-			public EqualityBasedOnId(int id)
-			{
-				_id = id;
-			}
-
-			protected bool Equals(EqualityBasedOnId other)
-			{
-				return _id == other._id;
-			}
-
-			public override bool Equals(object obj)
-			{
-				if (ReferenceEquals(null, obj))
-				{
-					return false;
-				}
-				if (ReferenceEquals(this, obj))
-				{
-					return true;
-				}
-				if (obj.GetType() != GetType())
-				{
-					return false;
-				}
-				return Equals((EqualityBasedOnId)obj);
-			}
-
-			public override int GetHashCode()
-			{
-				return _id;
-			}
-		}
 
 		/// <summary>
 		/// Tests whether the system still works after a single ReactiveManager.WasChanged has been 'forgotten' by the user.
@@ -110,7 +74,7 @@ namespace SmartReactives.Test.Reactive
 		}
 
 		/// <summary>
-		/// Asserts that <see cref="ConditionalWeakTable{TKey,TValue}"/> uses reference equality.
+		/// Asserts that <see cref="ConditionalWeakTable{TKey,TValue}" /> uses reference equality.
 		/// </summary>
 		[Test]
 		public void TestConditionalWeakTableEquality()
@@ -190,6 +154,43 @@ namespace SmartReactives.Test.Reactive
 			Assert.AreEqual(1, notifyCounter.Counter);
 			ReactiveManager.WasChanged(source);
 			Assert.AreEqual(1, notifyCounter.Counter);
+		}
+
+		class EqualityBasedOnId
+		{
+			readonly int id;
+
+			public EqualityBasedOnId(int id)
+			{
+				this.id = id;
+			}
+
+			protected bool Equals(EqualityBasedOnId other)
+			{
+				return id == other.id;
+			}
+
+			public override bool Equals(object obj)
+			{
+				if (ReferenceEquals(null, obj))
+				{
+					return false;
+				}
+				if (ReferenceEquals(this, obj))
+				{
+					return true;
+				}
+				if (obj.GetType() != GetType())
+				{
+					return false;
+				}
+				return Equals((EqualityBasedOnId) obj);
+			}
+
+			public override int GetHashCode()
+			{
+				return id;
+			}
 		}
 	}
 }

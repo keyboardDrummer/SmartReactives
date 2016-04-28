@@ -7,12 +7,12 @@ using System.Reflection;
 namespace SmartReactives.Test
 {
 	/// <summary>
-	/// Utility functions related to <see cref="IObservable{T}"/>
+	/// Utility functions related to <see cref="IObservable{T}" />
 	/// </summary>
 	public static class ObservableUtility
 	{
 		/// <summary>
-		/// Creates an <see cref="IObservable{T}"/> from a property with <see cref="INotifyPropertyChanged"/>
+		/// Creates an <see cref="IObservable{T}" /> from a property with <see cref="INotifyPropertyChanged" />
 		/// </summary>
 		public static IObservable<T> FromProperty<T>(Expression<Func<T>> getProperty, bool observeInitialValue = true)
 		{
@@ -35,7 +35,7 @@ namespace SmartReactives.Test
 			return CreateObservable<T>(property, container, observeInitialValue);
 		}
 
-		private static IObservable<T> CreateObservable<T>(PropertyInfo property, INotifyPropertyChanged container, bool observeInitialValue = true)
+		static IObservable<T> CreateObservable<T>(PropertyInfo property, INotifyPropertyChanged container, bool observeInitialValue = true)
 		{
 			return Observable.Create<T>(observer =>
 			{
@@ -43,13 +43,13 @@ namespace SmartReactives.Test
 				{
 					if (args.PropertyName == property.Name)
 					{
-						observer.OnNext((T)property.GetValue(container));
+						observer.OnNext((T) property.GetValue(container));
 					}
 				};
 				container.PropertyChanged += handler;
 				if (observeInitialValue)
 				{
-					observer.OnNext((T)property.GetValue(container));
+					observer.OnNext((T) property.GetValue(container));
 				}
 				return () => container.PropertyChanged -= handler;
 			});

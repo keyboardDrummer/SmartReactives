@@ -71,7 +71,6 @@
     <Compile Include="Reactive\EfficientMode.cs" />
     <Compile Include="Reactive\NotifyCounter.cs" />
     <Compile Include="Reactive\Postsharp\HasWrapperProperty.cs" />
-    <Compile Include="Reactive\Postsharp\NotifyPropertyChangedUtility.cs" />
     <Compile Include="Reactive\Postsharp\NullAspectTest.cs" />
     <Compile Include="Reactive\Postsharp\ReactiveAttributesTest.cs" />
     <Compile Include="Reactive\Postsharp\WrapperTest.cs" />

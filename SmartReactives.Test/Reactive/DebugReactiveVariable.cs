@@ -4,16 +4,16 @@ namespace SmartReactives.Test.Reactive
 {
 	class DebugReactiveVariable<T> : ReactiveVariable<T>
 	{
-		private readonly object _debugObj;
+		readonly object debugObj;
 
 		public DebugReactiveVariable(object debugObj)
 		{
-			_debugObj = debugObj;
+			this.debugObj = debugObj;
 		}
 
 		public override string ToString()
 		{
-			return _debugObj + "";
+			return debugObj + "";
 		}
 	}
 }

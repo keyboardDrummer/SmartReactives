@@ -48,24 +48,5 @@ namespace SmartReactives.Test.Reactive
 			GC.Collect();
 			Assert.AreEqual(0, ReactiveManager.GetDependents(dependency).Count());
 		}
-
-		//[Ignore("Not supported")] //TODO remove
-		//[Test]
-		//public void TestDependencyWeakness()
-		//{
-		//	var notifier = new Dependent();
-
-		//	ReactiveManager.Evaluate(notifier, () =>
-		//	{
-		//		foreach (var obj in Enumerable.Range(0, 10000))
-		//		{
-		//			ReactiveManager.WasRead(new object());
-		//		}
-		//		return true;
-		//	});
-
-		//	GC.Collect();
-		//	Assert.AreEqual(0, ReactiveManager.GetDependencies(notifier).Count());
-		//}
 	}
 }

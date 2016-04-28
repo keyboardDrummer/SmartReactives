@@ -8,30 +8,14 @@ namespace SmartReactives.Test.Reactive
 		[SmartNotifyPropertyChanged]
 		public bool DependentWithSetter
 		{
-			get
-			{
-				return Source;
-			}
-			set
-			{
-				Source = value;
-			}
+			get { return Source; }
+			set { Source = value; }
 		}
 
 		[SmartNotifyPropertyChanged]
-		public bool Dependent
-		{
-			get
-			{
-				return Source;
-			}
-		}
+		public bool Dependent => Source;
 
 		[SmartNotifyPropertyChanged]
-		public bool Source
-		{
-			get;
-			set;
-		}
+		public bool Source { get; set; }
 	}
 }
