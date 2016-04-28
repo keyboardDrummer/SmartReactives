@@ -167,7 +167,6 @@ namespace SmartReactives.Test.Reactive
 		/// <summary>
 		/// While the victim is being Notified, the attacker adds a new source to its list.
 		/// </summary>
-		[Ignore("Hangs")]
 		[Test]
 		public void DependentListMultiThreadingTrap()
 		{
