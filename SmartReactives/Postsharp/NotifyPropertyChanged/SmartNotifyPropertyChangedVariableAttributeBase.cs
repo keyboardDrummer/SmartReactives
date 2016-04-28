@@ -17,18 +17,19 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 	[Serializable]
 	public abstract class SmartNotifyPropertyChangedVariableAttributeBase : LocationInterceptionAspect, IInstanceScopedAspect
 	{
-		private PropertyInfo _property;
+		PropertyInfo property;
 
 		/// <summary>
 		/// Useful for debugging.
 		/// </summary>
 		// ReSharper disable once UnusedMember.Local
-		private IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
+		IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
 
 		/// <inheritdoc/>
 		public override string ToString()
 		{
-			return "Source from: " + _property.DeclaringType.Name + "." + _property.Name;
+			// ReSharper disable once PossibleNullReferenceException
+			return "Source from: " + property.DeclaringType.Name + "." + property.Name;
 		}
 
 		public static MethodInfo GetRaiseMethod(Type type)
@@ -89,7 +90,7 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 
 		public override void CompileTimeInitialize(LocationInfo targetLocation, AspectInfo aspectInfo)
 		{
-			_property = targetLocation.PropertyInfo;
+			property = targetLocation.PropertyInfo;
 			base.CompileTimeInitialize(targetLocation, aspectInfo);
 		}
 

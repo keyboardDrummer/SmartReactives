@@ -10,19 +10,11 @@ namespace SmartReactives.Test.Reactive
 {
 	public class ReactiveManagerWithListTest
 	{
-		private class ClassWithList : HasNotifyPropertyChanged
+		class ClassWithList : HasNotifyPropertyChanged
 		{
-			private readonly ObservableCollection<Source> _sources = new ObservableCollection<Source>();
-
 			[ReactiveList]
 			[SmartNotifyPropertyChanged]
-			public ObservableCollection<Source> Sources
-			{
-				get
-				{
-					return _sources;
-				}
-			}
+			public ObservableCollection<Source> Sources { get; } = new ObservableCollection<Source>();
 		}
 
 		[Test]
@@ -88,10 +80,8 @@ namespace SmartReactives.Test.Reactive
 			Assert.AreEqual(expectation, counter);
 		}
 
-		private class DependentList : HasNotifyPropertyChanged
+		class DependentList : HasNotifyPropertyChanged
 		{
-			private ObservableCollection<Source> _sources = new ObservableCollection<Source>();
-
 			[ReactiveList]
 			[SmartNotifyPropertyChanged]
 			public ObservableCollection<Source> Dependent => Sources;
@@ -101,17 +91,7 @@ namespace SmartReactives.Test.Reactive
 
 			[ReactiveList]
 			[SmartNotifyPropertyChanged]
-			public ObservableCollection<Source> Sources
-			{
-				get
-				{
-					return _sources;
-				}
-				set
-				{
-					_sources = value;
-				}
-			}
+			public ObservableCollection<Source> Sources { get; set; } = new ObservableCollection<Source>();
 
 			[SmartNotifyPropertyChanged]
 			public int SourcesCount => Sources.Count;
