@@ -1,6 +1,6 @@
 using System.Threading;
 
-namespace SmartReactives.Test.Reactive
+namespace SmartReactives.Test
 {
 	class Waiter
 	{

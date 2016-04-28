@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace SmartReactives.Test.Reactive.Postsharp
+namespace SmartReactives.Test.Postsharp
 {
 	public class ReactiveAttributesTest
 	{

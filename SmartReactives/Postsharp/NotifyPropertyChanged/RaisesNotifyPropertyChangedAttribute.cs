@@ -44,10 +44,10 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 	/// </list>
 	/// </example>
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-	public sealed class NotifyPropertyChangedInvocator2Attribute : Attribute
+	public sealed class RaisesNotifyPropertyChangedAttribute : Attribute
 	{
-		public NotifyPropertyChangedInvocator2Attribute() { }
-		public NotifyPropertyChangedInvocator2Attribute(string parameterName)
+		public RaisesNotifyPropertyChangedAttribute() { }
+		public RaisesNotifyPropertyChangedAttribute(string parameterName)
 		{
 			ParameterName = parameterName;
 		}

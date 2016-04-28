@@ -35,7 +35,7 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 		public static MethodInfo GetRaiseMethod(Type type)
 		{
 			return type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.Instance).
-				FirstOrDefault(method => method.GetCustomAttributes(typeof(NotifyPropertyChangedInvocator2Attribute), true).Any());
+				FirstOrDefault(method => method.GetCustomAttributes(typeof(RaisesNotifyPropertyChangedAttribute), true).Any());
 		}
 
 		/// <inheritdoc/>
@@ -81,7 +81,7 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 			if (method == null || method.ReturnType != typeof(void) || !method.GetParameters().Select(parameter => parameter.ParameterType).SequenceEqual(new[] {typeof(string)}))
 			{
 				var message = $"{locationInfo.DeclaringType.Name} should contains a method annotated with " +
-				              $"{typeof(NotifyPropertyChangedInvocator2Attribute).Name} that has a signature like {typeof(Action<string>).Name} " +
+				              $"{typeof(RaisesNotifyPropertyChangedAttribute).Name} that has a signature like {typeof(Action<string>).Name} " +
 				              $"if it uses the {typeof(SmartNotifyPropertyChangedAttribute).Name} attribute on a property.";
 				MessageSource.MessageSink.Write(new Message(MessageLocation.Of(locationInfo.PropertyInfo),
 					SeverityType.Error, "AF0001", message, "", locationInfo.DeclaringType.Assembly.ToString(), null));

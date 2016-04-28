@@ -5,14 +5,14 @@ using System.Reactive.Linq;
 using NUnit.Framework;
 using SmartReactives.Extensions;
 using SmartReactives.Postsharp.NotifyPropertyChanged;
-using SmartReactives.Test.Reactive.Postsharp;
+using SmartReactives.Test.Postsharp;
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable MemberCanBePrivate.Local
 // ReSharper disable RedundantAssignment
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 
-namespace SmartReactives.Test.Reactive
+namespace SmartReactives.Test
 {
 	public class ReactiveVariableTest
 	{

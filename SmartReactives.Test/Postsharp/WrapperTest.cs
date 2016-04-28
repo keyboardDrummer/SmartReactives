@@ -3,7 +3,7 @@ using System.Reactive.Linq;
 using NUnit.Framework;
 using SmartReactives.Postsharp.NotifyPropertyChanged;
 
-namespace SmartReactives.Test.Reactive.Postsharp
+namespace SmartReactives.Test.Postsharp
 {
 	class WrapperTest
 	{

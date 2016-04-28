@@ -63,25 +63,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ObservableUtility.cs" />
+    <Compile Include="Postsharp\HasNotifyPropertyChanged.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reactive\AutomaticMode.cs" />
-    <Compile Include="Reactive\DebugReactiveVariable.cs" />
-    <Compile Include="Reactive\Dependent.cs" />
-    <Compile Include="Reactive\EfficientMode.cs" />
-    <Compile Include="Reactive\NotifyCounter.cs" />
-    <Compile Include="Reactive\Postsharp\HasWrapperProperty.cs" />
-    <Compile Include="Reactive\Postsharp\NullAspectTest.cs" />
-    <Compile Include="Reactive\Postsharp\ReactiveAttributesTest.cs" />
-    <Compile Include="Reactive\Postsharp\WrapperTest.cs" />
-    <Compile Include="Reactive\ReactiveCacheTest.cs" />
-    <Compile Include="Reactive\ReactiveManagerTest.cs" />
-    <Compile Include="Reactive\ReactiveManagerThreadSafetyTest.cs" />
-    <Compile Include="Reactive\ReactiveManagerWeakReferenceTest.cs" />
-    <Compile Include="Reactive\ReactiveManagerWithListTest.cs" />
-    <Compile Include="Reactive\ReactiveVariableTest.cs" />
-    <Compile Include="Reactive\Source.cs" />
-    <Compile Include="Reactive\Waiter.cs" />
+    <Compile Include="AutomaticMode.cs" />
+    <Compile Include="DebugReactiveVariable.cs" />
+    <Compile Include="Dependent.cs" />
+    <Compile Include="EfficientMode.cs" />
+    <Compile Include="NotifyCounter.cs" />
+    <Compile Include="Postsharp\HasWrapperProperty.cs" />
+    <Compile Include="Postsharp\NullAspectTest.cs" />
+    <Compile Include="Postsharp\ReactiveAttributesTest.cs" />
+    <Compile Include="Postsharp\WrapperTest.cs" />
+    <Compile Include="ReactiveCacheTest.cs" />
+    <Compile Include="ReactiveManagerTest.cs" />
+    <Compile Include="ReactiveManagerThreadSafetyTest.cs" />
+    <Compile Include="ReactiveManagerWeakReferenceTest.cs" />
+    <Compile Include="ReactiveManagerWithListTest.cs" />
+    <Compile Include="ReactiveVariableTest.cs" />
+    <Compile Include="Source.cs" />
+    <Compile Include="Waiter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartReactives\SmartReactives.csproj">

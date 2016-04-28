@@ -4,7 +4,7 @@ using NUnit.Framework;
 using SmartReactives.Core;
 using SmartReactives.Extensions;
 
-namespace SmartReactives.Test.Reactive
+namespace SmartReactives.Test
 {
 	public class ReactiveManagerWeakReferenceTest
 	{

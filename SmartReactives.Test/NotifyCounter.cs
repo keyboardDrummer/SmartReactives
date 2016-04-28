@@ -1,6 +1,6 @@
 ﻿using SmartReactives.Core;
 
-namespace SmartReactives.Test.Reactive
+namespace SmartReactives.Test
 {
 	class NotifyCounter : IListener
 	{

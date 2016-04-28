@@ -1,6 +1,6 @@
 using SmartReactives.Extensions;
 
-namespace SmartReactives.Test.Reactive
+namespace SmartReactives.Test
 {
 	class DebugReactiveVariable<T> : ReactiveVariable<T>
 	{

@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using SmartReactives.Extensions;
 
-namespace SmartReactives.Test.Reactive
+namespace SmartReactives.Test
 {
 	public class ReactiveCacheTest
 	{

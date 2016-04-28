@@ -6,7 +6,7 @@ using SmartReactives.Core;
 using SmartReactives.Extensions;
 using SmartReactives.List;
 
-namespace SmartReactives.Test.Reactive
+namespace SmartReactives.Test
 {
 	public class ReactiveManagerTest
 	{

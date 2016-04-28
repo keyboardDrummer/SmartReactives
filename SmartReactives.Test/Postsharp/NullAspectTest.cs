@@ -1,25 +1,12 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using SmartReactives.Postsharp.NotifyPropertyChanged;
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable MemberCanBePrivate.Local
 
-namespace SmartReactives.Test.Reactive.Postsharp
+namespace SmartReactives.Test.Postsharp
 {
-	public class HasNotifyPropertyChanged : INotifyPropertyChanged
-	{
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		[NotifyPropertyChangedInvocator2]
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
-
 	/// <summary>
 	/// In these scenarios, a superclass will access a base class's properties, 
 	/// while the superclass is constructor and before the baseclass is constructing.
