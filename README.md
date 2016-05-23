@@ -1,4 +1,4 @@
-# SmartReactives [![Build Status](https://travis-ci.org/keyboardDrummer/SmartReactives.svg?branch=master)](https://travis-ci.org/lihaoyi/scala.rx) [![Join the chat at https://gitter.im/keyboardDrummer/SmartReactives](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keyboardDrummer/SmartReactives.rx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# SmartReactives [![Build Status](https://travis-ci.org/keyboardDrummer/SmartReactives.svg?branch=master)](https://travis-ci.org/keyboardDrummer/SmartReactives) [![Join the chat at https://gitter.im/keyboardDrummer/SmartReactives](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keyboardDrummer/SmartReactives.rx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 SmartReactives is a .NET library that will automatically discover dependencies between expressions and variables. Forget about manually specifying data bindings and clearing stale caches: SmartReactives will do this for you.
 
