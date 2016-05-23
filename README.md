@@ -33,13 +33,11 @@ Func<int> f = () => //f is the calculation we want to cache.
 };
 var cache = new ReactiveCache<int>(f); //We base our cache on f.
 
-Action printCacheValue = () => Console.WriteLine("f() = " + cache.Get());
-
-printCacheValue(); //Cache was not set so we evaluate f.
-printCacheValue(); //Cache is set so we don't evaluate f.
+Console.WriteLine("f() = " + cache.Get()); //Cache was not set so we evaluate f.
+Console.WriteLine("f() = " + cache.Get()); //Cache is set so we don't evaluate f.
 
 input.Value = 3; //We change our input variable, causing our cache to become stale.
-printCacheValue(); //Cache is stale, so we must evaluate f.
+Console.WriteLine("f() = " + cache.Get()); //Cache is stale, so we must evaluate f.
 ```
 Output:
 ```
