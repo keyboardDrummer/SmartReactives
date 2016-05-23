@@ -11,8 +11,8 @@ SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), w
 public void SquareInput()
 {
     var input = new ReactiveVariable<int>(1);
-    var inputSquared = new ReactiveExpression<int>(() => input.Value * input.Value);
-    inputSquared.Subscribe(getSquare => Console.WriteLine("input squared = " + getSquare()));
+    var square = new ReactiveExpression<int>(() => input.Value * input.Value);
+    square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare()));
 
     input.Value = 2;
     input.Value = 3;
@@ -20,9 +20,9 @@ public void SquareInput()
 ```
 Output:
 ```
-input squared = 1
-input squared = 4
-input squared = 9
+square = 1
+square = 4
+square = 9
 ```
 
 ## Automatic cache clearing
