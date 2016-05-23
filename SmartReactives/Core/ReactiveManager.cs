@@ -19,15 +19,15 @@ namespace SmartReactives.Core
 	/// </summary>
 	public static class ReactiveManager
 	{
-		private static readonly ConditionalWeakTable<object, ReactiveNode> _forward = new ConditionalWeakTable<object, ReactiveNode>();
-		private static readonly ThreadLocal<ReactiveManagerThreadState> _threadState = new ThreadLocal<ReactiveManagerThreadState>(() => new ReactiveManagerThreadState());
+	    static readonly ConditionalWeakTable<object, ReactiveNode> forward = new ConditionalWeakTable<object, ReactiveNode>();
+	    static readonly ThreadLocal<ReactiveManagerThreadState> threadState = new ThreadLocal<ReactiveManagerThreadState>(() => new ReactiveManagerThreadState());
 
 		/// <summary>
 		/// Must be called whenever a node value is changed externally, for example when a property node's backing field changes its value.
 		/// </summary>
 		public static void WasChanged(object source)
 		{
-			_threadState.Value.WasChanged(source);
+			threadState.Value.WasChanged(source);
 		}
 
 		/// <summary>
@@ -35,7 +35,7 @@ namespace SmartReactives.Core
 		/// </summary>
 		public static void WasRead(object source)
 		{
-			_threadState.Value.WasRead(source);
+			threadState.Value.WasRead(source);
 		}
 
 		/// <summary>
@@ -43,10 +43,10 @@ namespace SmartReactives.Core
 		/// </summary>
 		public static T Evaluate<T>(IListener dependent, Func<T> func)
 		{
-			return _threadState.Value.Evaluate(dependent, func);
+			return threadState.Value.Evaluate(dependent, func);
 		}
 
-		public static ReactiveManagerThreadState State => _threadState.Value;
+		public static ReactiveManagerThreadState State => threadState.Value;
 
 		/// <summary>
 		/// Gets the dependents on the given node. Use for debugging.
@@ -54,13 +54,13 @@ namespace SmartReactives.Core
 		public static IEnumerable<IListener> GetDependents(object source)
 		{
 			Func<object, IEnumerable<IListener>> getChildren = 
-				node => _forward.GetOrCreateValue(node).GetCopy().Select(reference => reference.Value).Where(child => child != null);
+				node => forward.GetOrCreateValue(node).GetCopy().Select(reference => reference.Value).Where(child => child != null);
 			return Graph.GetReachableNodes<IListener>(getChildren(source), getChildren);
 		}
 
 		internal static ReactiveNode GetNode(object key)
 		{
-			return _forward.GetValue(key, CreateList);
+			return forward.GetValue(key, CreateList);
 		}
 
 		static ReactiveNode CreateList(object key)

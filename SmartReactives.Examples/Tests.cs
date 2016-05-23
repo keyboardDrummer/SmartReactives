@@ -21,18 +21,18 @@ namespace SmartReactives.Examples
         [Test]
         public void Cache()
         {
-            var input = new ReactiveVariable<int>(1); //We define a reactive variable.
+            var input = new ReactiveVariable<int>(2); //We define a reactive variable.
             Func<int> f = () => //f is the calculation we want to cache.
             {
                 Console.WriteLine("f was evaluated");
-                return 3 * input.Value; //f depends on our reactive variable input.
+                return input.Value * input.Value; //f depends on our reactive variable input.
             };
             var cache = new ReactiveCache<int>(f); //We base our cache on f.
 
             Console.WriteLine("f() = " + cache.Get()); //Cache was not set so we evaluate f.
             Console.WriteLine("f() = " + cache.Get()); //Cache is set so we don't evaluate f.
 
-            input.Value = 2; //We change our input variable, causing our cache to become stale.
+            input.Value = 3; //We change our input variable, causing our cache to become stale.
             Console.WriteLine("f() = " + cache.Get()); //Cache is stale, so we must evaluate f.
         }
     }
