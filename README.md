@@ -95,7 +95,7 @@ square = 25
 
 The SmartReactives API is divided into three layers:
 - Common: the bread and butter of SmartReactives. The central classes are ReactiveVariable and ReactiveExpression.
-- Core: the lowest level API on which the other API's are based. The central class here is ReactiveManager.
+- Core: the lowest level API on which the other API's are based. The central class here is ReactiveManager. In 99% of the cases you won't have a reason for using the Core API.
 - Postsharp: an API of attributes that when put on properties will enhance them with SmartReactive capabilities. This API provides the most consise code.
 
 ##  Core
