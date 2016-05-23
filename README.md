@@ -38,30 +38,38 @@ public void Cache()
 Below is an example that shows how SmartReactives will automatically call PropertyChanged for properties even when their value has changed indirectly, meaning by a change in an underlying property. 
 
 ```c#
-    class Calculator : HasNotifyPropertyChanged
+class Calculator : HasNotifyPropertyChanged
+{
+    [SmartNotifyPropertyChanged]
+    public int Number { get; set; }
+
+    [SmartNotifyPropertyChanged]
+    public int SquareOfNumber => Number * Number;
+
+    [Test]
+    public static void SquareDependsOnNumber()
     {
-        [SmartNotifyPropertyChanged]
-        public int Number { get; set; }
-
-        [SmartNotifyPropertyChanged]
-        public int SquareOfNumber => Number * Number;
-
-        [Test]
-        public static void SquareDependsOnNumber()
+        var calculator = new Calculator();
+        calculator.Number = 2;
+        
+        Console.WriteLine("square = " + calculator.SquareOfNumber); 
+        calculator.PropertyChanged += (sender, eventArgs) =>
         {
-            var calculator = new Calculator();
-            calculator.Number = 2;
-            
-            Console.WriteLine("square = " + calculator.SquareOfNumber); 
-            calculator.PropertyChanged += (sender, eventArgs) =>
-            {
-                if (eventArgs.PropertyName == nameof(SquareOfNumber))
-                    Console.WriteLine("square = " + calculator.SquareOfNumber);
-            };
+            if (eventArgs.PropertyName == nameof(SquareOfNumber))
+                Console.WriteLine("square = " + calculator.SquareOfNumber);
+        };
 
-            calculator.Number = 3;
-            calculator.Number = 4;
-            calculator.Number = 5;
-        }
+        calculator.Number = 3;
+        calculator.Number = 4;
+        calculator.Number = 5;
     }
+}
+```
+
+Output:
+```
+square = 4
+square = 9
+square = 16
+square = 25
 ```
