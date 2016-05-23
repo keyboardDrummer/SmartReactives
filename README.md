@@ -4,9 +4,14 @@ SmartReactives is a .NET library that will automatically discover dependencies b
 
 SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), which was inspired by the paper [Deprecating the Observer Pattern](https://scholar.google.nl/scholar?q=deprecating+the+observer+pattern&btnG=&hl=en&as_sdt=0%2C5), by Odersky.
 
+The SmartReactives API is divided into three layers:
+- Common: the bread and butter of SmartReactives. The central classes are ReactiveVariable and ReactiveExpression.
+- Core: a lower level API on which the other API's are based. The central class here is ReactiveManager.
+- Postsharp: an API of attributes that when put on properties will enhance them with SmartReactive capabilities. This API provides the most consise code.
+
 #Examples
 
-## Explicit usage
+## Basic usage
 ```c#
 public void SquareInput()
 {
