@@ -25,27 +25,29 @@ square = 9
 ## Automatic cache clearing
 This example shows how to use ReactiveCache to get a cache which automatically clears itself when it becomes stale.
 ```c#
-var input = new ReactiveVariable<int>(1); //We define a reactive variable.
+var input = new ReactiveVariable<int>(2); //We define a reactive variable.
 Func<int> f = () => //f is the calculation we want to cache.
 {
     Console.WriteLine("f was evaluated");
-    return 3 * input.Value; //f depends on our reactive variable input.
+    return input.Value * input.Value; //f depends on our reactive variable input.
 };
 var cache = new ReactiveCache<int>(f); //We base our cache on f.
 
-Console.WriteLine("f() = " + cache.Get()); //Cache was not set so we evaluate f.
-Console.WriteLine("f() = " + cache.Get()); //Cache is set so we don't evaluate f.
+Action printCacheValue = () => Console.WriteLine("f() = " + cache.Get());
 
-input.Value = 2; //We change our input variable, causing our cache to become stale.
-Console.WriteLine("f() = " + cache.Get()); //Cache is stale, so we must evaluate f.
+printCacheValue(); //Cache was not set so we evaluate f.
+printCacheValue(); //Cache is set so we don't evaluate f.
+
+input.Value = 3; //We change our input variable, causing our cache to become stale.
+printCacheValue(); //Cache is stale, so we must evaluate f.
 ```
 Output:
 ```
 f was evaluated
-f() = 3
-f() = 3
+f() = 4
+f() = 4
 f was evaluated
-f() = 6
+f() = 9
 ```
 
 
