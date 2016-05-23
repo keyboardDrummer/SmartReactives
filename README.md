@@ -97,3 +97,21 @@ The SmartReactives API is divided into three layers:
 - Common: the bread and butter of SmartReactives. The central classes are ReactiveVariable and ReactiveExpression.
 - Core: the lowest level API on which the other API's are based. The central class here is ReactiveManager.
 - Postsharp: an API of attributes that when put on properties will enhance them with SmartReactive capabilities. This API provides the most consise code.
+
+##  ReactiveManager
+
+The basic premise on which SmartReactives is built is quite simple: if we're evaluating A and suddenly B is read from, then A must depend on B. The tricky part is correctly dealing with multiple threads, not leaking any memory, being performant, and making sure we don't notify too often or too little.
+
+The Core API of SmartReactives can be accessed from ReactiveManager, which exposes these methods:
+
+```C#
+Evaluate<T>(IListener dependent, Func<T> func)
+void WasRead(object source)
+void WasChanged(object source)
+```
+
+Each of these methods requires you to pass an object to ReactiveManager. We call these reactive objects. By correctly calling *Evaluate* and *WasRead*, ReactiveManager will build a dependency graph of your reactive objects. Although ReactiveManager remembers which objects you pass to it, it will never leak memory for those objects. We use WeakReference and ConditionalWeakTable to only hold weak references to any reactive objects.
+
+When you call *WasChanged*, ReactiveManager will notify all objects that depend on the changed object. 
+
+An important rule of ReactiveManager is the following: after an object is notified by the ReactiveManager, it will not be notified again until the object is evaluated again. Every time an object changes its value and you're still interesting in this object, then you must evaluate it again to indicate this interest. Simply put, if you've lost interest in an object, then we won't bother you when it changes. Internally this behavior is required because an object's dependencies my change after the object changes its value, and we must re-evaluate the object to again correctly establish its dependencies. To prevent doing any unnecessary work, we leave it up to the user to re-evaluate the object.
