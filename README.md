@@ -98,7 +98,7 @@ The SmartReactives API is divided into three layers:
 - Core: the lowest level API on which the other API's are based. The central class here is ReactiveManager.
 - Postsharp: an API of attributes that when put on properties will enhance them with SmartReactive capabilities. This API provides the most consise code.
 
-##  ReactiveManager
+##  Core
 
 The basic premise on which SmartReactives is built is quite simple: if we're evaluating A and suddenly B is read from, then A must depend on B. The tricky part is correctly dealing with multiple threads, not leaking any memory, being performant, and making sure we don't notify too often or too little.
 
