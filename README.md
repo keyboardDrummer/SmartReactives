@@ -4,6 +4,8 @@ SmartReactives is a .NET library that will automatically discover dependencies b
 
 SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), which was inspired by the paper [Deprecating the Observer Pattern](https://scholar.google.nl/scholar?q=deprecating+the+observer+pattern&btnG=&hl=en&as_sdt=0%2C5), by Odersky.
 
+To start using SmartReactives simple add the NuGet package to your project.
+
 #Examples
 
 ## Basic usage
