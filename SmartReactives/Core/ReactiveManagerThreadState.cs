@@ -3,12 +3,15 @@ using System.Collections.Generic;
 
 namespace SmartReactives.Core
 {
-	public class ReactiveManagerThreadState
+    /// <summary>
+    /// The thread specific state of <see cref="ReactiveManager"/>
+    /// </summary>
+    class ReactiveManagerThreadState
 	{
-		private Stack<DependentReference> DependentsEvaluating
+	    Stack<Dependency> DependentsEvaluating
 		{
 			get;
-		} = new Stack<DependentReference>();
+		} = new Stack<Dependency>();
 
 		public bool Enabled
 		{
@@ -60,7 +63,7 @@ namespace SmartReactives.Core
 			WasRead(dependent);
 
 			var node = ReactiveManager.GetNode(dependent);
-			var dependentReference = node.GetReference(dependent);
+			var dependentReference = node.GetDependency(dependent);
 			DependentsEvaluating.Push(dependentReference);
 			var result = func();
 			DependentsEvaluating.Pop();

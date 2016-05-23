@@ -10,15 +10,15 @@ namespace SmartReactives.Extensions
 	/// </summary>
 	public class ReactiveCache<T> : IListener
 	{
-		private readonly Func<T> _get;
-		T _lastValue;
+	    readonly Func<T> get;
+		T lastValue;
 
 		/// <summary>
 		/// Pass the expression that you want to cache.
 		/// </summary>
 		public ReactiveCache(Func<T> get)
 		{
-			_get = get;
+			this.get = get;
 		}
 
 		/// <summary>
@@ -32,10 +32,10 @@ namespace SmartReactives.Extensions
 			}
 			else
 			{
-				_lastValue = ReactiveManager.Evaluate(this, _get);
+				lastValue = ReactiveManager.Evaluate(this, get);
 				IsSet = true;
 			}
-			return _lastValue;
+			return lastValue;
 		}
 
 		public bool IsSet
@@ -62,6 +62,6 @@ namespace SmartReactives.Extensions
 		/// Useful for debugging.
 		/// </summary>
 		// ReSharper disable once UnusedMember.Local
-		private IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
+		IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
 	}
 }

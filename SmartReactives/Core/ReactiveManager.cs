@@ -15,7 +15,7 @@ namespace SmartReactives.Core
 	///		- a property that depends on IO changes its value because of an IO change.
 	/// 
 	/// The ReactiveManager is thread-safe.
-	/// The ReactiveManager is also weak, it will never cause a memory leak.
+	/// The ReactiveManager is also weak. It will never cause a memory leak.
 	/// </summary>
 	public static class ReactiveManager
 	{
@@ -46,7 +46,7 @@ namespace SmartReactives.Core
 			return threadState.Value.Evaluate(dependent, func);
 		}
 
-		public static ReactiveManagerThreadState State => threadState.Value;
+	    internal static ReactiveManagerThreadState State => threadState.Value;
 
 		/// <summary>
 		/// Gets the dependents on the given node. Use for debugging.

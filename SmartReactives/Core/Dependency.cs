@@ -2,7 +2,10 @@ using System;
 
 namespace SmartReactives.Core
 {
-	class DependentReference
+    /// <summary>
+    /// An edge in the dependency graph of <see cref="ReactiveManager"/>.
+    /// </summary>
+	class Dependency
 	{
 		public long NotificationsHad
 		{
@@ -12,10 +15,10 @@ namespace SmartReactives.Core
 	    readonly WeakReference nodeReference;
 		public IListener Value => nodeReference.Target as IListener;
 
-		public DependentReference(long notificationsHad, IListener node)
+		public Dependency(long notificationsHad, IListener dependent)
 		{
 			NotificationsHad = notificationsHad;
-			nodeReference = new WeakReference(node);
+			nodeReference = new WeakReference(dependent);
 		}
 
 	    public override string ToString()

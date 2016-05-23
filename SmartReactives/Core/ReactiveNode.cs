@@ -4,12 +4,15 @@ using System.Threading;
 
 namespace SmartReactives.Core
 {
+    /// <summary>
+    /// A node in the dependency graph of <see cref="ReactiveManager"/>
+    /// </summary>
 	class ReactiveNode
 	{
 	    long notificationsHad;
-	    IList<DependentReference> data = new List<DependentReference>();
+	    IList<Dependency> data = new List<Dependency>();
 
-        public IList<DependentReference> GetCopy()
+        public IList<Dependency> GetCopy()
 		{
 			lock (this)
 			{
@@ -24,11 +27,11 @@ namespace SmartReactives.Core
 
 		public void NotifyChildren()
         {
-            IList<DependentReference> swap;
+            IList<Dependency> swap;
             lock (this)
             {
                 swap = data;
-                data = new List<DependentReference>(swap.Count); //Useful for performance, but not required since the notification counter makes sure DependentReferences never trigger two notifications.
+                data = new List<Dependency>(swap.Count); //Useful for performance, but not required since the notification counter makes sure DependentReferences never trigger two notifications.
             }
             int count = swap.Count;
 
@@ -39,22 +42,22 @@ namespace SmartReactives.Core
             }
         }
 
-	    static void WasChangedForChild(DependentReference childReference)
+	    static void WasChangedForChild(Dependency childEdge)
 		{
-			var child = childReference.Value;
+			var child = childEdge.Value;
 			if (child == null)
 				return;
 
-			var stampedChildList = ReactiveManager.GetNode(child);
-			if (stampedChildList.notificationsHad == childReference.NotificationsHad)
+			var childNode = ReactiveManager.GetNode(child);
+			if (childNode.notificationsHad == childEdge.NotificationsHad) //Determines if the edge is still up-to-date.
 			{
-				stampedChildList.WasNotified();
+				childNode.WasNotified();
                 child.Notify();
-                stampedChildList.NotifyChildren();
+                childNode.NotifyChildren();
             }
 		}
 
-		internal void Add(DependentReference element)
+		internal void Add(Dependency element)
 		{
 			lock(this)
 			{
@@ -62,9 +65,9 @@ namespace SmartReactives.Core
 			}
 		}
 
-		public DependentReference GetReference(IListener dependent)
+		public Dependency GetDependency(IListener dependent)
 		{
-			return new DependentReference(notificationsHad, dependent);
+			return new Dependency(notificationsHad, dependent);
 		}
 	}
 }
