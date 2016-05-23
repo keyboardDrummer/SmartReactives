@@ -11,13 +11,12 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 	/// Makes forwarder properties reactive.
 	/// A forwarder property wraps around another property by having both a getter and setter that refer to the underlying property.
 	/// </summary>
-	[ProvideAspectRole("NotifyPropertyChangedSubAspect")]
+	[ProvideAspectRole("SmartNotifyPropertyChanged")]
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Property)]
 	public class SmartNotifyPropertyChangedAttribute : SmartNotifyPropertyChangedVariableAttributeBase, IListener //TODO improve comment and name.
 	{
-		protected string _propertyName;
-		private readonly Action<string> _raisePropertyChanged;
+		readonly Action<string> raisePropertyChanged;
 
 		public SmartNotifyPropertyChangedAttribute()
 		{
@@ -26,10 +25,10 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 		protected SmartNotifyPropertyChangedAttribute(object instance, string propertyName)
 		{
 			Instance = instance;
-			_propertyName = propertyName;
+			PropertyName = propertyName;
 
 			var raisePropertyMethodInfo = GetRaiseMethod(Instance.GetType());
-			_raisePropertyChanged = (Action<string>)Delegate.CreateDelegate(typeof(Action<string>), Instance, raisePropertyMethodInfo, true);
+			raisePropertyChanged = (Action<string>)Delegate.CreateDelegate(typeof(Action<string>), Instance, raisePropertyMethodInfo, true);
 		}
 
 		/// <inheritdoc/>
@@ -52,25 +51,25 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 		/// <inheritdoc/>
 		public override string ToString()
 		{
-			return "Sink from: " + Instance.GetType().Name + "." + _propertyName;
+			return "Sink from: " + Instance.GetType().Name + "." + PropertyName;
 		}
 
 		public void Notify()
 		{
-			_raisePropertyChanged(_propertyName);
+			raisePropertyChanged(PropertyName);
 		}
 
 		/// <summary>
 		/// Useful for debugging.
 		/// </summary>
 		// ReSharper disable once UnusedMember.Local
-		private string PropertyName => _propertyName;
+		public string PropertyName { get; private set; }
 
 		/// <summary>
 		/// Useful for debugging.
 		/// </summary>
 		// ReSharper disable once UnusedMember.Local
-		private object Instance
+		object Instance
 		{
 			get;
 		}
@@ -78,13 +77,13 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 		/// <inheritdoc/>
 		public override object CreateInstance(AdviceArgs adviceArgs)
 		{
-			return new SmartNotifyPropertyChangedAttribute(adviceArgs.Instance, _propertyName);
+			return new SmartNotifyPropertyChangedAttribute(adviceArgs.Instance, PropertyName);
 		}
 
 		/// <inheritdoc/>
 		public override void CompileTimeInitialize(LocationInfo targetLocation, AspectInfo aspectInfo)
 		{
-			_propertyName = targetLocation.Name;
+			PropertyName = targetLocation.Name;
 			base.CompileTimeInitialize(targetLocation, aspectInfo);
 		}
 

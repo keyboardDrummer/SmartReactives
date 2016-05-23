@@ -1,5 +1,6 @@
 using System;
 using PostSharp.Aspects;
+using PostSharp.Aspects.Dependencies;
 using SmartReactives.Core;
 
 namespace SmartReactives.Postsharp.NotifyPropertyChanged
@@ -9,6 +10,7 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 	/// Place this attribute on a variable property to enable dependencies on this property to be tracking automatically.
 	/// </summary>
 	[Serializable]
+	[ProvideAspectRole("SmartNotifyPropertyChanged")]
 	public class SmartNotifyPropertyChangedVariableAttribute : SmartNotifyPropertyChangedVariableAttributeBase
 	{
 		/// <inheritdoc/>

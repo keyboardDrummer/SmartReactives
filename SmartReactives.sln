@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.Test", "Smar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.Examples", "SmartReactives.Examples\SmartReactives.Examples.csproj", "{E9153915-6C92-4718-A909-3429D2ACCD26}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.PostsharpExamples", "SmartReactives.PostsharpExamples\SmartReactives.PostsharpExamples.csproj", "{332065CB-3136-4309-A064-1AC4959B123D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E9153915-6C92-4718-A909-3429D2ACCD26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9153915-6C92-4718-A909-3429D2ACCD26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9153915-6C92-4718-A909-3429D2ACCD26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{332065CB-3136-4309-A064-1AC4959B123D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{332065CB-3136-4309-A064-1AC4959B123D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{332065CB-3136-4309-A064-1AC4959B123D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{332065CB-3136-4309-A064-1AC4959B123D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

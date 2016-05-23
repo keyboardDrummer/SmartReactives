@@ -13,17 +13,17 @@ namespace SmartReactives.Extensions
 	[Serializable]
 	public class ObservableExpression<T> : IObservable<T>, IListener
 	{
-		private readonly Func<T> _func;
-		private readonly object _name;
-		private readonly ISubject<T> _subject = new Subject<T>();
+	    readonly Func<T> func;
+	    readonly object name;
+	    readonly ISubject<T> subject = new Subject<T>();
 
 		/// <summary>
 		/// The debug object can be passed to override the toString method.
 		/// </summary>
 		public ObservableExpression(Func<T> func, object name = null)
 		{
-			_func = func;
-			_name = name;
+			this.func = func;
+			this.name = name;
 		}
 
 		/// <summary>
@@ -31,18 +31,18 @@ namespace SmartReactives.Extensions
 		/// </summary>
 		public T Evaluate()
 		{
-			return ReactiveManager.Evaluate(this, _func);
+			return ReactiveManager.Evaluate(this, func);
 		}
 
 		public void Notify()
 		{
-			_subject.OnNext(default(T)); //TODO fixxx!!! this now leads to infinite loopy shit.
+			subject.OnNext(default(T)); //TODO fixxx!!! this now leads to infinite loopy shit.
 		}
 
 		/// <inheritdoc/>
 		public IDisposable Subscribe(IObserver<T> observer)
 		{
-			return _subject.Subscribe(observer);
+			return subject.Subscribe(observer);
 		}
 
 		// ReSharper disable once UnusedMember.Local
@@ -54,7 +54,7 @@ namespace SmartReactives.Extensions
 		/// <inheritdoc/>
 		public override string ToString()
 		{
-			return _name?.ToString() ?? "unnamed";
+			return name?.ToString() ?? "unnamed";
 		}
 	}
 }

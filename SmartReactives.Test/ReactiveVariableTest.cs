@@ -45,7 +45,7 @@ namespace SmartReactives.Test
 		{
 			var first = new Source();
 			var second = new Source();
-			var rx = new ObservableExpression<string>(() => first.Woop ? "foo" : (second.Woop ? "bar" : "zoo"));
+			var rx = new ObservableExpression<string>(() => first.Woop ? "foo" : (second.Woop ? "bar" : "zoo"), "rx");
 			var counter = 0;
 			Assert.AreEqual("zoo", rx.Evaluate());
 			rx.Subscribe(s => counter++);

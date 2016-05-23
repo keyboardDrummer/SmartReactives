@@ -17,5 +17,10 @@ namespace SmartReactives.Core
 			NotificationsHad = notificationsHad;
 			_nodeReference = new WeakReference(node);
 		}
+
+	    public override string ToString()
+	    {
+	        return Value?.ToString() ?? "empty reference";
+	    }
 	}
 }

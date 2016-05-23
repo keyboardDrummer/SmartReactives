@@ -19,8 +19,8 @@ namespace SmartReactives.Test
 		public void TestRecoveryMode()
 		{
 			var expectation = 0;
-			var source1 = new DebugReactiveVariable<int>("source1");
-			var source2 = new DebugReactiveVariable<int>("source2");
+			var source1 = new DebugReactiveVariable<int>(0, "source1");
+			var source2 = new DebugReactiveVariable<int>(0, "source2");
 			var selectedSource = source1;
 			source1.Value = 0;
 			var function = new ObservableExpression<int>(() => selectedSource.Value);
@@ -109,7 +109,7 @@ namespace SmartReactives.Test
 		[Test]
 		public void TestDirectDiamondSituation()
 		{
-			var source = new DebugReactiveVariable<bool>("source");
+			var source = new DebugReactiveVariable<bool>(false, "source");
 			source.Value = true;
 			var sink = new ObservableExpression<bool>(() => source.Value && source.Value, "sink");
 
@@ -125,7 +125,7 @@ namespace SmartReactives.Test
 		[Test]
 		public void TestIndirectDiamondSituation()
 		{
-			var source = new DebugReactiveVariable<bool>("source");
+			var source = new DebugReactiveVariable<bool>(false ,"source");
 			source.Value = true;
 			var mid1 = new ObservableExpression<bool>(() => source.Value, "mid1");
 			var mid2 = new ObservableExpression<bool>(() => source.Value, "mid2");

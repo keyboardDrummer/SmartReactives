@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using PostSharp.Aspects;
+using PostSharp.Aspects.Dependencies;
 using PostSharp.Reflection;
 using SmartReactives.Core;
 
@@ -11,10 +12,10 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 	/// Place this attribute on a dependent property to make it reactive.
 	/// </summary>
 	[Serializable]
+	[ProvideAspectRole("SmartNotifyPropertyChanged")]
 	public class SmartNotifyPropertyChangedExpressionAttribute : LocationInterceptionAspect, IInstanceScopedAspect, IListener
 	{
-		protected string _propertyName;
-		private readonly Action<string> _raisePropertyChanged;
+		readonly Action<string> raisePropertyChanged;
 
 		public SmartNotifyPropertyChangedExpressionAttribute()
 		{
@@ -23,23 +24,23 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 		protected SmartNotifyPropertyChangedExpressionAttribute(object instance, string propertyName)
 		{
 			Instance = instance;
-			_propertyName = propertyName;
+			PropertyName = propertyName;
 
 			var raisePropertyMethodInfo = SmartNotifyPropertyChangedVariableAttributeBase.GetRaiseMethod(Instance.GetType());
-			_raisePropertyChanged = (Action<string>)Delegate.CreateDelegate(typeof(Action<string>), Instance, raisePropertyMethodInfo, true);
+			raisePropertyChanged = (Action<string>)Delegate.CreateDelegate(typeof(Action<string>), Instance, raisePropertyMethodInfo, true);
 		}
 
 		/// <summary>
 		/// Useful for debugging.
 		/// </summary>
 		// ReSharper disable once UnusedMember.Local
-		private string PropertyName => _propertyName;
+		public string PropertyName { get; private set; }
 
 		/// <summary>
 		/// Useful for debugging.
 		/// </summary>
 		// ReSharper disable once UnusedMember.Local
-		private object Instance
+		public object Instance
 		{
 			get;
 		}
@@ -48,7 +49,7 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 		/// Useful for debugging.
 		/// </summary>
 		// ReSharper disable once UnusedMember.Local
-		private IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
+		public IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
 
 		/// <inheritdoc/>
 		public sealed override void OnGetValue(LocationInterceptionArgs args)
@@ -70,25 +71,25 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 		/// <inheritdoc/>
 		public override string ToString()
 		{
-			return "Sink from: " + Instance.GetType().Name + "." + _propertyName;
+			return "Sink from: " + Instance.GetType().Name + "." + PropertyName;
 		}
 
 		/// <inheritdoc/>
 		public void Notify()
 		{
-			_raisePropertyChanged(_propertyName);
+			raisePropertyChanged(PropertyName);
 		}
 
 		/// <inheritdoc/>
 		public virtual object CreateInstance(AdviceArgs adviceArgs)
 		{
-			return new SmartNotifyPropertyChangedExpressionAttribute(adviceArgs.Instance, _propertyName);
+			return new SmartNotifyPropertyChangedExpressionAttribute(adviceArgs.Instance, PropertyName);
 		}
 
 		/// <inheritdoc/>
 		public override void CompileTimeInitialize(LocationInfo targetLocation, AspectInfo aspectInfo)
 		{
-			_propertyName = targetLocation.Name;
+			PropertyName = targetLocation.Name;
 			base.CompileTimeInitialize(targetLocation, aspectInfo);
 		}
 

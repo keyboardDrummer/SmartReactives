@@ -10,6 +10,7 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 	/// Makes a list property reactive.
 	/// </summary>
 	[Serializable]
+	[AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, "SmartNotifyPropertyChanged")]
 	public class ReactiveListAttribute : LocationInterceptionAspect
 	{
 		/// <inheritdoc/>

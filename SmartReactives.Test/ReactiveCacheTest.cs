@@ -10,7 +10,7 @@ namespace SmartReactives.Test
 		public void CanCache()
 		{
 			var counter = 0;
-			var source = new DebugReactiveVariable<int>("source");
+			var source = new DebugReactiveVariable<int>(0, "source");
 			Func<int> cacheFunc = () =>
 			{
 				counter++;
@@ -28,7 +28,7 @@ namespace SmartReactives.Test
 		public void CanInvalidate()
 		{
 			var counter = 0;
-			var source = new DebugReactiveVariable<int>("source");
+			var source = new DebugReactiveVariable<int>(0, "source");
 			Func<int> cacheFunc = () =>
 			{
 				counter++;

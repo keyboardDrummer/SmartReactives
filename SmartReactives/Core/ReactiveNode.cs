@@ -6,62 +6,65 @@ namespace SmartReactives.Core
 {
 	class ReactiveNode
 	{
-		private long _notificationsHad;
-		private readonly IList<DependentReference> _data = new List<DependentReference>();
+	    long notificationsHad;
+	    IList<DependentReference> data = new List<DependentReference>();
 
-		public IList<DependentReference> GetCopy()
+        public IList<DependentReference> GetCopy()
 		{
 			lock (this)
 			{
-				return _data.ToList();
+				return data.ToList();
 			}
 		}
 
 		public long WasNotified()
 		{
-			return Interlocked.Increment(ref _notificationsHad);
+			return Interlocked.Increment(ref notificationsHad);
 		}
 
 		public void NotifyChildren()
-		{
-			lock(this) //TODO potentieel duurt deze lock wel lang maar het scheelt zo wel een nieuwe lijst maken.. Dit is ook niet zo thread-safe omdat je thread 1 op 2 laat wachten terwijl je externe code op 2 aanroept..
-			{
-				int count = _data.Count;
-				for (int index = 0; index < count; index++)
-				{
-					var value = _data[index];
-					WasChangedForChild(value);
-				}
-				_data.Clear();
-			}
-		}
+        {
+            IList<DependentReference> swap;
+            lock (this)
+            {
+                swap = data;
+                data = new List<DependentReference>(swap.Count); //Useful for performance, but not required since the notification counter makes sure DependentReferences never trigger two notifications.
+            }
+            int count = swap.Count;
 
-		private static void WasChangedForChild(DependentReference childReference)
+            for (int index = 0; index < count; index++)
+            {
+                var value = swap[index];
+                WasChangedForChild(value);
+            }
+        }
+
+	    static void WasChangedForChild(DependentReference childReference)
 		{
 			var child = childReference.Value;
 			if (child == null)
 				return;
 
 			var stampedChildList = ReactiveManager.GetNode(child);
-			if (stampedChildList._notificationsHad == childReference.NotificationsHad)
+			if (stampedChildList.notificationsHad == childReference.NotificationsHad)
 			{
 				stampedChildList.WasNotified();
-				child.Notify();
-				stampedChildList.NotifyChildren();
-			}
+                child.Notify();
+                stampedChildList.NotifyChildren();
+            }
 		}
 
 		internal void Add(DependentReference element)
 		{
-			lock(this) //TODO deze lock moet eigenlijk niet conflicten met de lock in NotifyChildren. Is dat voldoende? Zou iig wel kunnen met een linked list circle denk ik.
+			lock(this)
 			{
-				_data.Add(element);
+				data.Add(element);
 			}
 		}
 
 		public DependentReference GetReference(IListener dependent)
 		{
-			return new DependentReference(_notificationsHad, dependent);
+			return new DependentReference(notificationsHad, dependent);
 		}
 	}
 }

@@ -1,9 +1,13 @@
 ﻿using System;
 using NUnit.Framework;
+using SmartReactives.Test;
 
 namespace SmartReactives.Test.Postsharp
 {
-	public class ReactiveAttributesTest
+
+
+
+    public class ReactiveAttributesTest
 	{
 		[Test]
 		public void EfficientModeDependent()

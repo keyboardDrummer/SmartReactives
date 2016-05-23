@@ -6,7 +6,7 @@ namespace SmartReactives.Test
 	{
 		readonly object debugObj;
 
-		public DebugReactiveVariable(object debugObj)
+		public DebugReactiveVariable(T value, object debugObj) : base(value)
 		{
 			this.debugObj = debugObj;
 		}
