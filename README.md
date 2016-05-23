@@ -13,15 +13,12 @@ The SmartReactives API is divided into three layers:
 
 ## Basic usage
 ```c#
-public void SquareInput()
-{
-    var input = new ReactiveVariable<int>(1);
-    var square = new ReactiveExpression<int>(() => input.Value * input.Value);
-    square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare()));
+var input = new ReactiveVariable<int>(1);
+var square = new ReactiveExpression<int>(() => input.Value * input.Value);
+square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare()));
 
-    input.Value = 2;
-    input.Value = 3;
-}
+input.Value = 2;
+input.Value = 3;
 ```
 Output:
 ```
@@ -33,22 +30,19 @@ square = 9
 ## Automatic cache clearing
 Here is an example that shows how to use ReactiveCache to get a cache which automatically clears itself when it becomes stale:
 ```c#
-public void Cache()
+var input = new ReactiveVariable<int>(1); //We define a reactive variable.
+Func<int> f = () => //f is the calculation we want to cache.
 {
-    var input = new ReactiveVariable<int>(1); //We define a reactive variable.
-    Func<int> f = () => //f is the calculation we want to cache.
-    {
-        Console.WriteLine("f was evaluated");
-        return 3 * input.Value; //f depends on our reactive variable input.
-    };
-    var cache = new ReactiveCache<int>(f); //We base our cache on f.
+    Console.WriteLine("f was evaluated");
+    return 3 * input.Value; //f depends on our reactive variable input.
+};
+var cache = new ReactiveCache<int>(f); //We base our cache on f.
 
-    Console.WriteLine("f() = " + cache.Get()); //Cache was not set so we evaluate f.
-    Console.WriteLine("f() = " + cache.Get()); //Cache is set so we don't evaluate f.
+Console.WriteLine("f() = " + cache.Get()); //Cache was not set so we evaluate f.
+Console.WriteLine("f() = " + cache.Get()); //Cache is set so we don't evaluate f.
 
-    input.Value = 2; //We change our input variable, causing our cache to become stale.
-    Console.WriteLine("f() = " + cache.Get()); //Cache is stale, so we must evaluate f.
-}
+input.Value = 2; //We change our input variable, causing our cache to become stale.
+Console.WriteLine("f() = " + cache.Get()); //Cache is stale, so we must evaluate f.
 ```
 Output:
 ```
