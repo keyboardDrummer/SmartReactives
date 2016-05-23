@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SmartReactives</id>
+    <version>1.0.0.0</version>
+    <title>SmartReactives</title>
+    <authors>keyboardDrummer</authors>
+    <owners>keyboardDrummer</owners>
+    <projectUrl>https://github.com/keyboardDrummer/SmartReactives</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SmartReactives is a .NET library that will automatically discover dependencies between expressions and variables for you. </description>
+    <tags>.NET Reactive</tags>
+  </metadata>
+</package>
