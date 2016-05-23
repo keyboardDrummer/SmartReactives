@@ -23,7 +23,7 @@ square = 9
 ```
 
 ## Automatic cache clearing
-Here is an example that shows how to use ReactiveCache to get a cache which automatically clears itself when it becomes stale:
+This example shows how to use ReactiveCache to get a cache which automatically clears itself when it becomes stale.
 ```c#
 var input = new ReactiveVariable<int>(1); //We define a reactive variable.
 Func<int> f = () => //f is the calculation we want to cache.
@@ -50,7 +50,7 @@ f() = 6
 
 
 ## Automatic NotifyPropertyChanged
-Below is an example that shows how SmartReactives will automatically call PropertyChanged for properties even when their value has changed indirectly, meaning by a change in an underlying property. 
+This an example shows how SmartReactives will automatically call PropertyChanged for properties even when their value has changed indirectly, meaning by a change in an underlying property. Note that this example uses Postsharp.
 
 ```c#
 class Calculator : HasNotifyPropertyChanged
