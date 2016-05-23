@@ -21,12 +21,19 @@ public void Cache()
     var cache = new ReactiveCache<int>(f); //We base our cache on f.
 
     Console.WriteLine("f() = " + cache.Get()); //Cache was not set so we evaluate f.
-
     Console.WriteLine("f() = " + cache.Get()); //Cache is set so we don't evaluate f.
 
     input.Value = 2; //We change our input variable, causing our cache to become stale.
     Console.WriteLine("f() = " + cache.Get()); //Cache is stale, so we must evaluate f.
 }
+```
+Output:
+```
+f was evaluated
+f() = 3
+f() = 3
+f was evaluated
+f() = 6
 ```
 
 
