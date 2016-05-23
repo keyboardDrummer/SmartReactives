@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using SmartReactives.Examples;
 using SmartReactives.Postsharp.NotifyPropertyChanged;
 
 namespace SmartReactives.PostsharpExamples

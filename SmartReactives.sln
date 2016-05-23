@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.Examples", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.PostsharpExamples", "SmartReactives.PostsharpExamples\SmartReactives.PostsharpExamples.csproj", "{332065CB-3136-4309-A064-1AC4959B123D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.PostSharp", "SmartReactives.PostSharp\SmartReactives.PostSharp.csproj", "{3E88EBFE-3BCE-4BB9-8D0F-4A60B119D8F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.Postsharp.Test", "SmartReactives.Postsharp.Test\SmartReactives.Postsharp.Test.csproj", "{E9766DE1-A439-428B-BC27-F00110D0A9F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{332065CB-3136-4309-A064-1AC4959B123D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{332065CB-3136-4309-A064-1AC4959B123D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{332065CB-3136-4309-A064-1AC4959B123D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E88EBFE-3BCE-4BB9-8D0F-4A60B119D8F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E88EBFE-3BCE-4BB9-8D0F-4A60B119D8F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E88EBFE-3BCE-4BB9-8D0F-4A60B119D8F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E88EBFE-3BCE-4BB9-8D0F-4A60B119D8F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9766DE1-A439-428B-BC27-F00110D0A9F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9766DE1-A439-428B-BC27-F00110D0A9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9766DE1-A439-428B-BC27-F00110D0A9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9766DE1-A439-428B-BC27-F00110D0A9F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

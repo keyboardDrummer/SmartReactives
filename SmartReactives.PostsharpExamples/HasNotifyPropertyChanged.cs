@@ -1,13 +1,13 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SmartReactives.Postsharp.NotifyPropertyChanged;
 
-namespace SmartReactives.Examples
+namespace SmartReactives.PostsharpExamples
 {
 	public class HasNotifyPropertyChanged : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
-
+		
 		[RaisesNotifyPropertyChanged]
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{

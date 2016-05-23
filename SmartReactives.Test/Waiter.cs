@@ -2,7 +2,7 @@ using System.Threading;
 
 namespace SmartReactives.Test
 {
-	class Waiter
+    public class Waiter
 	{
 		bool waiting = true;
 
