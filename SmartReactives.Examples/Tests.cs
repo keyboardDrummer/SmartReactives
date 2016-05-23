@@ -8,30 +8,15 @@ namespace SmartReactives.Examples
     class Tests
     {
         [Test]
-        public void SquareInput()
+        public void Square()
         {
             var input = new ReactiveVariable<int>(1);
             var inputSquared = new ReactiveExpression<int>(() => input.Value * input.Value);
-            inputSquared.Subscribe(getSquare => Console.WriteLine("input squared = " + getSquare()));
+            inputSquared.Subscribe(getSquare => Console.WriteLine("square = " + getSquare()));
 
             input.Value = 2;
             input.Value = 3;
         }
-
-        //[Test]
-        //public void TallEnoughDependsOnLength()
-        //{
-        //    var length = new ReactiveVariable<int>(120);
-        //    var tallEnough = new ReactiveExpression<bool>(() => length.Value > 140);
-        //    var tallEnoughChangedCounter = 0;
-        //    tallEnough.Subscribe(_ => tallEnoughChangedCounter++);
-
-        //    Assert.AreEqual(false, tallEnough.Evaluate());
-        //    length.Value = 180;
-
-        //    Assert.AreEqual(true, tallEnough.Evaluate());
-        //    Assert.AreEqual(1, tallEnoughChangedCounter);
-        //}
 
         [Test]
         public void Cache()

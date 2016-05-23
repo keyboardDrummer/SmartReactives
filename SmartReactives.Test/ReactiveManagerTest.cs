@@ -18,24 +18,23 @@ namespace SmartReactives.Test
 		[Test]
 		public void TestRecoveryMode()
 		{
-			var expectation = 0;
+			var expectation = 1;
 			var source1 = new DebugReactiveVariable<int>(0, "source1");
 			var source2 = new DebugReactiveVariable<int>(0, "source2");
 			var selectedSource = source1;
 			source1.Value = 0;
 			var function = new ReactiveExpression<int>(() => selectedSource.Value);
 			var counter = 0;
-			function.Subscribe(_ => counter++);
-			Assert.AreEqual(0, function.Evaluate());
+            function.Subscribe(getValue => Const(getValue, () => counter++));
 			source1.Value++;
 			expectation++;
 			Assert.AreEqual(expectation, counter);
-			Assert.AreEqual(1, function.Evaluate());
 			selectedSource = source2;
 			Assert.AreEqual(expectation, counter);
-			Assert.AreEqual(0, function.Evaluate());
-			source2.Value++;
-			Assert.AreEqual(1, function.Evaluate());
+
+            function.Evaluate();
+            source2.Value++;
+
 			if (RecoversAfterMissedChange)
 			{
 				expectation++;
@@ -59,9 +58,8 @@ namespace SmartReactives.Test
 				return true;
 			});
 			var counter = 0;
-			var expectation = 0;
-			function.Subscribe(_ => counter++);
-			function.Evaluate();
+			var expectation = 1;
+			function.Subscribe(getValue => Const(getValue, () => counter++));
 
 			ReactiveManager.WasChanged(source1);
 			Assert.AreEqual(++expectation, counter);
@@ -114,13 +112,19 @@ namespace SmartReactives.Test
 			var sink = new ReactiveExpression<bool>(() => source.Value && source.Value, "sink");
 
 			var counter = 0;
-			sink.Subscribe(_ => counter++);
+		    sink.Subscribe(getSink => Const(getSink, () => counter++));
 
-			Assert.AreEqual(true, sink.Evaluate());
-			Assert.AreEqual(0, counter);
+            Assert.AreEqual(1, counter);
+            
 			source.Value = false;
-			Assert.AreEqual(1, counter);
+			Assert.AreEqual(2, counter);
 		}
+
+        public static U Const<T,U>(Func<T> getFirstValue, Func<U> getSecondValue)
+        {
+            getFirstValue();
+            return getSecondValue();
+        }
 
 		[Test]
 		public void TestIndirectDiamondSituation()
@@ -131,12 +135,11 @@ namespace SmartReactives.Test
 			var mid2 = new ReactiveExpression<bool>(() => source.Value, "mid2");
 			var sink = new ReactiveExpression<bool>(() => mid1.Evaluate() && mid2.Evaluate(), "sink");
 			var counter = 0;
-			sink.Subscribe(_ => counter++);
-
-			Assert.AreEqual(true, sink.Evaluate());
-			Assert.AreEqual(0, counter);
-			source.Value = false;
+            sink.Subscribe(getSink => Const(getSink, () => counter++));
+            
 			Assert.AreEqual(1, counter);
+			source.Value = false;
+			Assert.AreEqual(2, counter);
 		}
 
 		[Test]

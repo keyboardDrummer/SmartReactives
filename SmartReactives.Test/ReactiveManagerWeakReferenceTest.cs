@@ -24,8 +24,9 @@ namespace SmartReactives.Test
 			weakReactiveVariable.Evaluate();
 			int counter = 0;
 			weakReactiveVariable.Subscribe(_ => counter++);
-			source.Woop = !source.Woop;
-			Assert.AreEqual(1, counter);
+            Assert.AreEqual(1, counter);
+            source.Woop = !source.Woop;
+			Assert.AreEqual(2, counter);
 			var result = new WeakReference(weakReactiveVariable);
 			Assert.AreEqual(true, result.IsAlive);
 			return result;

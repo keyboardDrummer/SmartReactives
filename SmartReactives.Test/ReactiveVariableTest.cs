@@ -27,17 +27,14 @@ namespace SmartReactives.Test
 			var test = new Source();
 			var rx = new ReactiveExpression<string>(() => test.Woop ? "foo" : "bar");
 			var counter = 0;
-			var expectation = 0;
-			Assert.AreEqual("bar", rx.Evaluate());
-			rx.Subscribe(s => counter++);
+			var expectation = 1;
+			rx.Subscribe(s => ReactiveManagerTest.Const(s, () => counter++));
 			test.Woop = true;
-			Assert.AreEqual("foo", rx.Evaluate());
 			Assert.AreEqual(++expectation, counter);
 			test.Woop = true;
 			Assert.AreEqual(expectation += NotificationWhenSourceChangesToSameValue, counter);
 			test.Woop = false;
 			Assert.AreEqual(++expectation, counter);
-			Assert.AreEqual("bar", rx.Evaluate());
 		}
 
 		[Test]
@@ -47,26 +44,27 @@ namespace SmartReactives.Test
 			var second = new Source();
 			var rx = new ReactiveExpression<string>(() => first.Woop ? "foo" : (second.Woop ? "bar" : "zoo"), "rx");
 			var counter = 0;
+		    var expectation = 1;
 			Assert.AreEqual("zoo", rx.Evaluate());
 			rx.Subscribe(s => counter++);
 			second.Woop = true;
-			Assert.AreEqual(1, counter);
+			Assert.AreEqual(++expectation, counter);
 			Assert.AreEqual("bar", rx.Evaluate());
 			first.Woop = true;
 			Assert.AreEqual("foo", rx.Evaluate());
-			Assert.AreEqual(2, counter);
+			Assert.AreEqual(++expectation, counter);
 			second.Woop = false;
 			Assert.AreEqual("foo", rx.Evaluate());
-			Assert.AreEqual(2, counter);
+			Assert.AreEqual(expectation, counter);
 			second.Woop = true;
 			Assert.AreEqual("foo", rx.Evaluate());
-			Assert.AreEqual(2, counter);
+			Assert.AreEqual(expectation, counter);
 			first.Woop = false;
 			Assert.AreEqual("bar", rx.Evaluate());
-			Assert.AreEqual(3, counter);
+			Assert.AreEqual(++expectation, counter);
 			second.Woop = false;
 			Assert.AreEqual("zoo", rx.Evaluate());
-			Assert.AreEqual(4, counter);
+			Assert.AreEqual(++expectation, counter);
 		}
 
 		[Test]
@@ -219,12 +217,12 @@ namespace SmartReactives.Test
 			var source = new Source();
 			var sink = new ReactiveExpression<bool>(() => source.Woop && source.Woop);
 			var counter = 0;
-
-			sink.Subscribe(_ => counter++);
+		    var expectation = 1;
+			sink.Subscribe(getValue => ReactiveManagerTest.Const(getValue, () => counter++));
 			Assert.AreEqual(source.Woop, sink.Evaluate());
-			Assert.AreEqual(0, counter);
+			Assert.AreEqual(expectation, counter);
 			source.FlipWoop();
-			Assert.AreEqual(1, counter);
+			Assert.AreEqual(++expectation, counter);
 		}
 
 		[Test]
@@ -236,19 +234,17 @@ namespace SmartReactives.Test
 			var top = new ReactiveExpression<bool>(() => mid.Evaluate() & source1.Woop, "top");
 			var topCounter = 0;
 			var midCounter = 0;
-			var topExpectation = 0;
-			var midExpectation = 0;
+			var topExpectation = 1;
+			var midExpectation = 1;
 
-			top.Subscribe(_ => { topCounter++; });
-			mid.Subscribe(_ => midCounter++);
-			Assert.AreEqual(source1.Woop, top.Evaluate());
+			top.Subscribe(getValue => ReactiveManagerTest.Const(getValue, () => topCounter++));
+            mid.Subscribe(getValue => ReactiveManagerTest.Const(getValue, () => midCounter++));
 			Assert.AreEqual(topExpectation, topCounter);
 			Assert.AreEqual(midExpectation, midCounter);
 			source1.FlipWoop();
 			Assert.AreEqual(++topExpectation, topCounter);
 			Assert.AreEqual(++midExpectation, midCounter);
 
-			Assert.AreEqual(source1.Woop, top.Evaluate());
 			source2.FlipWoop();
 			Assert.AreEqual(++topExpectation, topCounter);
 			Assert.AreEqual(++midExpectation, midCounter);

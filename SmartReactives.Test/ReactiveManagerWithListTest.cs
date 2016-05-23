@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using System.Threading;
 using NUnit.Framework;
 using SmartReactives.Extensions;
@@ -28,13 +29,10 @@ namespace SmartReactives.Test
 			sourcesList.Sources.Add(source2);
 
 			int counter = 0;
-			int expectation = 0;
+			int expectation = 1;
 			var property = new ReactiveExpression<bool>(() => sourcesList.Sources[1].Woop);
 			property.Evaluate();
-			property.Subscribe(_ =>
-			{
-				counter++;
-			});
+		    property.Subscribe(s => ReactiveManagerTest.Const(s, () => counter++));
 
 			source1.Woop = true;
 			Assert.AreEqual(expectation, counter);
@@ -63,8 +61,8 @@ namespace SmartReactives.Test
 			var property = new ReactiveExpression<int>(() => sourcesList.Sources.Count);
 			property.Evaluate();
 			int counter = 0;
-			int expectation = 0;
-			property.Subscribe(_ => counter++);
+			int expectation = 1;
+			property.Subscribe(s => ReactiveManagerTest.Const(s, () => counter++));
 
 			Assert.AreEqual(expectation, counter);
 			var source1 = new Source();
@@ -155,18 +153,22 @@ namespace SmartReactives.Test
 			var victimWaiter = new Waiter();
 			var attackerWaiter = new Waiter();
 
-			var observableExpression = new ReactiveExpression<int>(() => list.DependentCount, "DependentCountObserver");
-			observableExpression.Subscribe(_ =>
-			{
-				counter++;
-				attackerWaiter.Release();
-				victimWaiter.Wait();
-			});
+            var observableExpression = new ReactiveExpression<int>(() => list.DependentCount, "DependentCountObserver");
+		    observableExpression.Evaluate();
 
-			var victim = new Thread(() =>
-			{
-				list.Sources.Add(new Source());
-			});
+            var victim = new Thread(() =>
+            {
+                observableExpression.Skip(1).Subscribe(s =>
+                {
+                    s();
+                    counter++;
+                    attackerWaiter.Release();
+                    victimWaiter.Wait();
+                });
+
+                list.Sources.Add(new Source());
+                Assert.AreEqual(1, counter);
+            });
 
 			var attackerList = new DependentList();
 
@@ -176,8 +178,7 @@ namespace SmartReactives.Test
 				attackerList.Sources.Add(new Source());
 				victimWaiter.Release();
 			});
-
-			Assert.AreEqual(0, observableExpression.Evaluate());
+            
 			Assert.AreEqual(0, attackerList.DependentCount);
 
 			victim.Start();

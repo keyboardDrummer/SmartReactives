@@ -114,12 +114,12 @@ namespace SmartReactives.Test
 
 			var counter = 0;
 			sink.Subscribe(_ => counter++);
-			Assert.AreEqual(0, counter);
+			Assert.AreEqual(1, counter);
 			fakeSource.FlipWoop();
-			Assert.AreEqual(0, counter);
+			Assert.AreEqual(1, counter);
 
 			actualSource.FlipWoop();
-			Assert.AreEqual(1, counter);
+			Assert.AreEqual(2, counter);
 		}
 	}
 }
