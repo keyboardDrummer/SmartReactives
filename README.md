@@ -13,23 +13,19 @@ Here is an example that shows how to use ReactiveCache to get a cache which auto
 public void Cache()
 {
     var input = new ReactiveVariable<int>(1); //We define a reactive variable.
-    var evaluationCounter = 0;
     Func<int> f = () => //f is the calculation we want to cache.
     {
-        evaluationCounter++; //For testing we want to track evaluations.
+        Console.WriteLine("f was evaluated");
         return 3 * input.Value; //f depends on our reactive variable input.
     };
     var cache = new ReactiveCache<int>(f); //We base our cache on f.
 
-    Assert.AreEqual(3, cache.Get()); //Cache was not set so we evaluate f.
-    Assert.AreEqual(1, evaluationCounter); //f was evaluated.
+    Console.WriteLine("f() = " + cache.Get()); //Cache was not set so we evaluate f.
 
-    Assert.AreEqual(3, cache.Get()); //Cache is set so we don't evaluate f.
-    Assert.AreEqual(1, evaluationCounter); //f was not evaluated.
+    Console.WriteLine("f() = " + cache.Get()); //Cache is set so we don't evaluate f.
 
     input.Value = 2; //We change our input variable, causing our cache to become stale.
-    Assert.AreEqual(6, cache.Get()); //Cache is stale, so we must evaluate f.
-    Assert.AreEqual(2, evaluationCounter); //f was evaluated.
+    Console.WriteLine("f() = " + cache.Get()); //Cache is stale, so we must evaluate f.
 }
 ```
 
