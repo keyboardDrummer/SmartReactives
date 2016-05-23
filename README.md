@@ -7,6 +7,7 @@ SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), w
 #Examples
 
 ## Basic usage
+This example demonstrates the basic functionality of SmartReactives using the primitives ReactiveVariable and ReactiveExpression.
 ```c#
 var input = new ReactiveVariable<int>(1);
 var square = new ReactiveExpression<int>(() => input.Value * input.Value);
