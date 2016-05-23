@@ -6,41 +6,6 @@ SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), w
 
 #Examples
 
-## Automatic NotifyPropertyChanged
-Below is an example that shows how SmartReactives will automatically call PropertyChanged for properties even when their value has changed indirectly, meaning by a change in an underlying property. 
-
-```c#
-class Person : HasNotifyPropertyChanged
-{
-	[SmartNotifyPropertyChanged]
-	public int LengthInCentimeters { get; set; }
-
-	[SmartNotifyPropertyChanged]
-	public bool TallEnoughForTheRollerCoaster => LengthInCentimeters > 140;
-
-    [Test]
-    public static void TallEnoughDependsOnLengthProperties()
-    {
-        var tallEnoughChangedCounter = 0;
-
-        var person = new Person();
-        person.LengthInCentimeters = 120;
-
-        person.PropertyChanged += (sender, eventArgs) =>
-        {
-            if (eventArgs.PropertyName == nameof(TallEnoughForTheRollerCoaster))
-                tallEnoughChangedCounter++;
-        };
-
-        Assert.AreEqual(false, person.TallEnoughForTheRollerCoaster);
-        person.LengthInCentimeters = 180;
-        Assert.AreEqual(true, person.TallEnoughForTheRollerCoaster);
-
-        Assert.AreEqual(1, tallEnoughChangedCounter);
-    }
-}
-```
-
 ## Automatic cache clearing
 Here is an example that shows how to use ReactiveCache to get a cache which automatically clears itself when it becomes stale:
 ```c#
@@ -52,7 +17,7 @@ public void Cache()
     Func<int> f = () => //f is the calculation we want to cache.
     {
         evaluationCounter++; //For testing we want to track evaluations.
-        return input.Value*3; //f depends on our reactive variable input.
+        return 3 * input.Value; //f depends on our reactive variable input.
     };
     var cache = new ReactiveCache<int>(f); //We base our cache on f.
 
@@ -66,4 +31,37 @@ public void Cache()
     Assert.AreEqual(6, cache.Get()); //Cache is stale, so we must evaluate f.
     Assert.AreEqual(2, evaluationCounter); //f was evaluated.
 }
+```
+
+
+## Automatic NotifyPropertyChanged
+Below is an example that shows how SmartReactives will automatically call PropertyChanged for properties even when their value has changed indirectly, meaning by a change in an underlying property. 
+
+```c#
+    class Calculator : HasNotifyPropertyChanged
+    {
+        [SmartNotifyPropertyChanged]
+        public int Number { get; set; }
+
+        [SmartNotifyPropertyChanged]
+        public int SquareOfNumber => Number * Number;
+
+        [Test]
+        public static void SquareDependsOnNumber()
+        {
+            var calculator = new Calculator();
+            calculator.Number = 2;
+            
+            Console.WriteLine("square = " + calculator.SquareOfNumber); 
+            calculator.PropertyChanged += (sender, eventArgs) =>
+            {
+                if (eventArgs.PropertyName == nameof(SquareOfNumber))
+                    Console.WriteLine("square = " + calculator.SquareOfNumber);
+            };
+
+            calculator.Number = 3;
+            calculator.Number = 4;
+            calculator.Number = 5;
+        }
+    }
 ```
