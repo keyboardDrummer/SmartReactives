@@ -6,7 +6,7 @@ SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), w
 
 #Examples
 
-## Simple usage
+## Explicit usage
 ```c#
 [Test]
 public void SquareInput()
