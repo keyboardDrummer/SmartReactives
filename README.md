@@ -50,7 +50,7 @@ f() = 9
 
 
 ## Automatic NotifyPropertyChanged
-Sometimes we have properties that depend on other properties. This example shows how SmartReactives will automatically call PropertyChanged for properties even when their value has changed indirectly by a change in an underlying property. Note that this example uses Postsharp.
+Using Postsharp is it possible to automatically call PropertyChanged for a property, when that property changes. However, sometimes a property A depends on another property B. In this case we would like both properties to call PropertyChanged when B changes. This example shows how SmartReactives will do this for you.
 
 ```c#
 class Calculator : HasNotifyPropertyChanged
