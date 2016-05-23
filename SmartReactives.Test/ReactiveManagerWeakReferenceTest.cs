@@ -20,7 +20,7 @@ namespace SmartReactives.Test
 
 		static WeakReference CreateWeakReactive(Source source)
 		{
-			var weakReactiveVariable = new ObservableExpression<bool>(() => source.Woop);
+			var weakReactiveVariable = new ReactiveExpression<bool>(() => source.Woop);
 			weakReactiveVariable.Evaluate();
 			int counter = 0;
 			weakReactiveVariable.Subscribe(_ => counter++);

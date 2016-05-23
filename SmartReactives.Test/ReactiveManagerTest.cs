@@ -23,7 +23,7 @@ namespace SmartReactives.Test
 			var source2 = new DebugReactiveVariable<int>(0, "source2");
 			var selectedSource = source1;
 			source1.Value = 0;
-			var function = new ObservableExpression<int>(() => selectedSource.Value);
+			var function = new ReactiveExpression<int>(() => selectedSource.Value);
 			var counter = 0;
 			function.Subscribe(_ => counter++);
 			Assert.AreEqual(0, function.Evaluate());
@@ -53,7 +53,7 @@ namespace SmartReactives.Test
 			var source1 = new EqualityBasedOnId(1);
 			var source2 = new EqualityBasedOnId(2);
 			var source3 = new EqualityBasedOnId(1);
-			var function = new ObservableExpression<bool>(() =>
+			var function = new ReactiveExpression<bool>(() =>
 			{
 				ReactiveManager.WasRead(source1);
 				return true;
@@ -111,7 +111,7 @@ namespace SmartReactives.Test
 		{
 			var source = new DebugReactiveVariable<bool>(false, "source");
 			source.Value = true;
-			var sink = new ObservableExpression<bool>(() => source.Value && source.Value, "sink");
+			var sink = new ReactiveExpression<bool>(() => source.Value && source.Value, "sink");
 
 			var counter = 0;
 			sink.Subscribe(_ => counter++);
@@ -127,9 +127,9 @@ namespace SmartReactives.Test
 		{
 			var source = new DebugReactiveVariable<bool>(false ,"source");
 			source.Value = true;
-			var mid1 = new ObservableExpression<bool>(() => source.Value, "mid1");
-			var mid2 = new ObservableExpression<bool>(() => source.Value, "mid2");
-			var sink = new ObservableExpression<bool>(() => mid1.Evaluate() && mid2.Evaluate(), "sink");
+			var mid1 = new ReactiveExpression<bool>(() => source.Value, "mid1");
+			var mid2 = new ReactiveExpression<bool>(() => source.Value, "mid2");
+			var sink = new ReactiveExpression<bool>(() => mid1.Evaluate() && mid2.Evaluate(), "sink");
 			var counter = 0;
 			sink.Subscribe(_ => counter++);
 

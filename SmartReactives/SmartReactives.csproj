@@ -68,7 +68,7 @@
     <Compile Include="Core\DependentReference.cs" />
     <Compile Include="Core\IListener.cs" />
     <Compile Include="List\NotifyCollectionChangedAsObservable.cs" />
-    <Compile Include="Extensions\ObservableExpression.cs" />
+    <Compile Include="Extensions\ReactiveExpression.cs" />
     <Compile Include="Postsharp\NotifyPropertyChanged\SmartNotifyPropertyChangedExpressionAttribute.cs" />
     <Compile Include="Postsharp\NotifyPropertyChanged\SmartNotifyPropertyChangedAttribute.cs" />
     <Compile Include="Postsharp\NotifyPropertyChanged\ReactiveListAttribute.cs" />

@@ -25,7 +25,7 @@ namespace SmartReactives.Test
 		public void ReactiveVariable()
 		{
 			var test = new Source();
-			var rx = new ObservableExpression<string>(() => test.Woop ? "foo" : "bar");
+			var rx = new ReactiveExpression<string>(() => test.Woop ? "foo" : "bar");
 			var counter = 0;
 			var expectation = 0;
 			Assert.AreEqual("bar", rx.Evaluate());
@@ -45,7 +45,7 @@ namespace SmartReactives.Test
 		{
 			var first = new Source();
 			var second = new Source();
-			var rx = new ObservableExpression<string>(() => first.Woop ? "foo" : (second.Woop ? "bar" : "zoo"), "rx");
+			var rx = new ReactiveExpression<string>(() => first.Woop ? "foo" : (second.Woop ? "bar" : "zoo"), "rx");
 			var counter = 0;
 			Assert.AreEqual("zoo", rx.Evaluate());
 			rx.Subscribe(s => counter++);
@@ -217,7 +217,7 @@ namespace SmartReactives.Test
 		public void MultipleDependence()
 		{
 			var source = new Source();
-			var sink = new ObservableExpression<bool>(() => source.Woop && source.Woop);
+			var sink = new ReactiveExpression<bool>(() => source.Woop && source.Woop);
 			var counter = 0;
 
 			sink.Subscribe(_ => counter++);
@@ -232,8 +232,8 @@ namespace SmartReactives.Test
 		{
 			var source1 = new Source();
 			var source2 = new Source();
-			var mid = new ObservableExpression<bool>(() => source1.Woop ^ source2.Woop, "mid");
-			var top = new ObservableExpression<bool>(() => mid.Evaluate() & source1.Woop, "top");
+			var mid = new ReactiveExpression<bool>(() => source1.Woop ^ source2.Woop, "mid");
+			var top = new ReactiveExpression<bool>(() => mid.Evaluate() & source1.Woop, "top");
 			var topCounter = 0;
 			var midCounter = 0;
 			var topExpectation = 0;

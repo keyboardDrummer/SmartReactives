@@ -1,32 +1,28 @@
 ﻿using System;
-using System.Diagnostics;
 using NUnit.Framework;
 using SmartReactives.Extensions;
-using SmartReactives.Postsharp.NotifyPropertyChanged;
 
 namespace SmartReactives.Examples
 {
 
     class Tests
     {
-        //[Test]
-        //public void SquareInput()
-        //{
-        //    var input = new ReactiveVariable<int>(1);
-        //    var squareInput = new ObservableExpression<int>(() => input.Value * input.Value);
-        //    squareInput.Evaluate();
-        //    squareInput.ValueChanged += () => Console.WriteLine("square input = " + squareInput.Evaluate());
-            
-        //    input.Value = 2;
-        //    input.Value = 3;
-        //    input.Value = 5;
-        //}
+        [Test]
+        public void SquareInput()
+        {
+            var input = new ReactiveVariable<int>(1);
+            var inputSquared = new ReactiveExpression<int>(() => input.Value * input.Value);
+            inputSquared.Subscribe(getSquare => Console.WriteLine("input squared = " + getSquare()));
+
+            input.Value = 2;
+            input.Value = 3;
+        }
 
         //[Test]
         //public void TallEnoughDependsOnLength()
         //{
         //    var length = new ReactiveVariable<int>(120);
-        //    var tallEnough = new ObservableExpression<bool>(() => length.Value > 140);
+        //    var tallEnough = new ReactiveExpression<bool>(() => length.Value > 140);
         //    var tallEnoughChangedCounter = 0;
         //    tallEnough.Subscribe(_ => tallEnoughChangedCounter++);
 

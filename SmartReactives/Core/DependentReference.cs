@@ -9,13 +9,13 @@ namespace SmartReactives.Core
 			get;
 		}
 
-		private readonly WeakReference _nodeReference;
-		public IListener Value => _nodeReference.Target as IListener;
+	    readonly WeakReference nodeReference;
+		public IListener Value => nodeReference.Target as IListener;
 
 		public DependentReference(long notificationsHad, IListener node)
 		{
 			NotificationsHad = notificationsHad;
-			_nodeReference = new WeakReference(node);
+			nodeReference = new WeakReference(node);
 		}
 
 	    public override string ToString()

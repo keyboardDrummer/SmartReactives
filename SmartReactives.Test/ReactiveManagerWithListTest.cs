@@ -29,7 +29,7 @@ namespace SmartReactives.Test
 
 			int counter = 0;
 			int expectation = 0;
-			var property = new ObservableExpression<bool>(() => sourcesList.Sources[1].Woop);
+			var property = new ReactiveExpression<bool>(() => sourcesList.Sources[1].Woop);
 			property.Evaluate();
 			property.Subscribe(_ =>
 			{
@@ -60,7 +60,7 @@ namespace SmartReactives.Test
 		public void TestList2()
 		{
 			var sourcesList = new ClassWithList();
-			var property = new ObservableExpression<int>(() => sourcesList.Sources.Count);
+			var property = new ReactiveExpression<int>(() => sourcesList.Sources.Count);
 			property.Evaluate();
 			int counter = 0;
 			int expectation = 0;
@@ -155,7 +155,7 @@ namespace SmartReactives.Test
 			var victimWaiter = new Waiter();
 			var attackerWaiter = new Waiter();
 
-			var observableExpression = new ObservableExpression<int>(() => list.DependentCount, "DependentCountObserver");
+			var observableExpression = new ReactiveExpression<int>(() => list.DependentCount, "DependentCountObserver");
 			observableExpression.Subscribe(_ =>
 			{
 				counter++;

@@ -89,10 +89,10 @@ namespace SmartReactives.Test
 			var actualSource = new Source();
 			var waitEvaluateSource1 = new Waiter();
 			var waitEvaluateSource2 = new Waiter();
-			ObservableExpression<bool> sink = null;
+			ReactiveExpression<bool> sink = null;
 			var thread1 = new Thread(() =>
 			{
-				sink = new ObservableExpression<bool>(() =>
+				sink = new ReactiveExpression<bool>(() =>
 				{
 					waitEvaluateSource1.Release();
 					waitEvaluateSource2.Wait();

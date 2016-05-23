@@ -11,16 +11,16 @@ namespace SmartReactives.Extensions
 	/// Make sure the provided expression only changes its value due to changes in reactive variables that it depends on.
 	/// </summary>
 	[Serializable]
-	public class ObservableExpression<T> : IObservable<T>, IListener
+	public class ReactiveExpression<T> : IObservable<Func<T>>, IListener
 	{
 	    readonly Func<T> func;
 	    readonly object name;
-	    readonly ISubject<T> subject = new Subject<T>();
+	    readonly ISubject<Func<T>> subject = new Subject<Func<T>>();
 
 		/// <summary>
 		/// The debug object can be passed to override the toString method.
 		/// </summary>
-		public ObservableExpression(Func<T> func, object name = null)
+		public ReactiveExpression(Func<T> func, object name = null)
 		{
 			this.func = func;
 			this.name = name;
@@ -36,12 +36,12 @@ namespace SmartReactives.Extensions
 
 		public void Notify()
 		{
-			subject.OnNext(default(T)); //TODO fixxx!!! this now leads to infinite loopy shit.
+			subject.OnNext(Evaluate);
 		}
 
-		/// <inheritdoc/>
-		public IDisposable Subscribe(IObserver<T> observer)
+		public IDisposable Subscribe(IObserver<Func<T>> observer)
 		{
+            observer.OnNext(Evaluate);
 			return subject.Subscribe(observer);
 		}
 
