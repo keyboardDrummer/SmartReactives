@@ -8,30 +8,26 @@ SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), w
 
 ## Explicit usage
 ```c#
-[Test]
 public void SquareInput()
 {
     var input = new ReactiveVariable<int>(1);
-    var inputSquared = new ObservableExpression<int>(() => input.Value * input.Value);
-    inputSquared.Evaluate();
+    var inputSquared = new ReactiveExpression<int>(() => input.Value * input.Value);
     inputSquared.Subscribe(getSquare => Console.WriteLine("input squared = " + getSquare()));
 
     input.Value = 2;
     input.Value = 3;
-    input.Value = 4;
 }
 ```
 Output:
 ```
+input squared = 1
 input squared = 4
 input squared = 9
-input squared = 16
 ```
 
 ## Automatic cache clearing
 Here is an example that shows how to use ReactiveCache to get a cache which automatically clears itself when it becomes stale:
 ```c#
-[Test]
 public void Cache()
 {
     var input = new ReactiveVariable<int>(1); //We define a reactive variable.
@@ -71,7 +67,6 @@ class Calculator : HasNotifyPropertyChanged
     [SmartNotifyPropertyChanged]
     public int SquareOfNumber => Number * Number;
 
-    [Test]
     public static void SquareDependsOnNumber()
     {
         var calculator = new Calculator();
