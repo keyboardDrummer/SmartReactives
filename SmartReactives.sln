@@ -7,13 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives", "SmartReac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.Test", "SmartReactives.Test\SmartReactives.Test.csproj", "{5D96260A-FAEC-4BF0-A887-5BF03B0E7A1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.Examples", "SmartReactives.Examples\SmartReactives.Examples.csproj", "{E9153915-6C92-4718-A909-3429D2ACCD26}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.PostsharpExamples", "SmartReactives.PostsharpExamples\SmartReactives.PostsharpExamples.csproj", "{332065CB-3136-4309-A064-1AC4959B123D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.PostSharp", "SmartReactives.PostSharp\SmartReactives.PostSharp.csproj", "{3E88EBFE-3BCE-4BB9-8D0F-4A60B119D8F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.Postsharp.Test", "SmartReactives.Postsharp.Test\SmartReactives.Postsharp.Test.csproj", "{E9766DE1-A439-428B-BC27-F00110D0A9F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.Examples", "SmartReactives.Examples\SmartReactives.Examples.csproj", "{368B22B4-6F81-455F-9BFA-178EEB58185A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{5D96260A-FAEC-4BF0-A887-5BF03B0E7A1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D96260A-FAEC-4BF0-A887-5BF03B0E7A1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D96260A-FAEC-4BF0-A887-5BF03B0E7A1B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9153915-6C92-4718-A909-3429D2ACCD26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9153915-6C92-4718-A909-3429D2ACCD26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9153915-6C92-4718-A909-3429D2ACCD26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9153915-6C92-4718-A909-3429D2ACCD26}.Release|Any CPU.Build.0 = Release|Any CPU
 		{332065CB-3136-4309-A064-1AC4959B123D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{332065CB-3136-4309-A064-1AC4959B123D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{332065CB-3136-4309-A064-1AC4959B123D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{E9766DE1-A439-428B-BC27-F00110D0A9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9766DE1-A439-428B-BC27-F00110D0A9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9766DE1-A439-428B-BC27-F00110D0A9F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{368B22B4-6F81-455F-9BFA-178EEB58185A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{368B22B4-6F81-455F-9BFA-178EEB58185A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{368B22B4-6F81-455F-9BFA-178EEB58185A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{368B22B4-6F81-455F-9BFA-178EEB58185A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
