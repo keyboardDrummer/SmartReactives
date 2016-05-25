@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives", "SmartReac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.Test", "SmartReactives.Test\SmartReactives.Test.csproj", "{5D96260A-FAEC-4BF0-A887-5BF03B0E7A1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.PostsharpExamples", "SmartReactives.PostsharpExamples\SmartReactives.PostsharpExamples.csproj", "{332065CB-3136-4309-A064-1AC4959B123D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.Postsharp.Examples", "SmartReactives.Postsharp.Examples\SmartReactives.Postsharp.Examples.csproj", "{332065CB-3136-4309-A064-1AC4959B123D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartReactives.PostSharp", "SmartReactives.PostSharp\SmartReactives.PostSharp.csproj", "{3E88EBFE-3BCE-4BB9-8D0F-4A60B119D8F5}"
 EndProject
