@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using SmartReactives.Postsharp.NotifyPropertyChanged;
+using SmartReactives.PostSharp.NotifyPropertyChanged;
 
 namespace SmartReactives.PostsharpExamples
 {

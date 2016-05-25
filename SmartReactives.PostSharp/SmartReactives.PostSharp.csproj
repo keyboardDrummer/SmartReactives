@@ -57,6 +57,7 @@
     <Compile Include="NotifyPropertyChanged\SmartNotifyPropertyChangedVariableAttributeBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReactiveCacheAttribute.cs" />
+    <Compile Include="ReactiveVariableAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartReactives\SmartReactives.csproj">

@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PostSharp.Aspects;
 using SmartReactives.Extensions;
 
-namespace SmartReactives.Postsharp
+namespace SmartReactives.PostSharp
 {
-	class ReactiveCacheAttribute : LocationInterceptionAspect, IInstanceScopedAspect
+	[Serializable]
+	[AttributeUsage(AttributeTargets.Property)]
+	public class ReactiveCacheAttribute : LocationInterceptionAspect, IInstanceScopedAspect
 	{
+		[NonSerialized]
 		ReactiveCache<object> cache;
 
 		public override void OnGetValue(LocationInterceptionArgs args)

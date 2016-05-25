@@ -3,7 +3,7 @@ using PostSharp.Aspects;
 using PostSharp.Aspects.Dependencies;
 using SmartReactives.Core;
 
-namespace SmartReactives.Postsharp.NotifyPropertyChanged
+namespace SmartReactives.PostSharp.NotifyPropertyChanged
 {
 	/// <summary>
 	/// A variable property is one which uses a backing field, and does not dependend on other properties.
@@ -11,6 +11,7 @@ namespace SmartReactives.Postsharp.NotifyPropertyChanged
 	/// </summary>
 	[Serializable]
 	[ProvideAspectRole("SmartNotifyPropertyChanged")]
+	[AttributeUsage(AttributeTargets.Property)]
 	public class SmartNotifyPropertyChangedVariableAttribute : SmartNotifyPropertyChangedVariableAttributeBase
 	{
 		/// <inheritdoc/>

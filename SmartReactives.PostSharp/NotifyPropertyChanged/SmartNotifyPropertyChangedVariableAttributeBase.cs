@@ -9,7 +9,7 @@ using PostSharp.Extensibility;
 using PostSharp.Reflection;
 using SmartReactives.Core;
 
-namespace SmartReactives.Postsharp.NotifyPropertyChanged
+namespace SmartReactives.PostSharp.NotifyPropertyChanged
 {
 	/// <summary>
 	/// Base class for reactive aspects for a property that is a dependency of other properties.

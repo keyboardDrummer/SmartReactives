@@ -1,11 +1,10 @@
 using System;
-using System.Linq;
 using PostSharp.Aspects;
 using PostSharp.Aspects.Dependencies;
 using PostSharp.Reflection;
 using SmartReactives.Core;
 
-namespace SmartReactives.Postsharp.NotifyPropertyChanged
+namespace SmartReactives.PostSharp.NotifyPropertyChanged
 {
 	/// <summary>
 	/// Makes forwarder properties reactive.

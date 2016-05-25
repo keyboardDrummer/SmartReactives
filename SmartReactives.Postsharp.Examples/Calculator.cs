@@ -1,10 +1,11 @@
 ﻿using System;
 using NUnit.Framework;
-using SmartReactives.Postsharp.NotifyPropertyChanged;
+using SmartReactives.Extensions;
+using SmartReactives.PostSharp.NotifyPropertyChanged;
 
 namespace SmartReactives.PostsharpExamples
 {
-    class Calculator : HasNotifyPropertyChanged
+	class Calculator : HasNotifyPropertyChanged
     {
         [SmartNotifyPropertyChanged]
         public int Number { get; set; }

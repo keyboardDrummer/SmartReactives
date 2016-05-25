@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using SmartReactives.Test;
 
-namespace SmartReactives.Test.Postsharp
+namespace SmartReactives.Postsharp.Test
 {
 
 

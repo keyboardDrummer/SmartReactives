@@ -5,7 +5,7 @@ using PostSharp.Aspects.Dependencies;
 using PostSharp.Reflection;
 using SmartReactives.Core;
 
-namespace SmartReactives.Postsharp.NotifyPropertyChanged
+namespace SmartReactives.PostSharp.NotifyPropertyChanged
 {
 	/// <summary>
 	/// An expression property is one that has only a getter containing an expression.

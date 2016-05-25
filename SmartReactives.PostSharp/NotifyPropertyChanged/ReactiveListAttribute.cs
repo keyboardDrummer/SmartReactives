@@ -4,7 +4,7 @@ using PostSharp.Aspects;
 using PostSharp.Aspects.Dependencies;
 using SmartReactives.List;
 
-namespace SmartReactives.Postsharp.NotifyPropertyChanged
+namespace SmartReactives.PostSharp.NotifyPropertyChanged
 {
 	/// <summary>
 	/// Makes a list property reactive.

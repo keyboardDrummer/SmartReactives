@@ -1,7 +1,6 @@
-using SmartReactives.Postsharp.NotifyPropertyChanged;
-using SmartReactives.Test.Postsharp;
+using SmartReactives.PostSharp.NotifyPropertyChanged;
 
-namespace SmartReactives.Test
+namespace SmartReactives.Postsharp.Test
 {
 	class AutomaticMode : HasNotifyPropertyChanged
 	{

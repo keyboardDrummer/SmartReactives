@@ -4,10 +4,10 @@ using System.Reactive.Linq;
 using System.Threading;
 using NUnit.Framework;
 using SmartReactives.Extensions;
-using SmartReactives.Postsharp.NotifyPropertyChanged;
-using SmartReactives.Test.Postsharp;
+using SmartReactives.PostSharp.NotifyPropertyChanged;
+using SmartReactives.Test;
 
-namespace SmartReactives.Test
+namespace SmartReactives.Postsharp.Test
 {
 	public class ReactiveManagerWithListTest
 	{

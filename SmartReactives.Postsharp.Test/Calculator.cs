@@ -1,8 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
-using SmartReactives.Postsharp.NotifyPropertyChanged;
+using SmartReactives.PostSharp.NotifyPropertyChanged;
 
-namespace SmartReactives.Test.Postsharp
+namespace SmartReactives.Postsharp.Test
 {
     class Calculator : HasNotifyPropertyChanged
     {

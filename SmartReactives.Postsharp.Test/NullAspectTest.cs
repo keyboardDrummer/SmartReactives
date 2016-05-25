@@ -1,11 +1,11 @@
 ﻿using System;
 using NUnit.Framework;
-using SmartReactives.Postsharp.NotifyPropertyChanged;
+using SmartReactives.PostSharp.NotifyPropertyChanged;
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable MemberCanBePrivate.Local
 
-namespace SmartReactives.Test.Postsharp
+namespace SmartReactives.Postsharp.Test
 {
 	/// <summary>
 	/// In these scenarios, a superclass will access a base class's properties, 

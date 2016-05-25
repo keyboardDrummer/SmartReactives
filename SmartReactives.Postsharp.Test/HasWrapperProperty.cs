@@ -1,6 +1,6 @@
-using SmartReactives.Postsharp.NotifyPropertyChanged;
+using SmartReactives.PostSharp.NotifyPropertyChanged;
 
-namespace SmartReactives.Test.Postsharp
+namespace SmartReactives.Postsharp.Test
 {
 	class HasWrapperProperty : Source
 	{

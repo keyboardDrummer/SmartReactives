@@ -5,8 +5,9 @@ using System.Threading;
 using NUnit.Framework;
 using SmartReactives.Core;
 using SmartReactives.Extensions;
+using SmartReactives.Test;
 
-namespace SmartReactives.Test
+namespace SmartReactives.Postsharp.Test
 {
 	public class ReactiveManagerThreadSafetyTest
 	{
