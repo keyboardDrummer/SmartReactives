@@ -25,7 +25,7 @@ square = 4
 square = 9
 ```
 
-## Automatic cache clearing
+## ReactiveCache
 This example shows how to use ReactiveCache to get a cache which automatically clears itself when it becomes stale.
 ```c#
 var input = new ReactiveVariable<int>(2); //We define a reactive variable.
@@ -51,8 +51,52 @@ f was evaluated
 f() = 9
 ```
 
+## ReactiveCacheAttribute
+The bottom example demonstrates using ReactiveVariable and ReactiveCache to effortlessly setup a cache. The calculation in the example has dependencies that change during runtime, so it's not statically known which variable changes will cause the cache to become stale.
+```c#
+class CachingCalculator
+{
+	[ReactiveVariable]
+	public bool UseSquareInsteadOfMinusOne { get; set; }
 
-## Automatic NotifyPropertyChanged
+	[ReactiveVariable]
+	public int SquareInput { get; set; }
+
+	public int CacheMisses { get; private set; }
+
+	[ReactiveCache]
+	public double SquareOrReturnMinusOne
+	{
+		get
+		{
+			CacheMisses++;
+			return UseSquareInsteadOfMinusOne ? Math.Pow(SquareInput, 2) : -1;
+		}
+	}
+
+	[Test]
+	public static void ReactiveCache()
+	{
+		var calculator = new CachingCalculator();
+		calculator.UseSquareInsteadOfMinusOne = false;
+		Assert.AreEqual(-1, calculator.SquareOrReturnMinusOne); //Cache miss
+		Assert.AreEqual(1, calculator.CacheMisses);
+		Assert.AreEqual(-1, calculator.SquareOrReturnMinusOne); //Cache hit
+		Assert.AreEqual(1, calculator.CacheMisses); 
+		calculator.SquareInput = 2;  //Cache remains still up=to-date, since it does it depend on SquareInput yet.
+		Assert.AreEqual(-1, calculator.SquareOrReturnMinusOne); //Cache hit
+		Assert.AreEqual(1, calculator.CacheMisses);
+		calculator.UseSquareInsteadOfMinusOne = true; //Cache becomes stale, since depends on UseSquareInsteadOfMinusOne.
+		Assert.AreEqual(4, calculator.SquareOrReturnMinusOne); //Cache miss
+		Assert.AreEqual(2, calculator.CacheMisses);
+		calculator.SquareInput = 3; //Now the cache does depend on SquareInput, so it becomes stale.
+		Assert.AreEqual(9, calculator.SquareOrReturnMinusOne); //Cache miss
+		Assert.AreEqual(3, calculator.CacheMisses);
+	}
+}
+```
+
+## SmartNotifyPropertyChanged
 Using Postsharp, is it possible to automatically call PropertyChanged for a property, when that property changes. However, sometimes a property A depends on another property B. In this case we would like both properties to call PropertyChanged when B changes. This example shows how SmartReactives will do this for you.
 
 ```c#
