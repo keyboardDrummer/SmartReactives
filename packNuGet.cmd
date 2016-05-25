@@ -1,0 +1,2 @@
+nuget pack SmartReactives/SmartReactives.csproj
+nuget pack SmartReactives.PostSharp/SmartReactives.PostSharp.csproj
