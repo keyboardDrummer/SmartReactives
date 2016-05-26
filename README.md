@@ -38,6 +38,7 @@ var left = new ReactiveVariable<bool>();
 var right = new ReactiveVariable<bool>();
 var leftOrRight = new ReactiveExpression<bool>(() => left.Value || right.Value);
 leftOrRight.Subscribe(getValue => Console.WriteLine("leftOrRight = " + getValue())); // Prints 'leftOrRight = false'
+
 right.Value = true; // Prints 'leftOrRight = true'
 left.Value = true; // Prints 'leftOrRight = true'
 right.Value = false; // Prints nothing
