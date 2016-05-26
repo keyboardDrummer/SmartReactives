@@ -103,20 +103,15 @@ The calculation in the example has dependencies that change during runtime, so i
 class CachingCalculator
 {
 	[ReactiveVariable]
-	public bool UseSquareInsteadOfMinusOne { get; set; }
-
-	[ReactiveVariable]
-	public int SquareInput { get; set; }
-
-	public int CacheMisses { get; private set; }
+	public int Input { get; set; }
 
 	[ReactiveCache]
-	public double SquareOrReturnMinusOne
+	public double Square
 	{
 		get
 		{
-			CacheMisses++;
-			return UseSquareInsteadOfMinusOne ? Math.Pow(SquareInput, 2) : -1;
+			Console.WriteLine("cache miss");
+			return Math.Pow(Input, 2);
 		}
 	}
 
@@ -124,20 +119,15 @@ class CachingCalculator
 	public static void ReactiveCache()
 	{
 		var calculator = new CachingCalculator();
-		calculator.UseSquareInsteadOfMinusOne = false;
-		Assert.AreEqual(-1, calculator.SquareOrReturnMinusOne); //Cache miss
-		Assert.AreEqual(1, calculator.CacheMisses);
-		Assert.AreEqual(-1, calculator.SquareOrReturnMinusOne); //Cache hit
-		Assert.AreEqual(1, calculator.CacheMisses); 
-		calculator.SquareInput = 2;  //Cache remains still up=to-date, since it does it depend on SquareInput yet.
-		Assert.AreEqual(-1, calculator.SquareOrReturnMinusOne); //Cache hit
-		Assert.AreEqual(1, calculator.CacheMisses);
-		calculator.UseSquareInsteadOfMinusOne = true; //Cache becomes stale, since depends on UseSquareInsteadOfMinusOne.
-		Assert.AreEqual(4, calculator.SquareOrReturnMinusOne); //Cache miss
-		Assert.AreEqual(2, calculator.CacheMisses);
-		calculator.SquareInput = 3; //Now the cache does depend on SquareInput, so it becomes stale.
-		Assert.AreEqual(9, calculator.SquareOrReturnMinusOne); //Cache miss
-		Assert.AreEqual(3, calculator.CacheMisses);
+		calculator.Input = 2;
+
+		Assert.AreEqual(4, calculator.Square); //Cache miss. Prints 'cache miss'
+		Assert.AreEqual(4, calculator.Square); //Cache hit.
+
+		calculator.Input = 3; //Cache becomes stale.
+
+		Assert.AreEqual(9, calculator.Square); // Cache miss. Prints 'cache miss'
+		Assert.AreEqual(9, calculator.Square); // Cache hit.
 	}
 }
 ```
