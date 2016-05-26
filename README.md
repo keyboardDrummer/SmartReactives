@@ -1,6 +1,6 @@
 # SmartReactives [![Join the chat at https://gitter.im/keyboardDrummer/SmartReactives](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keyboardDrummer/SmartReactives.rx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-SmartReactives is a .NET library that will automatically discover dependencies between expressions and variables. Managing such dependencies is a common problem in software, related to updating a user interface, clearing stale caches, and more.
+SmartReactives is a .NET library that automates specifying dependencies between expressions and variables. Specifying such dependencies is a common problem in software, related to updating a user interface, clearing stale caches, and more.
 
 ##### Example
 ```c#
