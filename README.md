@@ -2,8 +2,24 @@
 
 SmartReactives is a .NET library that will automatically discover dependencies between expressions and variables. Forget about manually specifying data bindings and clearing stale caches: SmartReactives will do this for you.
 
-SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), which was inspired by the paper [Deprecating the Observer Pattern](https://scholar.google.nl/scholar?q=deprecating+the+observer+pattern&btnG=&hl=en&as_sdt=0%2C5), by Odersky.
+##### Basic functionality
+This example demonstrates the basic functionality of SmartReactives using the classes ReactiveVariable and ReactiveExpression.
+```c#
+var input = new ReactiveVariable<int>(1);
+var square = new ReactiveExpression<int>(() => input.Value * input.Value);
+square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //Prints 'square = 1'
 
+input.Value = 2; //Prints 'square = 4'
+input.Value = 3; //Prints 'square = 9'
+```
+Output:
+```
+square = 1
+square = 4
+square = 9
+```
+
+SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), which was inspired by the paper [Deprecating the Observer Pattern](https://scholar.google.nl/scholar?q=deprecating+the+observer+pattern&btnG=&hl=en&as_sdt=0%2C5), by Odersky.
 To start using SmartReactives simply add the NuGet package SmartReactives to your project. Also add SmartReactives.PostSharp if you're using PostSharp.
 
 #Examples
@@ -24,7 +40,6 @@ square = 1
 square = 4
 square = 9
 ```
-
 Note that even though square uses the input value twice, we only get one notification per change in input.
 
 ## Precise
