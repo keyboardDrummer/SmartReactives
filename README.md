@@ -6,6 +6,8 @@ Here follows an example demonstrating the basic functionality:
 ```c#
 var input = new ReactiveVariable<int>(1);
 var square = new ReactiveExpression<int>(() => input.Value * input.Value);
+//ReactiveExpression<T> implements IObservable<Func<T>>, so you can subscribe to it. 
+//Evaluating the function means keeping the subscription alive.
 square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //Prints 'square = 1'
 
 input.Value = 2; //Prints 'square = 4'
@@ -34,6 +36,8 @@ square = 1
 square = 4
 square = 9
 ```
+```ReactiveExpression<T>``` implements ```IObservable<Func<T>>```, so we can subscribe to it. The function that you get from the observable is simply a shortcut to ```ReactiveExpression<T>.Evaluate```. We chose not to implement ```IObservable<T>``` because of performance reasons.
+
 Note that even though square uses the input value twice, we only get one notification per change in input.
 
 ## Recursive
