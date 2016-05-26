@@ -6,8 +6,6 @@ Here follows an example demonstrating the basic functionality:
 ```c#
 var input = new ReactiveVariable<int>(1);
 var square = new ReactiveExpression<int>(() => input.Value * input.Value);
-//ReactiveExpression<T> implements IObservable<Func<T>>, so you can subscribe to it. 
-//Evaluating the function means keeping the subscription alive.
 square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //Prints 'square = 1'
 
 input.Value = 2; //Prints 'square = 4'
