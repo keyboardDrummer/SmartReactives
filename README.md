@@ -5,7 +5,7 @@ SmartReactives is a .NET library that automatically discovers dependencies betwe
 Here follows an example demonstrating the basic functionality:
 ```c#
 var input = new ReactiveVariable<int>(1);
-var square = new ReactiveExpression<int>(() => input.Value * input.Value); //ReactiveExpression<int> implements IObserable<int>
+var square = new ReactiveExpression<int>(() => input.Value * input.Value);
 square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //Prints 'square = 1'
 
 input.Value = 2; //Prints 'square = 4'
