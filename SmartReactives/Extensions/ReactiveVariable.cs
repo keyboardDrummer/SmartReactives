@@ -8,11 +8,11 @@ namespace SmartReactives.Extensions
 	/// </summary>
 	public class ReactiveVariable<T>
 	{
-		private T _value;
+		T value;
 
 		public ReactiveVariable(T value = default(T))
 		{
-			_value = value;
+			this.value = value;
 		}
 
 		/// <summary>
@@ -23,11 +23,11 @@ namespace SmartReactives.Extensions
 			get
 			{
 				ReactiveManager.WasRead(this);
-				return _value;
+				return value;
 			}
 			set
 			{
-				_value = value;
+				this.value = value;
 				ReactiveManager.WasChanged(this);
 			}
 		}
@@ -35,11 +35,11 @@ namespace SmartReactives.Extensions
 		/// <summary>
 		/// Only raises changes if the new value is not Equal to the existing one.
 		/// </summary>
-		public void SetValueIfChanged(T value)
+		public void SetValueIfChanged(T newValue)
 		{
-			if (!Equals(Value, value))
+			if (!Equals(Value, newValue))
 			{
-				Value = value;
+				Value = newValue;
 			}
 		}
 

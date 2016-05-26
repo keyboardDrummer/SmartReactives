@@ -6,6 +6,19 @@ namespace SmartReactives.Examples
 {
 	class Tests
 	{
+	    [Test]
+	    public void Nesting()
+	    {
+	        var input = new ReactiveVariable<int>();
+            var timesTwo = new ReactiveExpression<int>(() => input.Value * 2);
+            var plusOne = new ReactiveExpression<int>(() => input.Value + 1);
+            var sumOfBoth = new ReactiveExpression<int>(() => timesTwo.Evaluate() + plusOne.Evaluate());
+	        sumOfBoth.Subscribe(getValue => Console.WriteLine("sumOfBoth = " + getValue())); //Prints 'sumOfBoth = 1'
+            input.Value = 1; //Prints 'sumOfBoth = 4'
+            input.Value = 2; //Prints 'sumOfBoth = 7'
+            input.Value = 3; //Prints 'sumOfBoth = 10'
+        }
+
 		[Test]
 		public void Precise()
 		{

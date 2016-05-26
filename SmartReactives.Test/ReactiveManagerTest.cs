@@ -12,10 +12,11 @@ namespace SmartReactives.Test
 	{
 		public static bool RecoversAfterMissedChange = true;
 
-		/// <summary>
-		/// Tests whether the system still works after a single ReactiveManager.WasChanged has been 'forgotten' by the user.
-		/// </summary>
-		[Test]
+
+        /// <summary>
+        /// Tests whether the system still works after a single ReactiveManager.WasChanged has been 'forgotten' by the user.
+        /// </summary>
+        [Test]
 		public void TestRecoveryMode()
 		{
 			var expectation = 1;
@@ -140,9 +141,25 @@ namespace SmartReactives.Test
 			Assert.AreEqual(1, counter);
 			source.Value = false;
 			Assert.AreEqual(2, counter);
-		}
+        }
 
-		[Test]
+        [Test]
+        public void TestIndirectDiamondSituation2()
+        {
+            var input = new ReactiveVariable<int>();
+            var timesTwo = new ReactiveExpression<int>(() => input.Value * 2, "timesTwo");
+            var plusOne = new ReactiveExpression<int>(() => input.Value + 1, "plusOne");
+            var sumOfBoth = new ReactiveExpression<int>(() => timesTwo.Evaluate() + plusOne.Evaluate(), "sumOfBoth");
+            var counter = 0;
+            sumOfBoth.Subscribe(getValue => Const(getValue, () => counter++));
+            Assert.AreEqual(1, counter);
+            input.Value = 1; 
+            Assert.AreEqual(2, counter);
+            input.Value = 2;
+            Assert.AreEqual(3, counter);
+        }
+
+        [Test]
 		public void DependenciesClearedAfterNotify()
 		{
 			var notifyCounter = new NotifyCounter();
