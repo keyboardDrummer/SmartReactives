@@ -2,7 +2,7 @@
 
 SmartReactives is a .NET library that automatically discovers dependencies between expressions and variables. Specifying such dependencies is a common problem in software, related to updating a user interface, clearing stale caches, and more.
 
-##### Example
+Here following an example demonstrating the basic functionality:
 ```c#
 var input = new ReactiveVariable<int>(1);
 var square = new ReactiveExpression<int>(() => input.Value * input.Value);
