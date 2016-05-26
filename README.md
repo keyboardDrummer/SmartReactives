@@ -11,12 +11,6 @@ square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //P
 input.Value = 2; //Prints 'square = 4'
 input.Value = 3; //Prints 'square = 9'
 ```
-Output:
-```
-square = 1
-square = 4
-square = 9
-```
 
 SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), which was inspired by the paper [Deprecating the Observer Pattern](https://scholar.google.nl/scholar?q=deprecating+the+observer+pattern&btnG=&hl=en&as_sdt=0%2C5), by Odersky.
 
