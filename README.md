@@ -4,25 +4,43 @@ SmartReactives is a .NET library that will automatically discover dependencies b
 
 SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), which was inspired by the paper [Deprecating the Observer Pattern](https://scholar.google.nl/scholar?q=deprecating+the+observer+pattern&btnG=&hl=en&as_sdt=0%2C5), by Odersky.
 
-To start using SmartReactives simply add the NuGet package to your project.
+To start using SmartReactives simply add the NuGet package SmartReactives to your project. Also add SmartReactives.PostSharp if you're using PostSharp.
 
 #Examples
 
-## Basic usage
-This example demonstrates the basic functionality of SmartReactives using the primitives ReactiveVariable and ReactiveExpression.
+## Basic functionality
+This example demonstrates the basic functionality of SmartReactives using the classes ReactiveVariable and ReactiveExpression.
 ```c#
 var input = new ReactiveVariable<int>(1);
 var square = new ReactiveExpression<int>(() => input.Value * input.Value);
-square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare()));
+square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //Prints 'square = 1'
 
-input.Value = 2;
-input.Value = 3;
+input.Value = 2; //Prints 'square = 4'
+input.Value = 3; //Prints 'square = 9'
 ```
 Output:
 ```
 square = 1
 square = 4
 square = 9
+```
+
+Note that even though square uses the input value twice, we only get one notification per change in input.
+
+## Precise
+In the following example, the expression leftOrRight only depends on variable right when variable left is false, since we are using the lazy or operator ||. 
+If we change right while left is false, then we don't get any updates from leftOrRight. 
+In general, SmartReactives won't give you any updates for old dependencies or possible future dependencies.
+Note that if we only want to get updates if leftOrRight changes then we can use 'leftOrRight.DistinctUntilChanged().Subscribe(...)'.
+
+```c#
+var left = new ReactiveVariable<bool>();
+var right = new ReactiveVariable<bool>();
+var leftOrRight = new ReactiveExpression<bool>(() => left.Value || right.Value);
+leftOrRight.Subscribe(getValue => Console.WriteLine("leftOrRight = " + getValue())); // Prints 'leftOrRight = false'
+right.Value = true; // Prints 'leftOrRight = true'
+left.Value = true; // Prints 'leftOrRight = true'
+right.Value = false; // Prints nothing
 ```
 
 ## ReactiveCache
@@ -32,15 +50,15 @@ var input = new ReactiveVariable<int>(2); //We define a reactive variable.
 Func<int> f = () => //f is the calculation we want to cache.
 {
     Console.WriteLine("f was evaluated");
-    return input.Value * input.Value; //f depends on our reactive variable input.
+    return input.Value * input.Value; //f depends on the reactive variable 'input'.
 };
 var cache = new ReactiveCache<int>(f); //We base our cache on f.
 
-Console.WriteLine("f() = " + cache.Get()); //Cache was not set so we evaluate f.
-Console.WriteLine("f() = " + cache.Get()); //Cache is set so we don't evaluate f.
+Console.WriteLine("f() = " + cache.Get()); //Cache miss so we evaluate f.
+Console.WriteLine("f() = " + cache.Get()); //Cache hit so we don't evaluate f.
 
 input.Value = 3; //We change our input variable, causing our cache to become stale.
-Console.WriteLine("f() = " + cache.Get()); //Cache is stale, so we must evaluate f.
+Console.WriteLine("f() = " + cache.Get()); //Cache miss, so we evaluate f.
 ```
 Output:
 ```
@@ -50,9 +68,37 @@ f() = 4
 f was evaluated
 f() = 9
 ```
+			
+## Reactive Properties
+This examples demonstrates two methods to implement a reactive property. The first method uses the class ReactiveVariable that we already know as a backing field for our reactive property.
+The second method applies ReactiveVariableAttribute to the property, which in combination with PostSharp does all the work.
+```c#
+class ReactiveProperties
+{
+	readonly ReactiveVariable<int> usingABackingField = new ReactiveVariable<int>(1);
+	int UsingABackingField
+	{
+		get { return usingABackingField.Value; }
+		set { usingABackingField.Value = value; }
+	}
+
+	[ReactiveVariable]
+	int UsingAnAttributeAndPostSharp { get; set; } = 1;
+
+	[Test]
+	public void Test()
+	{
+		var multiplication = new ReactiveExpression<int>(() => UsingABackingField * UsingAnAttributeAndPostSharp);
+		multiplication.Subscribe(getMultiplication => Console.WriteLine("multiplication = " + getMultiplication())); //Prints 'multiplication = 1'
+		UsingAnAttributeAndPostSharp = 2; //Prints 'multiplication = 2'
+		UsingABackingField = 2; //Prints 'multiplication = 4'
+	}
+}
+```
 
 ## ReactiveCacheAttribute
-The bottom example demonstrates using ReactiveVariable and ReactiveCache to effortlessly setup a cache. The calculation in the example has dependencies that change during runtime, so it's not statically known which variable changes will cause the cache to become stale.
+The bottom example demonstrates using ReactiveVariableAttribute and ReactiveCacheAttribute to effortlessly setup a cache. 
+The calculation in the example has dependencies that change during runtime, so it's not statically known which variable changes will cause the cache to become stale.
 ```c#
 class CachingCalculator
 {
@@ -97,7 +143,9 @@ class CachingCalculator
 ```
 
 ## SmartNotifyPropertyChanged
-Using Postsharp, is it possible to automatically call PropertyChanged for a property, when that property changes. However, sometimes a property A depends on another property B. In this case we would like both properties to call PropertyChanged when B changes. This example shows how SmartReactives will do this for you.
+Implementing PropertyChanged for a property is a known cause for boilerplate. PostSharp allows you to remove this boilerplate using its attribute NotifyPropertyChanged.
+However, sometimes a property A depends on another property B. In this case we would like both properties to call PropertyChanged when B changes. 
+The PostSharp attribute NotifyPropertyChanged won't do this, but SmartNotifyPropertyChanged will. This below example demonstrates this.
 
 ```c#
 class Calculator : HasNotifyPropertyChanged
@@ -111,28 +159,26 @@ class Calculator : HasNotifyPropertyChanged
     public static void SquareDependsOnNumber()
     {
         var calculator = new Calculator();
-        calculator.Number = 2;
+        calculator.Number = 1;
         
-        Console.WriteLine("square = " + calculator.SquareOfNumber); 
+        Console.WriteLine("square = " + calculator.SquareOfNumber); // Prints 'square = 1'
         calculator.PropertyChanged += (sender, eventArgs) =>
         {
             if (eventArgs.PropertyName == nameof(SquareOfNumber))
                 Console.WriteLine("square = " + calculator.SquareOfNumber);
         };
 
-        calculator.Number = 3;
-        calculator.Number = 4;
-        calculator.Number = 5;
+        calculator.Number = 2; // Prints 'square = 4'
+        calculator.Number = 3;; //Prints 'square = 9'
     }
 }
 ```
 
 Output:
 ```
+square = 1
 square = 4
 square = 9
-square = 16
-square = 25
 ```
 
 # Documentation

@@ -10,7 +10,7 @@ namespace SmartReactives.Extensions
 	{
 		private T _value;
 
-		public ReactiveVariable(T value)
+		public ReactiveVariable(T value = default(T))
 		{
 			_value = value;
 		}
