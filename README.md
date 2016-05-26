@@ -1,9 +1,8 @@
 # SmartReactives [![Join the chat at https://gitter.im/keyboardDrummer/SmartReactives](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keyboardDrummer/SmartReactives.rx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-SmartReactives is a .NET library that will automatically discover dependencies between expressions and variables. Forget about manually specifying data bindings and clearing stale caches: SmartReactives will do this for you.
+SmartReactives is a .NET library that automatically discovers dependencies between expressions and variables. Specifying such dependencies is a common problem in software, related to updating a user interface, clearing stale caches, and more.
 
-##### Basic functionality
-This example demonstrates the basic functionality of SmartReactives using the classes ReactiveVariable and ReactiveExpression.
+Here follows an example demonstrating the basic functionality:
 ```c#
 var input = new ReactiveVariable<int>(1);
 var square = new ReactiveExpression<int>(() => input.Value * input.Value);
@@ -12,14 +11,9 @@ square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //P
 input.Value = 2; //Prints 'square = 4'
 input.Value = 3; //Prints 'square = 9'
 ```
-Output:
-```
-square = 1
-square = 4
-square = 9
-```
 
 SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), which was inspired by the paper [Deprecating the Observer Pattern](https://scholar.google.nl/scholar?q=deprecating+the+observer+pattern&btnG=&hl=en&as_sdt=0%2C5), by Odersky.
+
 To start using SmartReactives simply add the NuGet package SmartReactives to your project. Also add SmartReactives.PostSharp if you're using PostSharp.
 
 #Examples
@@ -40,7 +34,11 @@ square = 1
 square = 4
 square = 9
 ```
+```ReactiveExpression<T>``` implements ```IObservable<Func<T>>```, so we can subscribe to it. The function that you get from the observable is simply a shortcut to ```ReactiveExpression<T>.Evaluate```. We chose not to implement ```IObservable<T>``` because of performance reasons.
+
 Note that even though square uses the input value twice, we only get one notification per change in input.
+
+## Recursive
 
 ## Precise
 In the following example, the expression leftOrRight only depends on variable right when variable left is false, since we are using the lazy or operator ||. 
