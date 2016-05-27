@@ -4,7 +4,7 @@ using SmartReactives.Core;
 namespace SmartReactives.Extensions
 {
 	/// <summary>
-	/// A variable which can be used in expressions using automatic change tracking.
+	/// A variable which can be used in reactive expressions.
 	/// </summary>
 	public class ReactiveVariable<T>
 	{

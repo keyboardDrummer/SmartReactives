@@ -1,6 +1,7 @@
 # SmartReactives [![Join the chat at https://gitter.im/keyboardDrummer/SmartReactives](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keyboardDrummer/SmartReactives.rx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-SmartReactives is a .NET library that automatically discovers dependencies between expressions and variables. Specifying such dependencies is a common problem in software, related to updating a user interface, clearing stale caches, and more.
+SmartReactives is a .NET library that automatically discovers dependencies between expressions and variables. 
+Specifying such dependencies is a common problem, related to updating a user interface when the model changes, clearing stale caches, validation, and much more.
 
 Here follows an example demonstrating the basic functionality:
 ```c#
@@ -17,8 +18,9 @@ SmartReactives is inspired by [Scala.Rx](https://github.com/lihaoyi/scala.rx), w
 To start using SmartReactives simply add the NuGet package SmartReactives to your project. Also add SmartReactives.PostSharp if you're using PostSharp.
 
 #Examples
+This section demonstrates the functionality of SmartReactives by showing a number of examples.
 
-## Basic functionality
+## Basics
 This example demonstrates the basic functionality of SmartReactives using the classes ReactiveVariable and ReactiveExpression.
 ```c#
 var input = new ReactiveVariable<int>(1);
@@ -38,7 +40,21 @@ square = 9
 
 Note that even though square uses the input value twice, we only get one notification per change in input.
 
-## Recursive
+## Nesting
+This example shows that a ReactiveExpression can refer to other ReactiveExpressions. In this way you can build arbitrary graphs of reactive objects. 
+The example demonstrates a graph in the shape of a diamond.  
+
+```c#
+var input = new ReactiveVariable<int>();
+var timesTwo = new ReactiveExpression<int>(() => input.Value * 2);
+var timesThree = new ReactiveExpression<int>(() => input.Value * 3);
+var sumOfBoth = new ReactiveExpression<int>(() => timesTwo.Evaluate() + timesThree.Evaluate());
+sumOfBoth.Subscribe(getValue => Console.WriteLine("sumOfBoth = " + getValue())); //Prints 'sumOfBoth = 0'
+input.Value = 1; //Prints 'sumOfBoth = 5'
+input.Value = 2; //Prints 'sumOfBoth = 10'
+```
+
+Note that although the input has two paths in the graph to sumOfBoth, there is only one notification for sumOfBoth when input changes.
 
 ## Precise
 In the following example, the expression leftOrRight only depends on variable right when variable left is false, since we are using the lazy or operator ||. 
