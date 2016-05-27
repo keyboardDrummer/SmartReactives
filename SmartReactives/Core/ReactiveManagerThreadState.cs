@@ -19,6 +19,7 @@ namespace SmartReactives.Core
 			set;
 		} = true;
 
+		IList<IListener> notifyList = new List<IListener>();
 		/// <summary>
 		/// Must be called whenever a node value is changed externally, for example when a property node's backing field changes its value.
 		/// </summary>
@@ -29,7 +30,12 @@ namespace SmartReactives.Core
 				return;
 			}
 
-			ReactiveManager.GetNode(source).NotifyChildren();
+			ReactiveManager.GetNode(source).NotifyChildren(notifyList);
+			foreach (IListener toNotify in notifyList)
+			{
+				toNotify.Notify();
+			}
+			notifyList.Clear();
 			(source as IListener)?.Notify();
 		}
 
