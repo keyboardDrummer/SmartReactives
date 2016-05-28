@@ -39,7 +39,7 @@ square = 9
 
 Note that even though square uses the input value twice, we only get one notification per change in input.
 
-## Nesting
+## Composition
 This example shows that a ReactiveExpression can refer to other ReactiveExpressions. In this way you can build arbitrary graphs of reactive objects. 
 The example demonstrates a graph in the shape of a diamond.  
 
