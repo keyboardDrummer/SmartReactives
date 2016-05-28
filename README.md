@@ -1,6 +1,6 @@
 # SmartReactives [![Join the chat at https://gitter.im/keyboardDrummer/SmartReactives](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keyboardDrummer/SmartReactives.rx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-SmartReactives is a .NET library that automatically discovers when an expression changes its value and exposes these changes as an IObservable from the .NET reactive framework. Detecting changes in expressions is a common problem, related to user interfaces, caching, validation, and much more.
+SmartReactives is a .NET library that detects when an expression changes its value and exposes these changes as an IObservable from the .NET reactive framework. Detecting changes in expressions is a common problem, related to user interfaces, caching, validation, and much more.
 
 Here follows an example demonstrating the basic functionality:
 ```c#
