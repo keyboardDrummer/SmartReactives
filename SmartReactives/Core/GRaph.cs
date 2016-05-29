@@ -12,30 +12,6 @@ namespace SmartReactives.Core
 		/// Returns all nodes that are reachable from a set of root nodes.
 		/// Also returns the roots themselves!
 		/// </summary>
-		public static IEnumerable<T> GetReachableNodes<T>(IEnumerable<T> roots, Action<Action<T>> addChildren)
-		{
-			var visited = new HashSet<T>();
-			var nodesToVisit = new Stack<T>();
-			foreach (var root in roots)
-			{
-				nodesToVisit.Push(root);
-			}
-			while (nodesToVisit.Count > 0)
-			{
-				var node = nodesToVisit.Pop();
-
-				if (visited.Add(node))
-				{
-					addChildren(nodesToVisit.Push);
-				}
-			}
-			return visited;
-		}
-
-		/// <summary>
-		/// Returns all nodes that are reachable from a set of root nodes.
-		/// Also returns the roots themselves!
-		/// </summary>
 		public static IEnumerable<T> GetReachableNodes<T>(IEnumerable<T> roots, Func<T, IEnumerable<T>> getChildren)
 		{
 			var visited = new HashSet<T>();
