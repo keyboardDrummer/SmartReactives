@@ -1,9 +1,18 @@
+using SmartReactives.Extensions;
 using SmartReactives.PostSharp.NotifyPropertyChanged;
 
 namespace SmartReactives.Postsharp.Test
 {
-	class HasWrapperProperty : Source
-	{
+	class HasWrapperProperty : HasNotifyPropertyChanged
+    {
+        [SmartNotifyPropertyChanged]
+        public bool Woop { get; set; }
+
+        public void FlipWoop()
+        {
+            Woop = !Woop;
+        }
+
 		[SmartNotifyPropertyChanged]
 		public bool Wrapper
 		{

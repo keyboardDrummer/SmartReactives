@@ -8,7 +8,6 @@ namespace SmartReactives.Examples
 {
     class Examples
     {
-        [Test]
         public void Square()
         {
             var input = new ReactiveVariable<int>(1);
@@ -19,7 +18,6 @@ namespace SmartReactives.Examples
             input.Value = 3; // Prints 'square = 9'
         }
 
-        [Test]
         public void RxSquare()
         {
             var inputs = new BehaviorSubject<int>(1);
@@ -30,7 +28,6 @@ namespace SmartReactives.Examples
             inputs.OnNext(3); // Prints 'square = 9'
         }
 
-        [Test]
         public void Composition()
         {
             var input = new ReactiveVariable<int>();
@@ -42,7 +39,6 @@ namespace SmartReactives.Examples
             input.Value = 2; //Prints 'sumOfBoth = 10'
         }
 
-        [Test]
         public void RxComposition()
         {
             var input = new BehaviorSubject<int>(0);
@@ -54,7 +50,6 @@ namespace SmartReactives.Examples
             input.OnNext(2); //Prints 'sumOfBoth = 7' and 'sumOfBoth = 10'
         }
 
-        [Test]
         public void Precise()
         {
             var left = new ReactiveVariable<bool>();
@@ -67,7 +62,6 @@ namespace SmartReactives.Examples
             right.Value = false; // Prints nothing
         }
 
-        [Test]
         public void RxPrecise()
         {
             var lefts = new BehaviorSubject<bool>(false);
@@ -81,7 +75,6 @@ namespace SmartReactives.Examples
             rights.OnNext(false); // Prints 'leftOrRight = True' (while SmartReactives prints nothing here)
         }
 
-        [Test]
         public void Cache()
         {
             var input = new ReactiveVariable<int>(2); //We define a reactive variable.

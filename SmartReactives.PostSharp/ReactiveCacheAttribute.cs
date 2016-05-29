@@ -11,7 +11,7 @@ namespace SmartReactives.PostSharp
 		[NonSerialized]
 		ReactiveCache<object> cache;
 
-		public override void OnGetValue(LocationInterceptionArgs args)
+		public sealed override void OnGetValue(LocationInterceptionArgs args)
 		{
 			cache = cache ?? new ReactiveCache<object>(args.GetCurrentValue);
 			args.Value = cache.Get();
