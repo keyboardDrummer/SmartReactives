@@ -1,2 +1,4 @@
 before_build:
   - nuget restore
+build:
+  project: SmartReactivesWithoutPostSharp.sln      # path to Visual Studio solution or project
