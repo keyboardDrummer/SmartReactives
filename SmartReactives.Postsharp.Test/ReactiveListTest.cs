@@ -153,7 +153,7 @@ namespace SmartReactives.Postsharp.Test
 			var victimWaiter = new Waiter();
 			var attackerWaiter = new Waiter();
 
-            var observableExpression = new ReactiveExpression<int>(() => list.DependentCount, "DependentCountObserver");
+            var observableExpression = new DebugReactiveExpression<int>(() => list.DependentCount, "DependentCountObserver");
 		    observableExpression.Evaluate();
 
             var victim = new Thread(() =>

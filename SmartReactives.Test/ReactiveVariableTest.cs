@@ -42,7 +42,7 @@ namespace SmartReactives.Test
 		{
 			var first = new Source();
 			var second = new Source();
-			var rx = new ReactiveExpression<string>(() => first.Woop ? "foo" : (second.Woop ? "bar" : "zoo"), "rx");
+			var rx = new DebugReactiveExpression<string>(() => first.Woop ? "foo" : (second.Woop ? "bar" : "zoo"), "rx");
 			var counter = 0;
 		    var expectation = 1;
 			Assert.AreEqual("zoo", rx.Evaluate());
@@ -220,8 +220,8 @@ namespace SmartReactives.Test
 		{
 			var source1 = new Source();
 			var source2 = new Source();
-			var mid = new ReactiveExpression<bool>(() => source1.Woop ^ source2.Woop, "mid");
-			var top = new ReactiveExpression<bool>(() => mid.Evaluate() & source1.Woop, "top");
+			var mid = new DebugReactiveExpression<bool>(() => source1.Woop ^ source2.Woop, "mid");
+			var top = new DebugReactiveExpression<bool>(() => mid.Evaluate() & source1.Woop, "top");
 			var topCounter = 0;
 			var midCounter = 0;
 			var topExpectation = 1;

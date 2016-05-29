@@ -21,7 +21,7 @@ namespace SmartReactives.Test
 
             var variable = new ReactiveVariable<bool>();
 
-            var expression = new ReactiveExpression<bool>(() => variable.Value);
+            var expression = new DebugReactiveExpression<bool>(() => variable.Value);
 	        expression.Evaluate();
             Assert.AreEqual("unnamed", expression.ToString());
             Assert.True(variable.Dependents.Any());
@@ -165,7 +165,7 @@ namespace SmartReactives.Test
 		{
 			var source = new DebugReactiveVariable<bool>(false, "source");
 			source.Value = true;
-			var sink = new ReactiveExpression<bool>(() => source.Value && source.Value, "sink");
+			var sink = new DebugReactiveExpression<bool>(() => source.Value && source.Value, "sink");
 
 			var counter = 0;
 		    sink.Subscribe(getSink => Const(getSink, () => counter++));
@@ -187,9 +187,9 @@ namespace SmartReactives.Test
 		{
 			var source = new DebugReactiveVariable<bool>(false ,"source");
 			source.Value = true;
-			var mid1 = new ReactiveExpression<bool>(() => source.Value, "mid1");
-			var mid2 = new ReactiveExpression<bool>(() => source.Value, "mid2");
-			var sink = new ReactiveExpression<bool>(() => mid1.Evaluate() && mid2.Evaluate(), "sink");
+			var mid1 = new DebugReactiveExpression<bool>(() => source.Value, "mid1");
+			var mid2 = new DebugReactiveExpression<bool>(() => source.Value, "mid2");
+			var sink = new DebugReactiveExpression<bool>(() => mid1.Evaluate() && mid2.Evaluate(), "sink");
 			var counter = 0;
             sink.Subscribe(getSink => Const(getSink, () => counter++));
             
@@ -202,9 +202,9 @@ namespace SmartReactives.Test
         public void TestIndirectDiamondSituation2()
         {
             var input = new ReactiveVariable<int>();
-            var timesTwo = new ReactiveExpression<int>(() => input.Value * 2, "timesTwo");
-            var plusOne = new ReactiveExpression<int>(() => input.Value + 1, "plusOne");
-            var sumOfBoth = new ReactiveExpression<int>(() => timesTwo.Evaluate() + plusOne.Evaluate(), "sumOfBoth");
+            var timesTwo = new DebugReactiveExpression<int>(() => input.Value * 2, "timesTwo");
+            var plusOne = new DebugReactiveExpression<int>(() => input.Value + 1, "plusOne");
+            var sumOfBoth = new DebugReactiveExpression<int>(() => timesTwo.Evaluate() + plusOne.Evaluate(), "sumOfBoth");
             var counter = 0;
             sumOfBoth.Subscribe(getValue => Const(getValue, () => counter++));
             Assert.AreEqual(1, counter);

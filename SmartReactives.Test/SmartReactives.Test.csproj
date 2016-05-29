@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComplexSink.cs" />
+    <Compile Include="DebugReactiveExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DebugReactiveVariable.cs" />
     <Compile Include="Dependent.cs" />
