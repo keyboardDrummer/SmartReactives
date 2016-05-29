@@ -12,7 +12,7 @@ input.Value = 2; //Prints 'square = 4'
 input.Value = 3; //Prints 'square = 9'
 ```
 
-To start using SmartReactives simply add the NuGet package SmartReactives to your project. Also add SmartReactives.PostSharp if you're using PostSharp.
+To start using SmartReactives simply add the NuGet package [SmartReactives](https://www.nuget.org/packages/SmartReactives/) to your project. Also add [SmartReactives.PostSharp](https://www.nuget.org/packages/SmartReactives.PostSharp/) if you're using PostSharp.
 
 If you're looking for something like SmartReactives but outside of .NET then take a look at these projects:
 - Scala: [Scala.Rx](https://github.com/lihaoyi/scala.rx)
