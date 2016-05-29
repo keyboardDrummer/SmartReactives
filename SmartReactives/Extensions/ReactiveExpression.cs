@@ -5,12 +5,12 @@ using SmartReactives.Core;
 
 namespace SmartReactives.Extensions
 {
-	/// <summary>
-	/// Captures an expression whose value may change over time.
-	/// The different values the expression has over time are exposed as an <see cref="IObservable{T}"/>
-	/// Make sure the provided expression only changes its value due to changes in reactive variables that it depends on.
-	/// </summary>
-	[Serializable]
+    /// <summary>
+    /// Captures an expression whose value may change over time.
+    /// The different values the expression has over time are exposed as an <see cref="IObservable{T}"/>. After subscribing an initial notification is pushed immediately.
+    /// Make sure the provided expression only depends on constant values or reactive objects, such as <see cref="ReactiveVariable{T}"/> or <see cref="ReactiveExpression{T}"/>
+    /// </summary>
+    [Serializable]
 	public class ReactiveExpression<T> : IObservable<Func<T>>, IListener
 	{
 	    readonly Func<T> func;
