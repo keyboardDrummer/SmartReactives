@@ -20,8 +20,8 @@ namespace SmartReactives.Test
 	        var expectation = 0;
             Assert.AreEqual(0, cache.Get());
             Assert.AreEqual(++expectation, counter);
-            Assert.AreEqual(0, cache.Get());
             cache.Invalidate();
+            Assert.AreEqual(0, cache.Get());
             Assert.AreEqual(++expectation, counter);
         }
 
