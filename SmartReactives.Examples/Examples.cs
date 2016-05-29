@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using NUnit.Framework;
 using SmartReactives.Extensions;
 
 namespace SmartReactives.Examples
