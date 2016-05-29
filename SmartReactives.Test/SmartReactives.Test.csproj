@@ -65,6 +65,8 @@
     <Compile Include="NotifyCounter.cs" />
     <Compile Include="ReactiveCacheTest.cs" />
     <Compile Include="ReactiveManagerTest.cs" />
+    <Compile Include="ReactiveManagerThreadSafetyTest.cs" />
+    <Compile Include="ReactiveManagerWeakReferenceTest.cs" />
     <Compile Include="ReactiveVariableTest.cs" />
     <Compile Include="SimpleSink.cs" />
     <Compile Include="SinkChain.cs" />

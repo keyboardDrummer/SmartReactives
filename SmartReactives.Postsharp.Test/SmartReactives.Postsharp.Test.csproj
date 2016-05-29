@@ -75,8 +75,6 @@
     <Compile Include="ObservableUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReactiveAttributesTest.cs" />
-    <Compile Include="ReactiveManagerThreadSafetyTest.cs" />
-    <Compile Include="ReactiveManagerWeakReferenceTest.cs" />
     <Compile Include="ReactiveManagerWithListTest.cs" />
     <Compile Include="ReactiveVariableTest.cs" />
   </ItemGroup>
