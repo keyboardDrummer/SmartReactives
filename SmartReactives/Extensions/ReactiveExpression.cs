@@ -13,26 +13,23 @@ namespace SmartReactives.Extensions
     [Serializable]
 	public class ReactiveExpression<T> : IObservable<Func<T>>, IListener
 	{
-	    readonly Func<T> func;
+	    readonly Func<T> expression;
 	    readonly ISubject<Func<T>> subject = new Subject<Func<T>>();
 
-		/// <summary>
-		/// The debug object can be passed to override the toString method.
-		/// </summary>
-		public ReactiveExpression(Func<T> func)
+		public ReactiveExpression(Func<T> expression)
 		{
-			this.func = func;
+			this.expression = expression;
 		}
 
 		/// <summary>
-		/// Evaluate the function and return its value.
+		/// Evaluate the expression and return its value.
 		/// </summary>
 		public T Evaluate()
 		{
-			return ReactiveManager.Evaluate(this, func);
+			return ReactiveManager.Evaluate(this, expression);
 		}
 
-		public void Notify()
+        void IListener.Notify()
 		{
 			subject.OnNext(Evaluate);
 		}
@@ -47,6 +44,6 @@ namespace SmartReactives.Extensions
 		/// <summary>
 		/// For debugging purposes.
 		/// </summary>
-		public IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
+		internal IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
 	}
 }

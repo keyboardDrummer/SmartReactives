@@ -7,7 +7,7 @@ namespace SmartReactives.Test
     {
         readonly string name;
 
-        public DebugReactiveExpression(Func<T> func, string name = null) : base(func)
+        public DebugReactiveExpression(Func<T> expression, string name = null) : base(expression)
         {
             this.name = name;
         }
