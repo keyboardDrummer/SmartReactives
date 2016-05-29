@@ -2,7 +2,7 @@
 
 SmartReactives is an extension to Rx.NET that detects when an expression changes its value and exposes these changes as an IObservable. Detecting changes in expressions is a common problem, related to user interfaces, caching, validation, and much more.
 
-Here follows an example demonstrating the basic functionality:
+This example demonstrates the basic functionality:
 ```c#
 var input = new ReactiveVariable<int>(1);
 var square = new ReactiveExpression<int>(() => input.Value * input.Value);
