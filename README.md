@@ -29,12 +29,6 @@ square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //P
 input.Value = 2; //Prints 'square = 4'
 input.Value = 3; //Prints 'square = 9'
 ```
-Output:
-```
-square = 1
-square = 4
-square = 9
-```
 ```ReactiveExpression<T>``` implements ```IObservable<Func<T>>```, so we can subscribe to it. The ```Func<T>``` that you get from the observable is simply a shortcut to ```ReactiveExpression<T>.Evaluate```.
 
 Note that even though square uses the input value twice, we only get one notification per change in input.
@@ -59,7 +53,7 @@ Note that although the input has two paths in the graph to sumOfBoth, there is o
 In the following example, the expression leftOrRight only depends on variable right when variable left is false, since we are using the lazy or operator ||. 
 If we change right while left is false, then we don't get any updates from leftOrRight. 
 In general, SmartReactives won't give you any updates for old dependencies or possible future dependencies.
-Note that if we only want to get updates if leftOrRight changes then we can use 'leftOrRight.DistinctUntilChanged().Subscribe(...)'.
+Note that if we only want to get updates if leftOrRight changes then we can use ```leftOrRight.DistinctUntilChanged().Subscribe(...)```.
 
 ```c#
 var left = new ReactiveVariable<bool>();
