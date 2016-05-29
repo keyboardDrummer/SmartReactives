@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using SmartReactives.Core;
@@ -12,6 +13,60 @@ namespace SmartReactives.Test
 	{
 		public static bool RecoversAfterMissedChange = true;
 
+	    [Test]
+	    public void TestDebugMethodAndProperties()
+	    {
+	        var dependency = new Dependency(0, null);
+	        Assert.AreEqual("empty reference", dependency.ToString());
+
+            var variable = new ReactiveVariable<bool>();
+
+            var expression = new ReactiveExpression<bool>(() => variable.Value);
+	        expression.Evaluate();
+            Assert.AreEqual("unnamed", expression.ToString());
+            Assert.True(variable.Dependents.Any());
+            Assert.False(expression.Dependents.Any());
+
+
+            var cache = new ReactiveCache<bool>(() => false);
+            Assert.False(cache.Dependents.Any());
+        }
+
+        [Test]
+        public void TestDisenabler()
+        {
+            var source = new object();
+            var expression = new ReactiveExpression<bool>(() =>
+            {
+                ReactiveManager.WasRead(source);
+                return true;
+            });
+            int notifications = 0;
+            int expectation = 1;
+            using (new ReactiveDisenabler())
+            {
+                expression.Subscribe(getValue => Const(getValue, () => notifications++));
+            }
+            expression.Evaluate();
+
+            ReactiveManager.WasChanged(source);
+            Assert.AreEqual(++expectation, notifications);
+            using (new ReactiveDisenabler())
+            {
+                ReactiveManager.WasChanged(source);
+                Assert.AreEqual(expectation, notifications);
+                using (new ReactiveDisenabler(true))
+                {
+                    ReactiveManager.WasChanged(source);
+                    Assert.AreEqual(++expectation, notifications);
+                }
+
+                ReactiveManager.WasChanged(source);
+                Assert.AreEqual(expectation, notifications);
+            }
+            ReactiveManager.WasChanged(source);
+            Assert.AreEqual(++expectation, notifications);
+        }
 
         /// <summary>
         /// Tests whether the system still works after a single ReactiveManager.WasChanged has been 'forgotten' by the user.

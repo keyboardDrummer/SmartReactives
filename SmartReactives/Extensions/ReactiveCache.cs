@@ -62,6 +62,6 @@ namespace SmartReactives.Extensions
 		/// Useful for debugging.
 		/// </summary>
 		// ReSharper disable once UnusedMember.Local
-		IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
+		internal IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
 	}
 }

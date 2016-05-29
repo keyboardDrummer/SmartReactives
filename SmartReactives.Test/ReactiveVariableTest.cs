@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using NUnit.Framework;
+using SmartReactives.Core;
 using SmartReactives.Extensions;
 using SmartReactives.Postsharp.Test;
 
@@ -18,8 +20,9 @@ namespace SmartReactives.Test
 		const int NotificationWhenSourceChangesToSameValue = 0; //Ideally 0
 		const int WorksWithoutInitialPropertyAccess = 0; //Ideally 1
 		const int RecordsChangingDependenciesWithoutAccess = 0;
+        
 
-		[Test]
+        [Test]
 		public void ReactiveVariable()
 		{
 			var test = new Source();

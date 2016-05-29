@@ -3,9 +3,9 @@ using System;
 namespace SmartReactives.Core
 {
 	/// <summary>
-	/// Disables the reactive system.
+	/// Disables the reactive system for this particular thread.
 	/// </summary>
-	public class ReactiveDisenabler : IDisposable
+	public class ReactiveDisenabler : IDisposable //TODO is this still useful?
 	{
 		private readonly bool _previous;
 
