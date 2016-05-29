@@ -4,7 +4,7 @@ using SmartReactives.Core;
 namespace SmartReactives.Extensions
 {
 	/// <summary>
-	/// A variable which can be used in reactive expressions.
+	/// A variable which can be used in an <see cref="ReactiveExpression{T}"/> and other reactive objects such as <see cref="ReactiveCache{T}"/>
 	/// </summary>
 	public class ReactiveVariable<T>
 	{
@@ -33,7 +33,7 @@ namespace SmartReactives.Extensions
 		}
 
 		/// <summary>
-		/// Only raises changes if the new value is not Equal to the existing one.
+		/// Set a new value, but only raise a change if the new value does not equal the existing one.
 		/// </summary>
 		public void SetValueIfChanged(T newValue)
 		{
@@ -47,6 +47,6 @@ namespace SmartReactives.Extensions
 		/// <summary>
 		/// For debugging purposes.
 		/// </summary>
-		public IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
+		internal IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
 	}
 }
