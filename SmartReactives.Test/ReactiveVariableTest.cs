@@ -5,7 +5,6 @@ using System.Reactive.Subjects;
 using NUnit.Framework;
 using SmartReactives.Core;
 using SmartReactives.Extensions;
-using SmartReactives.Postsharp.Test;
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable MemberCanBePrivate.Local

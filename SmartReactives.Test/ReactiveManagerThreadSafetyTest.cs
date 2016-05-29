@@ -5,7 +5,6 @@ using System.Threading;
 using NUnit.Framework;
 using SmartReactives.Core;
 using SmartReactives.Extensions;
-using SmartReactives.Postsharp.Test;
 
 namespace SmartReactives.Test
 {

@@ -4,15 +4,15 @@ using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reflection;
 
-namespace SmartReactives.Test
+namespace SmartReactives.Postsharp.Test
 {
 	/// <summary>
-	/// Utility functions related to <see cref="IObservable{T}" />
+	/// Utility functions related to <see cref="System.IObservable{T}" />
 	/// </summary>
 	public static class ObservableUtility
 	{
 		/// <summary>
-		/// Creates an <see cref="IObservable{T}" /> from a property with <see cref="INotifyPropertyChanged" />
+		/// Creates an <see cref="System.IObservable{T}" /> from a property with <see cref="INotifyPropertyChanged" />
 		/// </summary>
 		public static IObservable<T> FromProperty<T>(Expression<Func<T>> getProperty, bool observeInitialValue = true)
 		{

@@ -1,5 +1,4 @@
 using SmartReactives.Extensions;
-using SmartReactives.Postsharp.Test;
 
 namespace SmartReactives.Test
 {

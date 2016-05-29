@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using SmartReactives.PostSharp.NotifyPropertyChanged;
+using SmartReactives.Test;
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable MemberCanBePrivate.Local

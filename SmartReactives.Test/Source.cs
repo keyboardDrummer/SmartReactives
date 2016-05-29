@@ -1,7 +1,7 @@
 
 using SmartReactives.Extensions;
 
-namespace SmartReactives.Postsharp.Test
+namespace SmartReactives.Test
 {
 	public class Source //: HasNotifyPropertyChanged
 	{

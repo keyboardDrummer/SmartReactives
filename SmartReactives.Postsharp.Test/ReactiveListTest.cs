@@ -9,7 +9,7 @@ using SmartReactives.Test;
 
 namespace SmartReactives.Postsharp.Test
 {
-	public class ReactiveManagerWithListTest
+	public class ReactiveListTest
 	{
 		class ClassWithList : HasNotifyPropertyChanged
 		{
