@@ -6,9 +6,9 @@ using SmartReactives.Core;
 namespace SmartReactives.Extensions
 {
     /// <summary>
-    /// Captures an expression whose value may change over time.
-    /// The different values the expression has over time are exposed as an <see cref="IObservable{T}"/>. After subscribing an initial notification is pushed immediately.
-    /// Make sure the provided expression only depends on constant values or reactive objects, such as <see cref="ReactiveVariable{T}"/> or <see cref="ReactiveExpression{T}"/>
+    /// Detects when an expression changes its value and exposes these changes as an <see cref="IObservable{T}"/>. 
+    /// After subscribing to the <see cref="IObservable{T}"/> an initial notification is pushed immediately.
+    /// Make sure the provided expression only depends on constant values or reactive objects, such as <see cref="ReactiveVariable{T}"/> or <see cref="ReactiveExpression{T}"/>.
     /// </summary>
     [Serializable]
 	public class ReactiveExpression<T> : IObservable<Func<T>>, IListener
