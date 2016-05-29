@@ -5,8 +5,8 @@ using SmartReactives.Core;
 namespace SmartReactives.Extensions
 {
 	/// <summary>
-	/// A cache based on the <see cref="ReactiveManager"/> framework.
-	/// This cache will automagically invalidate when its function changes based on reactive variables.
+	/// This cache will automatically invalidate when the expression it's caching changes its value.
+	/// Make sure the cached expression only depends on constants and reactive objects.
 	/// </summary>
 	public class ReactiveCache<T> : IListener
 	{
