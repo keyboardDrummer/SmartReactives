@@ -4,9 +4,9 @@ SmartReactives is an extension to Rx.NET that detects when an expression changes
 
 This example demonstrates the basic functionality:
 ```c#
-var input = new ReactiveVariable<int>(1);
-var square = new ReactiveExpression<int>(() => input.Value * input.Value);
-square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //Prints 'square = 1'
+var input = Reactive.Variable(1);
+var inputSquared = Reactive.Expression(() => input * input);
+inputSquared.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //Prints 'square = 1'
 
 input.Value = 2; //Prints 'square = 4'
 input.Value = 3; //Prints 'square = 9'
@@ -24,9 +24,9 @@ This section demonstrates the functionality of SmartReactives by showing a numbe
 ## Basics
 This example demonstrates the basic functionality of SmartReactives using the classes ReactiveVariable and ReactiveExpression.
 ```c#
-var input = new ReactiveVariable<int>(1);
-var square = new ReactiveExpression<int>(() => input.Value * input.Value);
-square.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //Prints 'square = 1'
+var input = Reactive.Variable(1);
+var inputSquared = Reactive.Expression(() => input * input);
+inputSquared.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //Prints 'square = 1'
 
 input.Value = 2; //Prints 'square = 4'
 input.Value = 3; //Prints 'square = 9'
@@ -40,13 +40,13 @@ This example shows that a ReactiveExpression can refer to other ReactiveExpressi
 The example demonstrates a graph in the shape of a diamond.  
 
 ```c#
-var input = new ReactiveVariable<int>();
-var timesTwo = new ReactiveExpression<int>(() => input.Value * 2);
-var timesThree = new ReactiveExpression<int>(() => input.Value * 3);
-var sumOfBoth = new ReactiveExpression<int>(() => timesTwo.Evaluate() + timesThree.Evaluate());
-sumOfBoth.Subscribe(getValue => Console.WriteLine("sumOfBoth = " + getValue())); //Prints 'sumOfBoth = 0'
-input.Value = 1; //Prints 'sumOfBoth = 5'
+var input = Reactive.Variable(1);
+var timesTwo = Reactive.Expression(() => input * 2);
+var timesThree = Reactive.Expression(() => input * 3);
+var sumOfBoth = Reactive.Expression(() => timesTwo.Evaluate() + timesThree.Evaluate());
+sumOfBoth.Subscribe(getValue => Console.WriteLine("sumOfBoth = " + getValue())); //Prints 'sumOfBoth = 5'
 input.Value = 2; //Prints 'sumOfBoth = 10'
+input.Value = 3; //Prints 'sumOfBoth = 15'
 ```
 
 Note that although the input has two paths in the graph to sumOfBoth, there is only one notification for sumOfBoth when input changes.
@@ -58,40 +58,34 @@ In general, SmartReactives won't give you any updates for old dependencies or po
 Note that if we only want to get updates if leftOrRight changes then we can use ```leftOrRight.DistinctUntilChanged().Subscribe(...)```.
 
 ```c#
-var left = new ReactiveVariable<bool>();
-var right = new ReactiveVariable<bool>();
-var leftOrRight = new ReactiveExpression<bool>(() => left.Value || right.Value);
-leftOrRight.Subscribe(getValue => Console.WriteLine("leftOrRight = " + getValue())); // Prints 'leftOrRight = false'
+var left = Reactive.Variable(false);
+var right = Reactive.Variable(false);
+var leftOrRight = Reactive.Expression(() => left || right);
+leftOrRight.Subscribe(getValue => Console.WriteLine("leftOrRight = " + getValue())); //Prints 'leftOrRight = False'
 
-right.Value = true; // Prints 'leftOrRight = true'
-left.Value = true; // Prints 'leftOrRight = true'
-right.Value = false; // Prints nothing
+right.Value = true; //Prints 'leftOrRight = True'
+left.Value = true; //Prints 'leftOrRight = True'
+right.Value = false; //Prints nothing
 ```
 
 ## ReactiveCache
 This example shows how to use ReactiveCache to get a cache which automatically clears itself when it becomes stale.
 ```c#
-var input = new ReactiveVariable<int>(2); //We define a reactive variable.
+var input = Reactive.Variable(2); //We define a reactive variable.
 Func<int> f = () => //f is the calculation we want to cache.
 {
-    Console.WriteLine("f was evaluated");
-    return input.Value * input.Value; //f depends on the reactive variable 'input'.
+    Console.WriteLine("cache miss");
+    return input * input; //f depends on our reactive variable 'input'.
 };
-var cache = new ReactiveCache<int>(f); //We base our cache on f.
+var cache = Reactive.Cache(f); //We base our cache on f.
 
-Console.WriteLine("f() = " + cache.Get()); //Cache miss so we evaluate f.
-Console.WriteLine("f() = " + cache.Get()); //Cache hit so we don't evaluate f.
+Assert.AreEqual(4, cache.Get()); //Prints 'cache miss'
+Assert.AreEqual(4, cache.Get()); //Cache hit.
 
-input.Value = 3; //We change our input variable, causing our cache to become stale.
-Console.WriteLine("f() = " + cache.Get()); //Cache miss, so we evaluate f.
-```
-Output:
-```
-f was evaluated
-f() = 4
-f() = 4
-f was evaluated
-f() = 9
+input.Value = 3; //Cache becomes stale.
+
+Assert.AreEqual(9, cache.Get()); //Prints 'cache miss'
+Assert.AreEqual(9, cache.Get()); //Cache hit.
 ```
 			
 ## Reactive Properties
@@ -100,7 +94,7 @@ The second method applies ReactiveVariableAttribute to the property, which in co
 ```c#
 class ReactiveProperties
 {
-	readonly ReactiveVariable<int> usingABackingField = new ReactiveVariable<int>(1);
+	readonly ReactiveVariable<int> usingABackingField = Reactive.Variable(1);
 	int UsingABackingField
 	{
 		get { return usingABackingField.Value; }
@@ -110,14 +104,13 @@ class ReactiveProperties
 	[ReactiveVariable]
 	int UsingAnAttributeAndPostSharp { get; set; } = 1;
 
-	[Test]
 	public void Test()
 	{
-		var multiplication = new ReactiveExpression<int>(() => UsingABackingField * UsingAnAttributeAndPostSharp);
-		multiplication.Subscribe(getMultiplication => Console.WriteLine("multiplication = " + getMultiplication())); //Prints 'multiplication = 1'
-		UsingAnAttributeAndPostSharp = 2; //Prints 'multiplication = 2'
-		UsingABackingField = 2; //Prints 'multiplication = 4'
-	}
+		var product = Reactive.Expression(() => UsingABackingField * UsingAnAttributeAndPostSharp);
+		product.Subscribe(getProduct => Console.WriteLine("product = " + getProduct())); //Prints 'multiplication = 1'
+        UsingAnAttributeAndPostSharp = 2; //Prints 'multiplication = 2'
+        UsingABackingField = 2; //Prints 'multiplication = 4'
+    }
 }
 ```
 
@@ -151,8 +144,8 @@ class CachingCalculator
 
 		calculator.Input = 3; //Cache becomes stale.
 
-		Assert.AreEqual(9, calculator.Square); // Cache miss. Prints 'cache miss'
-		Assert.AreEqual(9, calculator.Square); // Cache hit.
+		Assert.AreEqual(9, calculator.Square); //Cache miss. Prints 'cache miss'
+		Assert.AreEqual(9, calculator.Square); //Cache hit.
 	}
 }
 ```
