@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="Postsharp.license" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\PostSharp.4.2.26\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.4.2.26\tools\PostSharp.targets')" />
