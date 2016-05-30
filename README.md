@@ -189,13 +189,6 @@ class Calculator : HasNotifyPropertyChanged
 }
 ```
 
-Output:
-```
-square = 1
-square = 4
-square = 9
-```
-
 # Documentation
 
 The SmartReactives API is divided into three layers:
