@@ -80,16 +80,18 @@ namespace SmartReactives.Examples
             var input = Reactive.Variable(2); //We define a reactive variable.
             Func<int> f = () => //f is the calculation we want to cache.
             {
-                Console.WriteLine("f was evaluated");
-                return input * input; //f depends on our reactive variable input.
+                Console.WriteLine("cache miss");
+                return input * input; //f depends on our reactive variable 'input'.
             };
             var cache = Reactive.Cache(f); //We base our cache on f.
 
-            Console.WriteLine("f() = " + cache.Get()); //Cache was not set so we evaluate f.
-            Console.WriteLine("f() = " + cache.Get()); //Cache is set so we don't evaluate f.
+            Assert.AreEqual(4, cache.Get()); //Prints 'cache miss'
+            Assert.AreEqual(4, cache.Get()); //Cache hit.
 
-            input.Value = 3; //We change our input variable, causing our cache to become stale.
-            Console.WriteLine("f() = " + cache.Get()); //Cache is stale, so we must evaluate f.
+            input.Value = 3; //Cache becomes stale.
+
+            Assert.AreEqual(9, cache.Get()); //Prints 'cache miss'
+            Assert.AreEqual(9, cache.Get()); //Cache hit.
         }
     }
 }
