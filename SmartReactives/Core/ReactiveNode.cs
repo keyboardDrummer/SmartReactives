@@ -4,19 +4,26 @@ using System.Threading;
 
 namespace SmartReactives.Core
 {
-    /// <summary>
+	/// <summary>
     /// A node in the dependency graph of <see cref="ReactiveManager"/>
     /// </summary>
 	class ReactiveNode
 	{
 	    long notificationsHad;
-	    IList<Dependency> data = new List<Dependency>();
+		Chain<Dependency> dependencies; //Since this is a write often read once scenario, we use a singly linked list instead of an array.
 
         public IList<Dependency> GetCopy()
 		{
 			lock (this)
 			{
-				return data.ToList();
+				var result = new List<Dependency>();
+				var current = dependencies;
+				while (current != null)
+				{
+					result.Add(current.Value);
+					current = current.Next;
+				}
+				return result;
 			}
 		}
 
@@ -27,19 +34,18 @@ namespace SmartReactives.Core
 
 		public void NotifyChildren(IList<IListener> result)
         {
-            IList<Dependency> swap;
+            Chain<Dependency> current;
             lock (this)
             {
-                swap = data;
-                data = new List<Dependency>(swap.Count); //Useful for performance, but not required since the notification counter makes sure DependentReferences never trigger two notifications.
+                current = dependencies;
+                dependencies = null; //Cleans up memory but not required for semantics since the notification counter makes sure DependentReferences never trigger two notifications.
             }
-            int count = swap.Count;
 
-            for (int index = 0; index < count; index++)
-            {
-                var value = swap[index];
-                WasChangedForChild(result, value);
-            }
+			while (current != null)
+			{
+				WasChangedForChild(result, current.Value);
+				current = current.Next;
+			}
         }
 
 	    static void WasChangedForChild(IList<IListener> result, Dependency childEdge)
@@ -61,7 +67,7 @@ namespace SmartReactives.Core
 		{
 			lock(this)
 			{
-				data.Add(element);
+				dependencies = new Chain<Dependency>(element, dependencies);
 			}
 		}
 
