@@ -45,5 +45,5 @@ namespace SmartReactives.Common
 		/// For debugging purposes.
 		/// </summary>
 		internal IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
-	}
+    }
 }

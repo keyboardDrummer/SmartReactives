@@ -48,5 +48,10 @@ namespace SmartReactives.Common
 		/// For debugging purposes.
 		/// </summary>
 		internal IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
-	}
+
+        public static implicit operator T(ReactiveVariable<T> reactive)
+        {
+           return reactive.Value;
+        }
+    }
 }

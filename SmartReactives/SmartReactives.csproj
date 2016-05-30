@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Reactive.cs" />
     <Compile Include="Core\Chain.cs" />
     <Compile Include="Core\Graph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
