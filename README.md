@@ -11,7 +11,7 @@ inputSquared.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())
 input.Value = 2; //Prints 'square = 4'
 input.Value = 3; //Prints 'square = 9'
 ```
-```ReactiveExpression<T>``` implements ```IObservable<Func<T>>```, so we can subscribe to it. The ```Func<T>``` that you get from the observable is simply a shortcut to ```ReactiveExpression<T>.Evaluate```.
+```ReactiveExpression<T>``` implements ```IObservable<Func<T>>```, so we can subscribe to it. The ```Func<T>``` that you get from the observable is simply a shortcut to the function you created the reactive expression with.
 
 To start using SmartReactives simply add the NuGet package [SmartReactives](https://www.nuget.org/packages/SmartReactives/) to your project. Also add [SmartReactives.PostSharp](https://www.nuget.org/packages/SmartReactives.PostSharp/) if you're using PostSharp.
 
