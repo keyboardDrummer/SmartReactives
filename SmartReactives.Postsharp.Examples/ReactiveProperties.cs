@@ -11,7 +11,7 @@ namespace SmartReactives.PostsharpExamples
 {
 	class ReactiveProperties
 	{
-		readonly ReactiveVariable<int> usingABackingField = new ReactiveVariable<int>(1);
+		readonly ReactiveVariable<int> usingABackingField = Reactive.Variable(1);
 		int UsingABackingField
 		{
 			get { return usingABackingField.Value; }
@@ -21,13 +21,12 @@ namespace SmartReactives.PostsharpExamples
 		[ReactiveVariable]
 		int UsingAnAttributeAndPostSharp { get; set; } = 1;
 
-		[Test]
 		public void Test()
 		{
-			var multiplication = new ReactiveExpression<int>(() => UsingABackingField * UsingAnAttributeAndPostSharp);
-			multiplication.Subscribe(getMultiplication => Console.WriteLine("multiplication = " + getMultiplication()));
-			UsingAnAttributeAndPostSharp = 2;
-			UsingABackingField = 2;
-		}
+			var product = Reactive.Expression(() => UsingABackingField * UsingAnAttributeAndPostSharp);
+			product.Subscribe(getProduct => Console.WriteLine("multiplication = " + getProduct())); //Prints 'multiplication = 1'
+            UsingAnAttributeAndPostSharp = 2; //Prints 'multiplication = 2'
+            UsingABackingField = 2; //Prints 'multiplication = 4'
+        }
 	}
 }
