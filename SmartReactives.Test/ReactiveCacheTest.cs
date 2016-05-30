@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using SmartReactives.Extensions;
+using SmartReactives.Common;
 
 namespace SmartReactives.Test
 {

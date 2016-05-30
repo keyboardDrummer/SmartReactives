@@ -1,4 +1,3 @@
-using SmartReactives.Extensions;
 using SmartReactives.PostSharp.NotifyPropertyChanged;
 
 namespace SmartReactives.Postsharp.Test

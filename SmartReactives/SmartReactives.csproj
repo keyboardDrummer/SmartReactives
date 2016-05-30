@@ -59,14 +59,14 @@
     <Compile Include="Core\Dependency.cs" />
     <Compile Include="Core\IListener.cs" />
     <Compile Include="List\NotifyCollectionChangedAsObservable.cs" />
-    <Compile Include="Extensions\ReactiveExpression.cs" />
-    <Compile Include="Extensions\ReactiveCache.cs" />
+    <Compile Include="Common\ReactiveExpression.cs" />
+    <Compile Include="Common\ReactiveCache.cs" />
     <Compile Include="Core\ReactiveDisenabler.cs" />
     <Compile Include="Core\ReactiveManager.cs" />
     <Compile Include="Core\ReactiveManagerThreadState.cs" />
     <Compile Include="List\ReactiveManagerWithList.cs" />
     <Compile Include="Core\ReactiveNode.cs" />
-    <Compile Include="Extensions\ReactiveVariable.cs" />
+    <Compile Include="Common\ReactiveVariable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

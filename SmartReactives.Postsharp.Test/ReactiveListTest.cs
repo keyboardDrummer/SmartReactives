@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Threading;
 using NUnit.Framework;
-using SmartReactives.Extensions;
+using SmartReactives.Common;
 using SmartReactives.PostSharp.NotifyPropertyChanged;
 using SmartReactives.Test;
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using SmartReactives.Core;
 
-namespace SmartReactives.Extensions
+namespace SmartReactives.Common
 {
 	/// <summary>
 	/// This cache will automatically invalidate when the expression it's caching changes its value.

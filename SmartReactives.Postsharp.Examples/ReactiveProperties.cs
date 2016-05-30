@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using SmartReactives.Extensions;
+using SmartReactives.Common;
 using SmartReactives.PostSharp;
 
 namespace SmartReactives.PostsharpExamples

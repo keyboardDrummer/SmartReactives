@@ -1,6 +1,6 @@
 ﻿using System;
 using PostSharp.Aspects;
-using SmartReactives.Extensions;
+using SmartReactives.Common;
 
 namespace SmartReactives.PostSharp
 {

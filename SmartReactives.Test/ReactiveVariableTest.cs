@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using NUnit.Framework;
+using SmartReactives.Common;
 using SmartReactives.Core;
-using SmartReactives.Extensions;
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable MemberCanBePrivate.Local

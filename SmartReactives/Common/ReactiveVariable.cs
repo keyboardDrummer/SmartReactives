@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using SmartReactives.Core;
 
-namespace SmartReactives.Extensions
+namespace SmartReactives.Common
 {
 	/// <summary>
 	/// A variable which can be used in an <see cref="ReactiveExpression{T}"/> and other reactive objects such as <see cref="ReactiveCache{T}"/>

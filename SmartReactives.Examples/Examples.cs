@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using SmartReactives.Extensions;
+using SmartReactives.Common;
 
 namespace SmartReactives.Examples
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using NUnit.Framework;
-using SmartReactives.Extensions;
+using SmartReactives.Common;
 using SmartReactives.List;
 
 namespace SmartReactives.Test

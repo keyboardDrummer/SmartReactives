@@ -1,5 +1,5 @@
 
-using SmartReactives.Extensions;
+using SmartReactives.Common;
 
 namespace SmartReactives.Test
 {

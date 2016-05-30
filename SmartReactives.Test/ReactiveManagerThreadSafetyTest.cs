@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
+using SmartReactives.Common;
 using SmartReactives.Core;
-using SmartReactives.Extensions;
 
 namespace SmartReactives.Test
 {

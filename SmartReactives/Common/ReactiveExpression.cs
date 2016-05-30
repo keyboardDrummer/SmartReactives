@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reactive.Subjects;
 using SmartReactives.Core;
 
-namespace SmartReactives.Extensions
+namespace SmartReactives.Common
 {
     /// <summary>
     /// Detects when an expression changes its value and exposes these changes as an <see cref="IObservable{T}"/>. 
