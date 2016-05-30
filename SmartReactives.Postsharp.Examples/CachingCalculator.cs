@@ -30,8 +30,8 @@ namespace SmartReactives.PostsharpExamples
 
 			calculator.Input = 3; //Cache becomes stale.
 
-			Assert.AreEqual(9, calculator.Square); // Cache miss. Prints 'cache miss'
-			Assert.AreEqual(9, calculator.Square); // Cache hit.
+			Assert.AreEqual(9, calculator.Square); //Cache miss. Prints 'cache miss'
+			Assert.AreEqual(9, calculator.Square); //Cache hit.
 		}
 	}
 }

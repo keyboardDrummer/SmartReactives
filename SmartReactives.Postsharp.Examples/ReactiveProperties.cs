@@ -24,7 +24,7 @@ namespace SmartReactives.PostsharpExamples
 		public void Test()
 		{
 			var product = Reactive.Expression(() => UsingABackingField * UsingAnAttributeAndPostSharp);
-			product.Subscribe(getProduct => Console.WriteLine("multiplication = " + getProduct())); //Prints 'multiplication = 1'
+			product.Subscribe(getProduct => Console.WriteLine("product = " + getProduct())); //Prints 'multiplication = 1'
             UsingAnAttributeAndPostSharp = 2; //Prints 'multiplication = 2'
             UsingABackingField = 2; //Prints 'multiplication = 4'
         }

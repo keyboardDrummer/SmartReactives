@@ -14,8 +14,8 @@ namespace SmartReactives.Examples
             var inputSquared = Reactive.Expression(() => input * input);
             inputSquared.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); // Prints 'square = 1'
 
-            input.Value = 2; // Prints 'square = 4'
-            input.Value = 3; // Prints 'square = 9'
+            input.Value = 2; //Prints 'square = 4'
+            input.Value = 3; //Prints 'square = 9'
         }
 
         public void RxSquare()
@@ -55,11 +55,12 @@ namespace SmartReactives.Examples
             var left = Reactive.Variable(false);
             var right = Reactive.Variable(false);
             var leftOrRight = Reactive.Expression(() => left || right);
-            leftOrRight.Subscribe(getValue => Console.WriteLine("leftOrRight = " + getValue())); // Prints 'leftOrRight = False'
+            leftOrRight.Subscribe(getValue => Console.WriteLine("leftOrRight = " + getValue()));
+                //Prints 'leftOrRight = False'
 
-            right.Value = true; // Prints 'leftOrRight = True'
-            left.Value = true; // Prints 'leftOrRight = True'
-            right.Value = false; // Prints nothing
+            right.Value = true; //Prints 'leftOrRight = True'
+            left.Value = true; //Prints 'leftOrRight = True'
+            right.Value = false; //Prints nothing
         }
 
         public void RxPrecise()
