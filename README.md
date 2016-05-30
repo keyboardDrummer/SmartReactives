@@ -11,6 +11,7 @@ inputSquared.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())
 input.Value = 2; //Prints 'square = 4'
 input.Value = 3; //Prints 'square = 9'
 ```
+```ReactiveExpression<T>``` implements ```IObservable<Func<T>>```, so we can subscribe to it. The ```Func<T>``` that you get from the observable is simply a shortcut to ```ReactiveExpression<T>.Evaluate```.
 
 To start using SmartReactives simply add the NuGet package [SmartReactives](https://www.nuget.org/packages/SmartReactives/) to your project. Also add [SmartReactives.PostSharp](https://www.nuget.org/packages/SmartReactives.PostSharp/) if you're using PostSharp.
 
@@ -20,53 +21,6 @@ If you're looking for something like SmartReactives but outside of .NET then tak
 
 #Examples
 This section demonstrates the functionality of SmartReactives by showing a number of examples.
-
-## Basics
-This example demonstrates the basic functionality of SmartReactives using the classes ReactiveVariable and ReactiveExpression.
-```c#
-var input = Reactive.Variable(1);
-var inputSquared = Reactive.Expression(() => input * input);
-inputSquared.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())); //Prints 'square = 1'
-
-input.Value = 2; //Prints 'square = 4'
-input.Value = 3; //Prints 'square = 9'
-```
-```ReactiveExpression<T>``` implements ```IObservable<Func<T>>```, so we can subscribe to it. The ```Func<T>``` that you get from the observable is simply a shortcut to ```ReactiveExpression<T>.Evaluate```.
-
-Note that even though square uses the input value twice, we only get one notification per change in input.
-
-## Composition
-This example shows that a ReactiveExpression can refer to other ReactiveExpressions. In this way you can build arbitrary graphs of reactive objects. 
-The example demonstrates a graph in the shape of a diamond.  
-
-```c#
-var input = Reactive.Variable(1);
-var timesTwo = Reactive.Expression(() => input * 2);
-var timesThree = Reactive.Expression(() => input * 3);
-var sumOfBoth = Reactive.Expression(() => timesTwo.Evaluate() + timesThree.Evaluate());
-sumOfBoth.Subscribe(getValue => Console.WriteLine("sumOfBoth = " + getValue())); //Prints 'sumOfBoth = 5'
-input.Value = 2; //Prints 'sumOfBoth = 10'
-input.Value = 3; //Prints 'sumOfBoth = 15'
-```
-
-Note that although the input has two paths in the graph to sumOfBoth, there is only one notification for sumOfBoth when input changes.
-
-## Precise
-In the following example, the expression leftOrRight only depends on variable right when variable left is false, since we are using the lazy or operator ||. 
-If we change right while left is false, then we don't get any updates from leftOrRight. 
-In general, SmartReactives won't give you any updates for old dependencies or possible future dependencies.
-Note that if we only want to get updates if leftOrRight changes then we can use ```leftOrRight.DistinctUntilChanged().Subscribe(...)```.
-
-```c#
-var left = Reactive.Variable(false);
-var right = Reactive.Variable(false);
-var leftOrRight = Reactive.Expression(() => left || right);
-leftOrRight.Subscribe(getValue => Console.WriteLine("leftOrRight = " + getValue())); //Prints 'leftOrRight = False'
-
-right.Value = true; //Prints 'leftOrRight = True'
-left.Value = true; //Prints 'leftOrRight = True'
-right.Value = false; //Prints nothing
-```
 
 ## ReactiveCache
 This example shows how to use ReactiveCache to get a cache which automatically clears itself when it becomes stale.
@@ -86,6 +40,39 @@ input.Value = 3; //Cache becomes stale.
 
 Assert.AreEqual(9, cache.Get()); //Prints 'cache miss'
 Assert.AreEqual(9, cache.Get()); //Cache hit.
+```
+
+## Composition
+This example shows that a ReactiveExpression can refer to other ReactiveExpressions. In this way you can build arbitrary graphs of reactive objects. 
+The example demonstrates a graph in the shape of a diamond.  
+
+```c#
+var input = Reactive.Variable(1);
+var timesTwo = Reactive.Expression(() => input * 2);
+var timesThree = Reactive.Expression(() => input * 3);
+var sumOfBoth = Reactive.Expression(() => timesTwo.Evaluate() + timesThree.Evaluate());
+sumOfBoth.Subscribe(getValue => Console.WriteLine("sumOfBoth = " + getValue())); //Prints 'sumOfBoth = 5'
+input.Value = 2; //Prints 'sumOfBoth = 10'
+input.Value = 3; //Prints 'sumOfBoth = 15'
+```
+
+Note that although the input has two paths in the graph to sumOfBoth, there is only one notification for sumOfBoth when input changes. SmartReactives makes sure to notify an expression once and only once when it changes value.
+
+## Precise
+In the following example, the expression leftOrRight only depends on variable right when variable left is false, since we are using the lazy or operator ||. 
+If we change right while left is false, then we don't get any updates from leftOrRight. 
+In general, SmartReactives won't give you any updates for old dependencies or possible future dependencies.
+Note that if we only want to get updates if leftOrRight changes then we can use ```leftOrRight.DistinctUntilChanged().Subscribe(...)```.
+
+```c#
+var left = Reactive.Variable(false);
+var right = Reactive.Variable(false);
+var leftOrRight = Reactive.Expression(() => left || right);
+leftOrRight.Subscribe(getValue => Console.WriteLine("leftOrRight = " + getValue())); //Prints 'leftOrRight = False'
+
+right.Value = true; //Prints 'leftOrRight = True'
+left.Value = true; //Prints 'leftOrRight = True'
+right.Value = false; //Prints nothing
 ```
 			
 ## Reactive Properties
