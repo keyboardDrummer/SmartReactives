@@ -76,6 +76,7 @@ namespace SmartReactives.Examples
             rights.OnNext(false); // Prints 'leftOrRight = True' (while SmartReactives prints nothing here)
         }
 
+        [Test]
         public void Cache()
         {
             var input = Reactive.Variable(2); //We define a reactive variable.
