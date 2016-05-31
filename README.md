@@ -42,7 +42,7 @@ Assert.AreEqual(9, cache.Get()); //Prints 'cache miss'
 Assert.AreEqual(9, cache.Get()); //Cache hit.
 ```
 
-## Composition
+### Composition
 This example shows that a ReactiveExpression can refer to other ReactiveExpressions. In this way you can build arbitrary graphs of reactive objects. 
 The example demonstrates a graph in the shape of a diamond.  
 
@@ -75,7 +75,7 @@ left.Value = true; //Prints 'leftOrRight = True'
 right.Value = false; //Prints nothing
 ```
 			
-## Reactive Properties
+### Reactive Properties
 This examples demonstrates two methods to implement a reactive property. The first method uses the class ReactiveVariable that we already know as a backing field for our reactive property.
 The second method applies ReactiveVariableAttribute to the property, which in combination with PostSharp does all the work.
 ```c#
@@ -101,7 +101,7 @@ class ReactiveProperties
 }
 ```
 
-## ReactiveCacheAttribute
+### ReactiveCacheAttribute
 The bottom example demonstrates using ReactiveVariableAttribute and ReactiveCacheAttribute to effortlessly setup a cache. 
 The calculation in the example has dependencies that change during runtime, so it's not statically known which variable changes will cause the cache to become stale.
 ```c#
@@ -137,7 +137,7 @@ class CachingCalculator
 }
 ```
 
-## SmartNotifyPropertyChanged
+### SmartNotifyPropertyChanged
 Implementing PropertyChanged for a property is a known cause for boilerplate. PostSharp allows you to remove this boilerplate using its attribute NotifyPropertyChanged.
 However, sometimes a property A depends on another property B. In this case we would like both properties to call PropertyChanged when B changes. 
 The PostSharp attribute NotifyPropertyChanged won't do this, but SmartNotifyPropertyChanged will, as shown in the following example.
@@ -169,14 +169,14 @@ class Calculator : HasNotifyPropertyChanged
 }
 ```
 
-# Documentation
+## Documentation
 
 The SmartReactives API is divided into three layers:
 - Common: the bread and butter of SmartReactives. The central classes are ReactiveVariable and ReactiveExpression.
 - Core: the lowest level API on which the other API's are based. The central class here is ReactiveManager. In 99% of the cases you won't have a reason for using the Core API.
 - Postsharp: an API of attributes that when put on properties will enhance them with SmartReactive capabilities. This API provides the most concise code.
 
-##  Core
+###  Core
 
 The basic premise on which SmartReactives is built is quite simple: if we're evaluating A and suddenly B is read from, then A must depend on B. The tricky part is correctly dealing with multiple threads, not leaking any memory, being performant, and making sure we don't notify too often or too little.
 
