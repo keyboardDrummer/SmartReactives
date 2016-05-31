@@ -11,7 +11,7 @@ inputSquared.Subscribe(getSquare => Console.WriteLine("square = " + getSquare())
 input.Value = 2; //Prints 'square = 4'
 input.Value = 3; //Prints 'square = 9'
 ```
-```ReactiveExpression<T>``` implements ```IObservable<Func<T>>```, so we can subscribe to it. The ```Func<T>``` that you get from the observable is simply a shortcut to the function you created the reactive expression with.
+```Reactive.Expression``` returns a ```ReactiveExpression<T>``` which implements ```IObservable<Func<T>>``` so we can subscribe to it. The function you get from the observable is simply a shortcut to ```ReactiveExpression<T>.Evaluate```, which evaluates the function you created the reactive expression with.
 
 To start using SmartReactives simply add the NuGet package [SmartReactives](https://www.nuget.org/packages/SmartReactives/) to your project. Also add [SmartReactives.PostSharp](https://www.nuget.org/packages/SmartReactives.PostSharp/) if you're using PostSharp.
 
@@ -19,11 +19,11 @@ If you're looking for something like SmartReactives but outside of .NET then tak
 - Scala: [Scala.Rx](https://github.com/lihaoyi/scala.rx)
 - JavaScript: [Mobx](https://github.com/mobxjs/mobx) and [Meteor Tracker](https://atmospherejs.com/meteor/tracker)
 
-#Examples
+## Examples
 This section demonstrates the functionality of SmartReactives by showing a number of examples.
 
-## ReactiveCache
-This example shows how to use ReactiveCache to get a cache which automatically clears itself when it becomes stale.
+### ReactiveCache
+This example shows how to use Reactive.Cache to get a cache which automatically clears itself when it becomes stale.
 ```c#
 var input = Reactive.Variable(2); //We define a reactive variable.
 Func<int> f = () => //f is the calculation we want to cache.
@@ -58,7 +58,7 @@ input.Value = 3; //Prints 'sumOfBoth = 15'
 
 Note that although the input has two paths in the graph to sumOfBoth, there is only one notification for sumOfBoth when input changes. SmartReactives makes sure to notify an expression once and only once when it changes value.
 
-## Precise
+### Precise
 In the following example, the expression leftOrRight only depends on variable right when variable left is false, since we are using the lazy or operator ||. 
 If we change right while left is false, then we don't get any updates from leftOrRight. 
 In general, SmartReactives won't give you any updates for old dependencies or possible future dependencies.
