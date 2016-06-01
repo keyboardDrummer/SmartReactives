@@ -21,8 +21,21 @@ namespace SmartReactives.Common
             this.get = get;
         }
 
+        public bool IsSet { get; private set; }
+
         /// <summary>
-        /// Get a value from the cache. 
+        /// Useful for debugging.
+        /// </summary>
+        // ReSharper disable once UnusedMember.Local
+        internal IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
+
+        void IListener.Notify()
+        {
+            IsSet = false;
+        }
+
+        /// <summary>
+        /// Get a value from the cache.
         /// </summary>
         public T Get()
         {
@@ -38,13 +51,6 @@ namespace SmartReactives.Common
             return lastValue;
         }
 
-        public bool IsSet { get; private set; }
-
-        void IListener.Notify()
-        {
-            IsSet = false;
-        }
-
         /// <summary>
         /// Invalidate the cache manually. Usefull for cases not covered by the Reactive framework.
         /// </summary>
@@ -53,11 +59,5 @@ namespace SmartReactives.Common
             IsSet = false;
             ReactiveManager.WasChanged(this);
         }
-
-        /// <summary>
-        /// Useful for debugging.
-        /// </summary>
-        // ReSharper disable once UnusedMember.Local
-        internal IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
     }
 }

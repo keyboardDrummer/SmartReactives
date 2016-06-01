@@ -6,14 +6,14 @@ using System.Reactive.Linq;
 namespace SmartReactives.List
 {
     /// <summary>
-    /// Turns a <see cref="INotifyCollectionChanged"/> into an <see cref="IObservable{T}"/>
+    /// Turns a <see cref="INotifyCollectionChanged" /> into an <see cref="IObservable{T}" />
     /// </summary>
     public class NotifyCollectionChangedAsObservable : IObservable<EventPattern<NotifyCollectionChangedEventArgs>>
     {
-        private readonly IObservable<EventPattern<NotifyCollectionChangedEventArgs>> _observable;
-        private readonly INotifyCollectionChanged _observableCollection;
+        readonly IObservable<EventPattern<NotifyCollectionChangedEventArgs>> _observable;
+        readonly INotifyCollectionChanged _observableCollection;
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public NotifyCollectionChangedAsObservable(INotifyCollectionChanged observableCollection)
         {
             _observableCollection = observableCollection;
@@ -22,7 +22,7 @@ namespace SmartReactives.List
                 handler => _observableCollection.CollectionChanged -= handler);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public IDisposable Subscribe(IObserver<EventPattern<NotifyCollectionChangedEventArgs>> observer)
         {
             return _observable.Subscribe(observer);

@@ -4,7 +4,7 @@ namespace SmartReactives.Test
 {
     public class Source //: HasNotifyPropertyChanged
     {
-        ReactiveVariable<bool> woop = new ReactiveVariable<bool>();
+        readonly ReactiveVariable<bool> woop = new ReactiveVariable<bool>();
 
         public bool Woop
         {

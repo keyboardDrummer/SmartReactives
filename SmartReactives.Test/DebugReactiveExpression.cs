@@ -12,7 +12,7 @@ namespace SmartReactives.Test
             this.name = name;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             return name ?? "unnamed";

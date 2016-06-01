@@ -22,7 +22,7 @@ namespace SmartReactives.Test
         {
             var weakReactiveVariable = new ReactiveExpression<bool>(() => source.Woop);
             weakReactiveVariable.Evaluate();
-            int counter = 0;
+            var counter = 0;
             weakReactiveVariable.Subscribe(_ => counter++);
             Assert.AreEqual(1, counter);
             source.Woop = !source.Woop;

@@ -4,15 +4,14 @@ using System.Collections.Generic;
 namespace SmartReactives.Core
 {
     /// <summary>
-    /// The thread specific state of <see cref="ReactiveManager"/>
+    /// The thread specific state of <see cref="ReactiveManager" />
     /// </summary>
     class ReactiveManagerThreadState
     {
+        readonly IList<IListener> notifyList = new List<IListener>();
         Stack<Dependency> DependentsEvaluating { get; } = new Stack<Dependency>();
 
         public bool Enabled { get; set; } = true;
-
-        IList<IListener> notifyList = new List<IListener>();
 
         /// <summary>
         /// Must be called whenever a node value is changed externally, for example when a property node's backing field changes its value.
@@ -25,7 +24,7 @@ namespace SmartReactives.Core
             }
 
             ReactiveManager.GetNode(source).NotifyChildren(notifyList);
-            foreach (IListener toNotify in notifyList)
+            foreach (var toNotify in notifyList)
             {
                 toNotify.Notify();
             }

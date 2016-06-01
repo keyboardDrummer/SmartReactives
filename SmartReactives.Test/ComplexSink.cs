@@ -4,9 +4,9 @@ namespace SmartReactives.Test
 {
     class ComplexSink //: HasNotifyPropertyChanged
     {
+        readonly ReactiveExpression<string> complex;
         readonly ReactiveVariable<Source> source = new ReactiveVariable<Source>();
         readonly ReactiveVariable<Source> source2 = new ReactiveVariable<Source>();
-        readonly ReactiveExpression<string> complex;
 
         public ComplexSink(Source source, Source source2)
         {

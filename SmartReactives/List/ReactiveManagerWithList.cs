@@ -7,17 +7,17 @@ using SmartReactives.Core;
 namespace SmartReactives.List
 {
     /// <summary>
-    /// Adds reactive functionality to non-reactive lists as long as they implement <see cref="INotifyCollectionChanged"/>.
-    /// The <see cref="INotifyCollectionChanged"/> object becomes a node in the dependency graph.
-    /// Care is taken so that only on handler is attached to the CollectionChanged event of each <see cref="INotifyCollectionChanged"/>.
+    /// Adds reactive functionality to non-reactive lists as long as they implement <see cref="INotifyCollectionChanged" />.
+    /// The <see cref="INotifyCollectionChanged" /> object becomes a node in the dependency graph.
+    /// Care is taken so that only on handler is attached to the CollectionChanged event of each <see cref="INotifyCollectionChanged" />.
     /// </summary>
     public static class ReactiveManagerWithList
     {
-        private static readonly ConditionalWeakTable<INotifyCollectionChanged, IDisposable> _subscriptions =
+        static readonly ConditionalWeakTable<INotifyCollectionChanged, IDisposable> _subscriptions =
             new ConditionalWeakTable<INotifyCollectionChanged, IDisposable>();
 
         /// <summary>
-        /// Evaluate a function that returns an <see cref="INotifyCollectionChanged"/>
+        /// Evaluate a function that returns an <see cref="INotifyCollectionChanged" />
         /// </summary>
         public static T Evaluate<T>(Func<T> evaluate) //TODO zeker weten dat we de registratie aan de lijst willen hangen?
             where T : INotifyCollectionChanged
@@ -38,7 +38,7 @@ namespace SmartReactives.List
         }
 
         //We could also do this on the set instead of the get.
-        private static void RegisterChanges<T>(T result)
+        static void RegisterChanges<T>(T result)
             where T : INotifyCollectionChanged
         {
             IDisposable disposable;
@@ -50,7 +50,7 @@ namespace SmartReactives.List
             }
         }
 
-        private static void CollectionChangedHandler(EventPattern<NotifyCollectionChangedEventArgs> eventPattern)
+        static void CollectionChangedHandler(EventPattern<NotifyCollectionChangedEventArgs> eventPattern)
         {
             ReactiveManager.WasChanged(eventPattern.Sender);
         }

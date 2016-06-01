@@ -25,7 +25,10 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
         // ReSharper disable once UnusedMember.Local
         IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
 
-        /// <inheritdoc/>
+        public abstract object CreateInstance(AdviceArgs adviceArgs);
+        public abstract void RuntimeInitializeInstance();
+
+        /// <inheritdoc />
         public override string ToString()
         {
             // ReSharper disable once PossibleNullReferenceException
@@ -38,7 +41,7 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
                 FirstOrDefault(method => method.GetCustomAttributes(typeof(RaisesNotifyPropertyChangedAttribute), true).Any());
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public sealed override void OnSetValue(LocationInterceptionArgs args)
         {
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
@@ -93,8 +96,5 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
             property = targetLocation.PropertyInfo;
             base.CompileTimeInitialize(targetLocation, aspectInfo);
         }
-
-        public abstract object CreateInstance(AdviceArgs adviceArgs);
-        public abstract void RuntimeInitializeInstance();
     }
 }

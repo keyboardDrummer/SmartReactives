@@ -4,7 +4,7 @@ using SmartReactives.Core;
 namespace SmartReactives.Common
 {
     /// <summary>
-    /// A variable which can be used in an <see cref="ReactiveExpression{T}"/> and other reactive objects such as <see cref="ReactiveCache{T}"/>
+    /// A variable which can be used in an <see cref="ReactiveExpression{T}" /> and other reactive objects such as <see cref="ReactiveCache{T}" />
     /// </summary>
     public class ReactiveVariable<T>
     {
@@ -32,6 +32,12 @@ namespace SmartReactives.Common
             }
         }
 
+        // ReSharper disable once UnusedMember.Local
+        /// <summary>
+        /// For debugging purposes.
+        /// </summary>
+        internal IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
+
         /// <summary>
         /// Set a new value, but only raise a change if the new value does not equal the existing one.
         /// </summary>
@@ -42,12 +48,6 @@ namespace SmartReactives.Common
                 Value = newValue;
             }
         }
-
-        // ReSharper disable once UnusedMember.Local
-        /// <summary>
-        /// For debugging purposes.
-        /// </summary>
-        internal IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
 
         public static implicit operator T(ReactiveVariable<T> reactive)
         {

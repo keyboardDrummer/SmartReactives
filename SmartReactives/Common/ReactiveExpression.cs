@@ -6,9 +6,9 @@ using SmartReactives.Core;
 namespace SmartReactives.Common
 {
     /// <summary>
-    /// Detects when an expression changes its value and exposes these changes as an <see cref="IObservable{T}"/>. 
-    /// After subscribing to the <see cref="IObservable{T}"/> an initial notification is pushed immediately.
-    /// Make sure the provided expression only depends on constant values or reactive objects, such as <see cref="ReactiveVariable{T}"/> or <see cref="ReactiveExpression{T}"/>.
+    /// Detects when an expression changes its value and exposes these changes as an <see cref="IObservable{T}" />.
+    /// After subscribing to the <see cref="IObservable{T}" /> an initial notification is pushed immediately.
+    /// Make sure the provided expression only depends on constant values or reactive objects, such as <see cref="ReactiveVariable{T}" /> or <see cref="ReactiveExpression{T}" />.
     /// </summary>
     [Serializable]
     public class ReactiveExpression<T> : IObservable<Func<T>>, IListener
@@ -21,13 +21,11 @@ namespace SmartReactives.Common
             this.expression = expression;
         }
 
+        // ReSharper disable once UnusedMember.Local
         /// <summary>
-        /// Evaluate the expression and return its value.
+        /// For debugging purposes.
         /// </summary>
-        public T Evaluate()
-        {
-            return ReactiveManager.Evaluate(this, expression);
-        }
+        internal IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
 
         void IListener.Notify()
         {
@@ -40,10 +38,12 @@ namespace SmartReactives.Common
             return subject.Subscribe(observer);
         }
 
-        // ReSharper disable once UnusedMember.Local
         /// <summary>
-        /// For debugging purposes.
+        /// Evaluate the expression and return its value.
         /// </summary>
-        internal IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
+        public T Evaluate()
+        {
+            return ReactiveManager.Evaluate(this, expression);
+        }
     }
 }

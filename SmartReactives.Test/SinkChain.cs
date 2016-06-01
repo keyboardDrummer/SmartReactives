@@ -5,13 +5,11 @@ namespace SmartReactives.Test
     class SinkChain //: HasNotifyPropertyChanged
     {
         readonly ReactiveVariable<bool> source = new ReactiveVariable<bool>();
-        readonly ReactiveExpression<bool> innerSink;
-        readonly ReactiveExpression<bool> outerSink;
 
         public SinkChain()
         {
-            innerSink = new ReactiveExpression<bool>(() => !Source);
-            outerSink = new ReactiveExpression<bool>(() => !InnerSink);
+            InnerSinkReactive = new ReactiveExpression<bool>(() => !Source);
+            OuterSinkReactive = new ReactiveExpression<bool>(() => !InnerSink);
         }
 
         public bool Source
@@ -20,11 +18,12 @@ namespace SmartReactives.Test
             set { source.Value = value; }
         }
 
-        public bool InnerSink => innerSink.Evaluate();
+        public bool InnerSink => InnerSinkReactive.Evaluate();
 
-        public bool OuterSink => outerSink.Evaluate();
+        public bool OuterSink => OuterSinkReactive.Evaluate();
 
-        public ReactiveExpression<bool> OuterSinkReactive => outerSink;
-        public ReactiveExpression<bool> InnerSinkReactive => innerSink;
+        public ReactiveExpression<bool> OuterSinkReactive { get; }
+
+        public ReactiveExpression<bool> InnerSinkReactive { get; }
     }
 }

@@ -13,7 +13,7 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
     [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, "SmartNotifyPropertyChanged")]
     public class ReactiveListAttribute : LocationInterceptionAspect
     {
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public sealed override void OnGetValue(LocationInterceptionArgs args)
         {
             ReactiveManagerWithList.Evaluate(() =>

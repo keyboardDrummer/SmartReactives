@@ -9,7 +9,7 @@ namespace SmartReactives.Test
         public SimpleSink(Source source)
         {
             Source = source;
-            _bool = new ReactiveExpression<bool>(() => Source.Woop);
+            BoopReactive = new ReactiveExpression<bool>(() => Source.Woop);
         }
 
         public Source Source
@@ -18,9 +18,8 @@ namespace SmartReactives.Test
             set { source.Value = value; }
         }
 
-        readonly ReactiveExpression<bool> _bool;
-        public bool Boop => _bool.Evaluate();
+        public bool Boop => BoopReactive.Evaluate();
 
-        public ReactiveExpression<bool> BoopReactive => _bool;
+        public ReactiveExpression<bool> BoopReactive { get; }
     }
 }

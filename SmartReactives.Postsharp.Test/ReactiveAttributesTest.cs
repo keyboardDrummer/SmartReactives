@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using SmartReactives.Test;
 
 namespace SmartReactives.Postsharp.Test
 {

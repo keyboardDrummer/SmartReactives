@@ -14,7 +14,7 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
     [AttributeUsage(AttributeTargets.Property)]
     public class SmartNotifyPropertyChangedVariableAttribute : SmartNotifyPropertyChangedVariableAttributeBase
     {
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public sealed override void OnGetValue(LocationInterceptionArgs args)
         {
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
@@ -26,13 +26,13 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
             args.ProceedGetValue();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override object CreateInstance(AdviceArgs adviceArgs)
         {
             return new SmartNotifyPropertyChangedVariableAttribute();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override void RuntimeInitializeInstance()
         {
         }

@@ -10,12 +10,6 @@ namespace SmartReactives.PostSharp
     {
         [NonSerialized] ReactiveCache<object> cache;
 
-        public sealed override void OnGetValue(LocationInterceptionArgs args)
-        {
-            cache = cache ?? new ReactiveCache<object>(args.GetCurrentValue);
-            args.Value = cache.Get();
-        }
-
         public object CreateInstance(AdviceArgs adviceArgs)
         {
             return new ReactiveCacheAttribute();
@@ -23,6 +17,12 @@ namespace SmartReactives.PostSharp
 
         public void RuntimeInitializeInstance()
         {
+        }
+
+        public sealed override void OnGetValue(LocationInterceptionArgs args)
+        {
+            cache = cache ?? new ReactiveCache<object>(args.GetCurrentValue);
+            args.Value = cache.Get();
         }
     }
 }

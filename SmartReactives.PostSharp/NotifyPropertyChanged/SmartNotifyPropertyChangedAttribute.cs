@@ -30,7 +30,24 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
             raisePropertyChanged = (Action<string>) Delegate.CreateDelegate(typeof(Action<string>), Instance, raisePropertyMethodInfo, true);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Useful for debugging.
+        /// </summary>
+        // ReSharper disable once UnusedMember.Local
+        public string PropertyName { get; private set; }
+
+        /// <summary>
+        /// Useful for debugging.
+        /// </summary>
+        // ReSharper disable once UnusedMember.Local
+        object Instance { get; }
+
+        public void Notify()
+        {
+            raisePropertyChanged(PropertyName);
+        }
+
+        /// <inheritdoc />
         public sealed override void OnGetValue(LocationInterceptionArgs args)
         {
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
@@ -47,43 +64,26 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
             });
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             return "Sink from: " + Instance.GetType().Name + "." + PropertyName;
         }
 
-        public void Notify()
-        {
-            raisePropertyChanged(PropertyName);
-        }
-
-        /// <summary>
-        /// Useful for debugging.
-        /// </summary>
-        // ReSharper disable once UnusedMember.Local
-        public string PropertyName { get; private set; }
-
-        /// <summary>
-        /// Useful for debugging.
-        /// </summary>
-        // ReSharper disable once UnusedMember.Local
-        object Instance { get; }
-
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override object CreateInstance(AdviceArgs adviceArgs)
         {
             return new SmartNotifyPropertyChangedAttribute(adviceArgs.Instance, PropertyName);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override void CompileTimeInitialize(LocationInfo targetLocation, AspectInfo aspectInfo)
         {
             PropertyName = targetLocation.Name;
             base.CompileTimeInitialize(targetLocation, aspectInfo);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override void RuntimeInitializeInstance()
         {
         }

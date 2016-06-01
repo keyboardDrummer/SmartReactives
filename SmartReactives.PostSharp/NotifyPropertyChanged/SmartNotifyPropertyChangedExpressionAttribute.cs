@@ -48,7 +48,24 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
         // ReSharper disable once UnusedMember.Local
         public IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
+        public virtual object CreateInstance(AdviceArgs adviceArgs)
+        {
+            return new SmartNotifyPropertyChangedExpressionAttribute(adviceArgs.Instance, PropertyName);
+        }
+
+        /// <inheritdoc />
+        public void RuntimeInitializeInstance()
+        {
+        }
+
+        /// <inheritdoc />
+        public void Notify()
+        {
+            raisePropertyChanged(PropertyName);
+        }
+
+        /// <inheritdoc />
         public sealed override void OnGetValue(LocationInterceptionArgs args)
         {
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
@@ -65,25 +82,13 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
             });
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             return "Sink from: " + Instance.GetType().Name + "." + PropertyName;
         }
 
-        /// <inheritdoc/>
-        public void Notify()
-        {
-            raisePropertyChanged(PropertyName);
-        }
-
-        /// <inheritdoc/>
-        public virtual object CreateInstance(AdviceArgs adviceArgs)
-        {
-            return new SmartNotifyPropertyChangedExpressionAttribute(adviceArgs.Instance, PropertyName);
-        }
-
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override void CompileTimeInitialize(LocationInfo targetLocation, AspectInfo aspectInfo)
         {
             PropertyName = targetLocation.Name;
@@ -94,11 +99,6 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
         {
             SmartNotifyPropertyChangedVariableAttributeBase.ValidateHasRaiseMethod(locationInfo);
             return base.CompileTimeValidate(locationInfo);
-        }
-
-        /// <inheritdoc/>
-        public void RuntimeInitializeInstance()
-        {
         }
     }
 }

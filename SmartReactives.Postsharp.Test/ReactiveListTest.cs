@@ -11,13 +11,6 @@ namespace SmartReactives.Postsharp.Test
 {
     public class ReactiveListTest
     {
-        class ClassWithList : HasNotifyPropertyChanged
-        {
-            [ReactiveList]
-            [SmartNotifyPropertyChanged]
-            public ObservableCollection<Source> Sources { get; } = new ObservableCollection<Source>();
-        }
-
         [Test]
         public void TestList()
         {
@@ -28,8 +21,8 @@ namespace SmartReactives.Postsharp.Test
             sourcesList.Sources.Add(source1);
             sourcesList.Sources.Add(source2);
 
-            int counter = 0;
-            int expectation = 1;
+            var counter = 0;
+            var expectation = 1;
             var property = new ReactiveExpression<bool>(() => sourcesList.Sources[1].Woop);
             property.Evaluate();
             property.Subscribe(s => ReactiveManagerTest.Const(s, () => counter++));
@@ -60,8 +53,8 @@ namespace SmartReactives.Postsharp.Test
             var sourcesList = new ClassWithList();
             var property = new ReactiveExpression<int>(() => sourcesList.Sources.Count);
             property.Evaluate();
-            int counter = 0;
-            int expectation = 1;
+            var counter = 0;
+            var expectation = 1;
             property.Subscribe(s => ReactiveManagerTest.Const(s, () => counter++));
 
             Assert.AreEqual(expectation, counter);
@@ -76,23 +69,6 @@ namespace SmartReactives.Postsharp.Test
 
             source1.Woop = true;
             Assert.AreEqual(expectation, counter);
-        }
-
-        class DependentList : HasNotifyPropertyChanged
-        {
-            [ReactiveList]
-            [SmartNotifyPropertyChanged]
-            public ObservableCollection<Source> Dependent => Sources;
-
-            [SmartNotifyPropertyChanged]
-            public int DependentCount => Dependent.Count;
-
-            [ReactiveList]
-            [SmartNotifyPropertyChanged]
-            public ObservableCollection<Source> Sources { get; set; } = new ObservableCollection<Source>();
-
-            [SmartNotifyPropertyChanged]
-            public int SourcesCount => Sources.Count;
         }
 
         [Test]
@@ -188,6 +164,30 @@ namespace SmartReactives.Postsharp.Test
             attacker.Join();
 
             Assert.AreEqual(1, counter);
+        }
+
+        class ClassWithList : HasNotifyPropertyChanged
+        {
+            [ReactiveList]
+            [SmartNotifyPropertyChanged]
+            public ObservableCollection<Source> Sources { get; } = new ObservableCollection<Source>();
+        }
+
+        class DependentList : HasNotifyPropertyChanged
+        {
+            [ReactiveList]
+            [SmartNotifyPropertyChanged]
+            public ObservableCollection<Source> Dependent => Sources;
+
+            [SmartNotifyPropertyChanged]
+            public int DependentCount => Dependent.Count;
+
+            [ReactiveList]
+            [SmartNotifyPropertyChanged]
+            public ObservableCollection<Source> Sources { get; set; } = new ObservableCollection<Source>();
+
+            [SmartNotifyPropertyChanged]
+            public int SourcesCount => Sources.Count;
         }
     }
 }

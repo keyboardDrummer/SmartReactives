@@ -8,34 +8,13 @@ using SmartReactives.PostSharp.NotifyPropertyChanged;
 namespace SmartReactives.Postsharp.Test
 {
     /// <summary>
-    /// In these scenarios, a superclass will access a base class's properties, 
+    /// In these scenarios, a superclass will access a base class's properties,
     /// while the superclass is constructor and before the baseclass is constructing.
     /// This is troublesome for PostSharp, because it initializes instance aspects for the base class at the start of the base class constructor.
     /// </summary>
     public class NullAspectTest
     {
-        private readonly bool AllowParentClassInspectionOfBaseClassPropertiesDuringConstruction = true;
-
-        private abstract class UsesReflectionToAccessAllPropertiesDuringConstruction : HasNotifyPropertyChanged
-        {
-            protected UsesReflectionToAccessAllPropertiesDuringConstruction()
-            {
-                foreach (var property in GetType().GetProperties())
-                {
-                    var value = property.GetValue(this);
-                    if (property.CanWrite)
-                    {
-                        property.SetValue(this, value);
-                    }
-                }
-            }
-        }
-
-        private class HasReactiveVariablePropertyAccessedByParentInParentConstructor : UsesReflectionToAccessAllPropertiesDuringConstruction
-        {
-            [SmartNotifyPropertyChanged]
-            public bool Woop { get; set; }
-        }
+        readonly bool AllowParentClassInspectionOfBaseClassPropertiesDuringConstruction = true;
 
         [Test]
         public void TestPropertyAccessDuringConstructionReflection()
@@ -52,15 +31,6 @@ namespace SmartReactives.Postsharp.Test
                     var value = new HasReactiveVariablePropertyAccessedByParentInParentConstructor();
                     Assert.NotNull(value);
                 });
-            }
-        }
-
-        private class HasReactiveFunctionPropertyAccessedByParentInParentConstructor : UsesReflectionToAccessAllPropertiesDuringConstruction
-        {
-            [SmartNotifyPropertyChanged]
-            public bool Woop
-            {
-                get { return true; }
             }
         }
 
@@ -82,7 +52,50 @@ namespace SmartReactives.Postsharp.Test
             }
         }
 
-        private class PropertyAccessDuringConstruction : HasNotifyPropertyChanged
+        [Test]
+        public void TestPropertyAccessDuringConstruction()
+        {
+            var value = new PropertyAccessDuringConstruction();
+            Assert.NotNull(value);
+        }
+
+        [Test]
+        public void TestAccessPropertyInBaseClassConstructor()
+        {
+            new CallsPropertyInOverridenMethod();
+        }
+
+        abstract class UsesReflectionToAccessAllPropertiesDuringConstruction : HasNotifyPropertyChanged
+        {
+            protected UsesReflectionToAccessAllPropertiesDuringConstruction()
+            {
+                foreach (var property in GetType().GetProperties())
+                {
+                    var value = property.GetValue(this);
+                    if (property.CanWrite)
+                    {
+                        property.SetValue(this, value);
+                    }
+                }
+            }
+        }
+
+        class HasReactiveVariablePropertyAccessedByParentInParentConstructor : UsesReflectionToAccessAllPropertiesDuringConstruction
+        {
+            [SmartNotifyPropertyChanged]
+            public bool Woop { get; set; }
+        }
+
+        class HasReactiveFunctionPropertyAccessedByParentInParentConstructor : UsesReflectionToAccessAllPropertiesDuringConstruction
+        {
+            [SmartNotifyPropertyChanged]
+            public bool Woop
+            {
+                get { return true; }
+            }
+        }
+
+        class PropertyAccessDuringConstruction : HasNotifyPropertyChanged
         {
             public PropertyAccessDuringConstruction()
             {
@@ -91,13 +104,6 @@ namespace SmartReactives.Postsharp.Test
 
             [SmartNotifyPropertyChanged]
             public bool Woop { get; set; }
-        }
-
-        [Test]
-        public void TestPropertyAccessDuringConstruction()
-        {
-            var value = new PropertyAccessDuringConstruction();
-            Assert.NotNull(value);
         }
 
         class CallsVirtualMethodInConstructor : HasNotifyPropertyChanged
@@ -122,12 +128,6 @@ namespace SmartReactives.Postsharp.Test
                 base.AllowOverride();
                 Console.Write(MyProperty);
             }
-        }
-
-        [Test]
-        public void TestAccessPropertyInBaseClassConstructor()
-        {
-            new CallsPropertyInOverridenMethod();
         }
     }
 }
