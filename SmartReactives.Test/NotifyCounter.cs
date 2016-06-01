@@ -2,13 +2,13 @@
 
 namespace SmartReactives.Test
 {
-	class NotifyCounter : IListener
-	{
-		public int Counter { get; set; }
+    class NotifyCounter : IListener
+    {
+        public int Counter { get; set; }
 
-		public void Notify()
-		{
-			Counter++;
-		}
-	}
+        public void Notify()
+        {
+            Counter++;
+        }
+    }
 }

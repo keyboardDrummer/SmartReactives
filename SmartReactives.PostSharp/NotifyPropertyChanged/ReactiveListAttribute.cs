@@ -6,21 +6,21 @@ using SmartReactives.List;
 
 namespace SmartReactives.PostSharp.NotifyPropertyChanged
 {
-	/// <summary>
-	/// Makes a list property reactive.
-	/// </summary>
-	[Serializable]
-	[AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, "SmartNotifyPropertyChanged")]
-	public class ReactiveListAttribute : LocationInterceptionAspect
-	{
-		/// <inheritdoc/>
-		public sealed override void OnGetValue(LocationInterceptionArgs args)
-		{
-			ReactiveManagerWithList.Evaluate(() =>
-			{
-				base.OnGetValue(args);
-				return (INotifyCollectionChanged)args.GetCurrentValue();
-			});
-		}
-	}
+    /// <summary>
+    /// Makes a list property reactive.
+    /// </summary>
+    [Serializable]
+    [AspectRoleDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, "SmartNotifyPropertyChanged")]
+    public class ReactiveListAttribute : LocationInterceptionAspect
+    {
+        /// <inheritdoc/>
+        public sealed override void OnGetValue(LocationInterceptionArgs args)
+        {
+            ReactiveManagerWithList.Evaluate(() =>
+            {
+                base.OnGetValue(args);
+                return (INotifyCollectionChanged) args.GetCurrentValue();
+            });
+        }
+    }
 }

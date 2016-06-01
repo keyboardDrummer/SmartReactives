@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace SmartReactives.Core
 {
-	/// <summary>
+    /// <summary>
     /// A node in the dependency graph of <see cref="ReactiveManager"/>
     /// We define forward in the dependency graph as moving from dependencies to dependents.
     /// So given that a node is changed, we can find all effected dependents by traversing forward through the graph from the changed node.
@@ -23,32 +23,32 @@ namespace SmartReactives.Core
     /// While traversing the graph, we skip edges whose timestamp does not match of their target node, as if these edges were not part of the graph. 
     /// Incrementing the timestamp of a node is thus a cheap way to effectively delete all incoming edges of this node. 
     /// </summary>
-	class ReactiveNode
-	{
-	    long notificationsHad;
-		Chain<Dependency> dependencies; //Since this is a write often read once scenario, we use a singly linked list instead of an array.
+    class ReactiveNode
+    {
+        long notificationsHad;
+        Chain<Dependency> dependencies; //Since this is a write often read once scenario, we use a singly linked list instead of an array.
 
         public IList<Dependency> GetCopy()
-		{
-			lock (this)
-			{
-				var result = new List<Dependency>();
-				var current = dependencies;
-				while (current != null)
-				{
-					result.Add(current.Value);
-					current = current.Next;
-				}
-				return result;
-			}
-		}
+        {
+            lock (this)
+            {
+                var result = new List<Dependency>();
+                var current = dependencies;
+                while (current != null)
+                {
+                    result.Add(current.Value);
+                    current = current.Next;
+                }
+                return result;
+            }
+        }
 
-		public long WasNotified()
-		{
-			return Interlocked.Increment(ref notificationsHad);
-		}
+        public long WasNotified()
+        {
+            return Interlocked.Increment(ref notificationsHad);
+        }
 
-		public void NotifyChildren(IList<IListener> result)
+        public void NotifyChildren(IList<IListener> result)
         {
             Chain<Dependency> current;
             lock (this)
@@ -57,39 +57,39 @@ namespace SmartReactives.Core
                 dependencies = null; //Cleans up memory but not required for semantics since the notification counter makes sure DependentReferences never trigger two notifications.
             }
 
-			while (current != null)
-			{
-				WasChangedForChild(result, current.Value);
-				current = current.Next;
-			}
+            while (current != null)
+            {
+                WasChangedForChild(result, current.Value);
+                current = current.Next;
+            }
         }
 
-	    static void WasChangedForChild(IList<IListener> result, Dependency childEdge)
-		{
-			var child = childEdge.Value;
-			if (child == null)
-				return;
+        static void WasChangedForChild(IList<IListener> result, Dependency childEdge)
+        {
+            var child = childEdge.Value;
+            if (child == null)
+                return;
 
-			var childNode = ReactiveManager.GetNode(child);
-			if (childNode.notificationsHad == childEdge.NotificationsHad) //Determines if the edge is still up-to-date.
-			{
-				childNode.WasNotified();
-				result.Add(child);
+            var childNode = ReactiveManager.GetNode(child);
+            if (childNode.notificationsHad == childEdge.NotificationsHad) //Determines if the edge is still up-to-date.
+            {
+                childNode.WasNotified();
+                result.Add(child);
                 childNode.NotifyChildren(result);
             }
-		}
+        }
 
-		internal void Add(Dependency element)
-		{
-			lock(this)
-			{
-				dependencies = new Chain<Dependency>(element, dependencies);
-			}
-		}
+        internal void Add(Dependency element)
+        {
+            lock (this)
+            {
+                dependencies = new Chain<Dependency>(element, dependencies);
+            }
+        }
 
-		public Dependency GetDependency(IListener dependent)
-		{
-			return new Dependency(notificationsHad, dependent);
-		}
-	}
+        public Dependency GetDependency(IListener dependent)
+        {
+            return new Dependency(notificationsHad, dependent);
+        }
+    }
 }

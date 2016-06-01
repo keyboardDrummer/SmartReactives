@@ -14,7 +14,7 @@ namespace SmartReactives.Test
             Source2 = source2;
             complex = new ReactiveExpression<string>(() => Source.Woop ? "foo" : (Source2.Woop ? "bar" : "zoo"));
         }
-        
+
         public Source Source => source.Value;
 
         public Source Source2
@@ -22,7 +22,7 @@ namespace SmartReactives.Test
             get { return source2.Value; }
             set { source2.Value = value; }
         }
-        
+
         public string Complex => complex.Evaluate();
     }
 }

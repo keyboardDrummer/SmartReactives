@@ -56,7 +56,7 @@ namespace SmartReactives.Examples
             var right = Reactive.Variable(false);
             var leftOrRight = Reactive.Expression(() => left || right);
             leftOrRight.Subscribe(getValue => Console.WriteLine("leftOrRight = " + getValue()));
-                //Prints 'leftOrRight = False'
+            //Prints 'leftOrRight = False'
 
             right.Value = true; //Prints 'leftOrRight = True'
             left.Value = true; //Prints 'leftOrRight = True'

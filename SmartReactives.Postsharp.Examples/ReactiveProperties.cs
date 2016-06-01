@@ -9,24 +9,25 @@ using SmartReactives.PostSharp;
 
 namespace SmartReactives.PostsharpExamples
 {
-	class ReactiveProperties
-	{
-		readonly ReactiveVariable<int> usingABackingField = Reactive.Variable(1);
-		int UsingABackingField
-		{
-			get { return usingABackingField.Value; }
-			set { usingABackingField.Value = value; }
-		}
+    class ReactiveProperties
+    {
+        readonly ReactiveVariable<int> usingABackingField = Reactive.Variable(1);
 
-		[ReactiveVariable]
-		int UsingAnAttributeAndPostSharp { get; set; } = 1;
+        int UsingABackingField
+        {
+            get { return usingABackingField.Value; }
+            set { usingABackingField.Value = value; }
+        }
 
-		public void Test()
-		{
-			var product = Reactive.Expression(() => UsingABackingField * UsingAnAttributeAndPostSharp);
-			product.Subscribe(getProduct => Console.WriteLine("product = " + getProduct())); //Prints 'multiplication = 1'
+        [ReactiveVariable]
+        int UsingAnAttributeAndPostSharp { get; set; } = 1;
+
+        public void Test()
+        {
+            var product = Reactive.Expression(() => UsingABackingField * UsingAnAttributeAndPostSharp);
+            product.Subscribe(getProduct => Console.WriteLine("product = " + getProduct())); //Prints 'multiplication = 1'
             UsingAnAttributeAndPostSharp = 2; //Prints 'multiplication = 2'
             UsingABackingField = 2; //Prints 'multiplication = 4'
         }
-	}
+    }
 }

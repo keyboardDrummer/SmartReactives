@@ -4,14 +4,14 @@ using SmartReactives.PostSharp.NotifyPropertyChanged;
 
 namespace SmartReactives.Postsharp.Test
 {
-	public class HasNotifyPropertyChanged : INotifyPropertyChanged
-	{
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		[RaisesNotifyPropertyChanged]
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
+    public class HasNotifyPropertyChanged : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [RaisesNotifyPropertyChanged]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
 }

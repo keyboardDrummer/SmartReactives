@@ -2,7 +2,7 @@ using SmartReactives.PostSharp.NotifyPropertyChanged;
 
 namespace SmartReactives.Postsharp.Test
 {
-	class HasWrapperProperty : HasNotifyPropertyChanged
+    class HasWrapperProperty : HasNotifyPropertyChanged
     {
         [SmartNotifyPropertyChanged]
         public bool Woop { get; set; }
@@ -12,17 +12,11 @@ namespace SmartReactives.Postsharp.Test
             Woop = !Woop;
         }
 
-		[SmartNotifyPropertyChanged]
-		public bool Wrapper
-		{
-			get
-			{
-				return Woop;
-			}
-			set
-			{
-				Woop = value;
-			}
-		}
-	}
+        [SmartNotifyPropertyChanged]
+        public bool Wrapper
+        {
+            get { return Woop; }
+            set { Woop = value; }
+        }
+    }
 }

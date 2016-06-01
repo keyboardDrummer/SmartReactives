@@ -21,7 +21,7 @@ namespace SmartReactives.Test
         }
 
         public bool InnerSink => innerSink.Evaluate();
-            
+
         public bool OuterSink => outerSink.Evaluate();
 
         public ReactiveExpression<bool> OuterSinkReactive => outerSink;

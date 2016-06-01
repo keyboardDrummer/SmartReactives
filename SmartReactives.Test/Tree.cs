@@ -24,7 +24,7 @@ namespace SmartReactives.Test
             get { return successful.Value; }
             set { successful.Value = value; }
         }
-        
+
         public bool HasSuccessfulBlood => hasSuccessfulBloodReactive.Evaluate();
 
         public ReactiveExpression<bool> HasSuccessfulBloodReactive => hasSuccessfulBloodReactive;
