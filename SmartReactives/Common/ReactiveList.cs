@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SmartReactives.Core;
 
@@ -31,10 +30,15 @@ namespace SmartReactives.Common
         {
             get
             {
-                ReactiveManager.WasRead(this);
+                ReactiveManager.WasRead(CountReactiveObject);
                 return original.Count;
             }
         }
+
+        /// <summary>
+        /// We're simply using 'this' to track the property Count.
+        /// </summary>
+        ReactiveList<T> CountReactiveObject => this;
 
         public override void Insert(int index, T item)
         {
@@ -61,7 +65,7 @@ namespace SmartReactives.Common
             {
                 ReactiveManager.WasChanged(new WeakStrongReactive(this, changedIndex));
             }
-            ReactiveManager.WasChanged(this);
+            ReactiveManager.WasChanged(CountReactiveObject);
         }
 
         public override T this[int index]

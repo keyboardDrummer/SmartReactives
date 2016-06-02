@@ -64,6 +64,7 @@
     <Compile Include="Dependent.cs" />
     <Compile Include="NotifyCounter.cs" />
     <Compile Include="ReactiveCacheTest.cs" />
+    <Compile Include="ReactiveDictionaryTest.cs" />
     <Compile Include="ReactiveListTest.cs" />
     <Compile Include="ReactiveManagerTest.cs" />
     <Compile Include="ReactiveManagerThreadSafetyTest.cs" />

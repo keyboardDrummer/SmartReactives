@@ -27,5 +27,10 @@ namespace SmartReactives.Common
         {
             return new ReactiveList<T>(original);
         }
+
+        public static ReactiveDictionary<TKey, TValue> ToReactive<TKey, TValue>(this IDictionary<TKey, TValue> original)
+        {
+            return new ReactiveDictionary<TKey, TValue>(original);
+        }
     }
 }
