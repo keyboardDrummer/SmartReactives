@@ -10,35 +10,6 @@ namespace SmartReactives.Test
 {
     public class ReactiveManagerThreadSafetyTest
     {
-        [Ignore("test is not entirely stable.")]
-        [Test]
-        public void HashSetNotThreadSafe()
-        {
-            var set = new HashSet<object>();
-
-            var first = new Thread(() =>
-            {
-                for (var i = 0; i < 10000; i++)
-                {
-                    set.Add(new object());
-                }
-            });
-            var second = new Thread(() =>
-            {
-                for (var i = 0; i < 10000; i++)
-                {
-                    set.Add(new object());
-                }
-            });
-
-            first.Start();
-            second.Start();
-            first.Join();
-            second.Join();
-
-            Assert.True(20000 > set.Count);
-        }
-
         [Test]
         public void ReactiveManagerForwardThreadSafety()
         {
