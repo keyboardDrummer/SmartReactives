@@ -179,6 +179,7 @@ var elementAtIndex2 = Reactive.Expression(() => reactiveList[2]);
 
 //Prints 'item at index 2 changed to 3'
 elementAtIndex2.Subscribe(getValue => Console.WriteLine("item at index 2 changed to " + getValue())); 
+
 reactiveList[2] = 5; //Prints 'item at index 2 changed to 5'
 reactiveList[1] = 6; //Prints nothing
 reactiveList[3] = 7; //Prints nothing
