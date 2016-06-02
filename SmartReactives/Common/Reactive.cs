@@ -23,12 +23,17 @@ namespace SmartReactives.Common
             return new ReactiveCache<T>(expression);
         }
 
-        public static ReactiveList<T> ToReactive<T>(this IList<T> original)
+        public static IList<T> ToReactive<T>(this IList<T> original)
         {
             return new ReactiveList<T>(original);
         }
 
-        public static ReactiveDictionary<TKey, TValue> ToReactive<TKey, TValue>(this IDictionary<TKey, TValue> original)
+        public static ISet<T> ToReactive<T>(this ISet<T> original)
+        {
+            return new ReactiveSet<T>(original);
+        }
+
+        public static IDictionary<TKey, TValue> ToReactive<TKey, TValue>(this IDictionary<TKey, TValue> original)
         {
             return new ReactiveDictionary<TKey, TValue>(original);
         }

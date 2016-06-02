@@ -53,11 +53,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\DefaultCollection.cs" />
     <Compile Include="Common\DefaultDictionary.cs" />
     <Compile Include="Common\DefaultList.cs" />
+    <Compile Include="Common\DefaultSet.cs" />
     <Compile Include="Common\Reactive.cs" />
     <Compile Include="Common\ReactiveDictionary.cs" />
     <Compile Include="Common\ReactiveList.cs" />
+    <Compile Include="Common\ReactiveSet.cs" />
     <Compile Include="Core\Chain.cs" />
     <Compile Include="Core\Graph.cs" />
     <Compile Include="Core\IWeakListener.cs" />
@@ -78,9 +81,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\Collections\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

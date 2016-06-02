@@ -6,12 +6,12 @@ using SmartReactives.Common;
 
 namespace SmartReactives.Test
 {
-    public class ReactiveListTest
+    public class ReactiveSetTest
     {
         [Test]
         public void TestCount()
         {
-            var reactiveList = new List<int>().ToReactive();
+            var reactiveList = new HashSet<int>().ToReactive();
             var countExpression = Reactive.Expression(() => reactiveList.Count);
             var counter = 0;
             countExpression.Subscribe(getValue => ReactiveManagerTest.Const(getValue, () => counter++));
@@ -20,49 +20,40 @@ namespace SmartReactives.Test
             Assert.AreEqual(++expectation, counter);
             reactiveList.Add(2);
             Assert.AreEqual(++expectation, counter);
-            reactiveList[0] = 3;
             Assert.AreEqual(expectation, counter);
-            reactiveList.RemoveAt(0);
+            reactiveList.Remove(1);
             Assert.AreEqual(++expectation, counter);
             reactiveList.Clear();
             Assert.AreEqual(++expectation, counter);
         }
 
         [Test]
-        public void TestIndex()
+        public void TestContains()
         {
-            var reactiveList = new List<int>() {1, 2, 3, 4}.ToReactive();
-            var elementAtIndex2 = Reactive.Expression(() => reactiveList[2]);
+            var set = new HashSet<int> {1, 2, 3, 4}.ToReactive();
+            var containsTwo = Reactive.Expression(() => set.Contains(2));
             var counter = 0;
-            elementAtIndex2.Subscribe(getValue => ReactiveManagerTest.Const(getValue, () => counter++));
+            containsTwo.Subscribe(getValue => ReactiveManagerTest.Const(getValue, () => counter++));
             var expectation = 1;
-            reactiveList[2] = 5;
+            set.Remove(2);
             Assert.AreEqual(++expectation, counter);
-            reactiveList[1] = 6;
-            Assert.AreEqual(expectation, counter);
-            reactiveList[3] = 7;
-            Assert.AreEqual(expectation, counter);
-            reactiveList.Add(8);
-            Assert.AreEqual(expectation, counter);
-            reactiveList.RemoveAt(reactiveList.Count - 1);
-            Assert.AreEqual(expectation, counter);
-            reactiveList.RemoveAt(0);
+            set.Add(2);
+            Assert.AreEqual(++expectation, counter);
+            set.Clear();
             Assert.AreEqual(++expectation, counter);
         }
 
         [Test]
         public void TestEnumerator()
         {
-            var reactiveList = new List<int>() { 1, 2, 3, 4 }.ToReactive();
+            var reactiveList = new HashSet<int> { 1, 2, 3, 4 }.ToReactive();
             var sumFirstTwo = Reactive.Expression(() => reactiveList.Take(2).Sum());
             var counter = 0;
             sumFirstTwo.Subscribe(getValue => ReactiveManagerTest.Const(getValue, () => counter++));
             var expectation = 1;
-            reactiveList[2] = 5;
-            Assert.AreEqual(expectation, counter);
+            reactiveList.Remove(2);
+            Assert.AreEqual(++expectation, counter);
             reactiveList.Add(6);
-            Assert.AreEqual(expectation, counter);
-            reactiveList[1] = 7;
             Assert.AreEqual(++expectation, counter);
             reactiveList.Clear();
             Assert.AreEqual(++expectation, counter);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using NUnit.Framework;
@@ -94,6 +95,21 @@ namespace SmartReactives.Examples
 
             Assert.AreEqual(9, cache.Get()); //Prints 'cache miss'
             Assert.AreEqual(9, cache.Get()); //Cache hit.
+        }
+
+        [Test]
+        public void TestIndex()
+        {
+            var reactiveList = new List<int> { 0, 1, 2 }.ToReactive();
+            var elementAtIndex2 = Reactive.Expression(() => reactiveList[1]);
+
+            //Prints 'item at index 2 changed to 1'
+            elementAtIndex2.Subscribe(getValue => Console.WriteLine("item at index 1 changed to " + getValue())); 
+
+            reactiveList[1] = 3; //Prints 'item at index 1 changed to 3'
+            reactiveList[2] = 4; //Prints nothing
+            reactiveList.Add(5); //Prints nothing
+            reactiveList.Insert(0, 6); //Prints 'item at index 1 changed to 0'
         }
     }
 }

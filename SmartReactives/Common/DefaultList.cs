@@ -8,9 +8,8 @@ namespace SmartReactives.Common
     /// <summary>
     /// Provides default implementations for members of <see cref="IList{T}"/>
     /// </summary>
-    public abstract class DefaultList<T> : IList<T>
+    public abstract class DefaultList<T> : DefaultCollection<T>, IList<T>
     {
-        public abstract IEnumerator<T> GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -22,29 +21,20 @@ namespace SmartReactives.Common
             Insert(Count, item);
         }
 
-        public abstract void Clear();
-
-        public bool Contains(T item)
+        public override bool Contains(T item)
         {
             return Enumerable.Contains(this, item);
         }
 
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(T item)
+        public override bool Remove(T item)
         {
             var index = IndexOf(item);
             if (index == -1)
                 return false;
+
             RemoveAt(index);
             return true;
         }
-
-        public abstract int Count { get; }
-        public virtual bool IsReadOnly => false;
 
         public int IndexOf(T item)
         {

@@ -25,14 +25,14 @@ namespace SmartReactives.Common
             {
                 ReactiveManager.WasChanged(GetKeyReactive(key));
             }
-            ReactiveManager.WasChanged(CountReactiveObject);
+            ReactiveManager.WasChanged(CountAndKeySetReactiveObject);
         }
 
         public override int Count
         {
             get
             {
-                ReactiveManager.WasRead(CountReactiveObject);
+                ReactiveManager.WasRead(CountAndKeySetReactiveObject);
                 return original.Count;
             } 
         }
@@ -40,11 +40,11 @@ namespace SmartReactives.Common
         /// <summary>
         /// We're simply using 'this' to track the property Count.
         /// </summary>
-        ReactiveDictionary<TKey, TValue> CountReactiveObject => this;
+        ReactiveDictionary<TKey, TValue> CountAndKeySetReactiveObject => this;
 
         public override bool ContainsKey(TKey key)
         {
-            ReactiveManager.WasRead(GetKeyReactive(key));
+            ReactiveManager.WasRead(CountAndKeySetReactiveObject);
             return original.ContainsKey(key);
         }
 
@@ -56,21 +56,29 @@ namespace SmartReactives.Common
         public override void Add(TKey key, TValue value)
         {
             original.Add(key, value);
-            ReactiveManager.WasChanged(CountReactiveObject);
+            ReactiveManager.WasChanged(CountAndKeySetReactiveObject);
         }
 
         public override bool Remove(TKey key)
         {
             var result = original.Remove(key);
             ReactiveManager.WasChanged(GetKeyReactive(key));
-            ReactiveManager.WasChanged(CountReactiveObject);
+            ReactiveManager.WasChanged(CountAndKeySetReactiveObject);
             return result;
         }
 
         public override bool TryGetValue(TKey key, out TValue value)
         {
-            ReactiveManager.WasRead(GetKeyReactive(key));
-            return original.TryGetValue(key, out value);
+            var result = original.TryGetValue(key, out value);
+            if (result)
+            {
+                ReactiveManager.WasRead(GetKeyReactive(key));
+            }
+            else
+            {
+                ReactiveManager.WasRead(CountAndKeySetReactiveObject);
+            }
+            return result;
         }
 
         public override TValue this[TKey key]
