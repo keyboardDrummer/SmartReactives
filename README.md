@@ -80,16 +80,16 @@ right.Value = false; //Prints nothing
 This example shows off how to make an ```IList<T>``` reactive by calling ToReactive on it. The reactive list is precise: if you access an index you will only get an update if that particular index changes.
 
 ```c#
-var reactiveList = new List<int> { 1, 2, 3, 4 }.ToReactive();
-var elementAtIndex2 = Reactive.Expression(() => reactiveList[2]);
+var reactiveList = new List<int> { 0, 1, 2 }.ToReactive();
+var elementAtIndex2 = Reactive.Expression(() => reactiveList[1]);
 
-//Prints 'item at index 2 changed to 3'
-elementAtIndex2.Subscribe(getValue => Console.WriteLine("item at index 2 changed to " + getValue())); 
+//Prints 'item at index 2 changed to 1'
+elementAtIndex2.Subscribe(getValue => Console.WriteLine("item at index 1 changed to " + getValue())); 
 
-reactiveList[2] = 5; //Prints 'item at index 2 changed to 5'
-reactiveList[3] = 6; //Prints nothing
-reactiveList.Add(8); //Prints nothing
-reactiveList.Insert(0, 9); //Prints 'item at index 2 changed to 2'
+reactiveList[1] = 3; //Prints 'item at index 2 changed to 3'
+reactiveList[2] = 4; //Prints nothing
+reactiveList.Add(5); //Prints nothing
+reactiveList.Insert(0, 6); //Prints 'item at index 1 changed to 0'
 ```
 
 Next to ```IList<T>``` there are also reactive collections for ```ISet<T>``` and ```IDictionary<T,U>```.
