@@ -157,14 +157,14 @@ class Calculator : HasNotifyPropertyChanged
         var calculator = new Calculator();
         calculator.Number = 1;
         
-        Console.WriteLine("square = " + calculator.SquareOfNumber); // Prints 'square = 1'
+        Console.WriteLine("square = " + calculator.SquareOfNumber); //Prints 'square = 1'
         calculator.PropertyChanged += (sender, eventArgs) =>
         {
             if (eventArgs.PropertyName == nameof(SquareOfNumber))
                 Console.WriteLine("square = " + calculator.SquareOfNumber);
         };
 
-        calculator.Number = 2; // Prints 'square = 4'
+        calculator.Number = 2; //Prints 'square = 4'
         calculator.Number = 3;; //Prints 'square = 9'
     }
 }
