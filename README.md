@@ -171,11 +171,12 @@ class Calculator : HasNotifyPropertyChanged
 ```
 
 ### Reactive Collections
-Here is an example showing off how to make any ```IList<T>``` reactive by calling ToReactive on it. The reactive list is precise: if you access an index you will only get an update if that particular index changes.
+This example shows off how to make an ```IList<T>``` reactive by calling ToReactive on it. The reactive list is precise: if you access an index you will only get an update if that particular index changes.
 
 ```c#
 var reactiveList = new List<int> { 1, 2, 3, 4 }.ToReactive();
 var elementAtIndex2 = Reactive.Expression(() => reactiveList[2]);
+
 //Prints 'item at index 2 changed to 3'
 elementAtIndex2.Subscribe(getValue => Console.WriteLine("item at index 2 changed to " + getValue())); 
 reactiveList[2] = 5; //Prints 'item at index 2 changed to 5'
@@ -185,6 +186,8 @@ reactiveList.Add(8); //Prints nothing
 reactiveList.RemoveAt(reactiveList.Count - 1); //Prints nothing
 reactiveList.RemoveAt(0); //Prints 'item at index 2 changed to 4'
 ```
+
+Next to ```IList<T>``` there are also reactive collections for ```ISet<T>``` and ```IDictionary<T,U>```.
 
 ## Documentation
 
