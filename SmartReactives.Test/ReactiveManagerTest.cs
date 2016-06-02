@@ -19,7 +19,8 @@ namespace SmartReactives.Test
             var dependency = new Dependency(0, null);
             Assert.AreEqual("empty reference", dependency.ToString());
 
-            var variable = new ReactiveVariable<bool>();
+            var variable = new DebugReactiveVariable<bool>(false, "yo");
+            Assert.AreEqual("yo", variable.ToString());
 
             var expression = new DebugReactiveExpression<bool>(() => variable.Value);
             expression.Evaluate();
@@ -30,6 +31,7 @@ namespace SmartReactives.Test
 
             var cache = new ReactiveCache<bool>(() => false);
             Assert.False(cache.Dependents.Any());
+
         }
 
         [Test]
