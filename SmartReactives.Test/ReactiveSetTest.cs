@@ -58,5 +58,22 @@ namespace SmartReactives.Test
             reactiveList.Clear();
             Assert.AreEqual(++expectation, counter);
         }
+
+        [Test]
+        public void TestEnumeratorEdge()
+        {
+            var reactiveList = new HashSet<int> { 1, 2, 3, 4 }.ToReactive();
+            var outsideEnumerable = reactiveList.Take(2);
+            var sumFirstTwo = Reactive.Expression(() => outsideEnumerable.Sum());
+            var counter = 0;
+            sumFirstTwo.Subscribe(getValue => ReactiveManagerTest.Const(getValue, () => counter++));
+            var expectation = 1;
+            reactiveList.Remove(2);
+            Assert.AreEqual(++expectation, counter);
+            reactiveList.Add(6);
+            Assert.AreEqual(++expectation, counter);
+            reactiveList.Clear();
+            Assert.AreEqual(++expectation, counter);
+        }
     }
 }
