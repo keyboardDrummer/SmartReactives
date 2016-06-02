@@ -87,11 +87,9 @@ var elementAtIndex2 = Reactive.Expression(() => reactiveList[2]);
 elementAtIndex2.Subscribe(getValue => Console.WriteLine("item at index 2 changed to " + getValue())); 
 
 reactiveList[2] = 5; //Prints 'item at index 2 changed to 5'
-reactiveList[1] = 6; //Prints nothing
-reactiveList[3] = 7; //Prints nothing
+reactiveList[3] = 6; //Prints nothing
 reactiveList.Add(8); //Prints nothing
-reactiveList.RemoveAt(reactiveList.Count - 1); //Prints nothing
-reactiveList.RemoveAt(0); //Prints 'item at index 2 changed to 4'
+reactiveList.Insert(0, 9); //Prints 'item at index 2 changed to 2'
 ```
 
 Next to ```IList<T>``` there are also reactive collections for ```ISet<T>``` and ```IDictionary<T,U>```.
