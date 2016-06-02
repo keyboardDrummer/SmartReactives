@@ -64,6 +64,7 @@
     <Compile Include="Dependent.cs" />
     <Compile Include="NotifyCounter.cs" />
     <Compile Include="ReactiveCacheTest.cs" />
+    <Compile Include="ReactiveListTest.cs" />
     <Compile Include="ReactiveManagerTest.cs" />
     <Compile Include="ReactiveManagerThreadSafetyTest.cs" />
     <Compile Include="ReactiveManagerWeakReferenceTest.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Source.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="Waiter.cs" />
+    <Compile Include="WeakStrongListenerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartReactives\SmartReactives.csproj">

@@ -19,7 +19,8 @@ namespace SmartReactives.Core
     /// </summary>
     public static class ReactiveManager
     {
-        static readonly ConditionalWeakTable<object, ReactiveNode> forward = new ConditionalWeakTable<object, ReactiveNode>();
+        static readonly ConditionalWeakTable<object, ReactiveNode> weakNodes = new ConditionalWeakTable<object, ReactiveNode>();
+        static readonly ConditionalWeakTable<object, IDictionary<object, ReactiveNode>> weakStrongNodes = new ConditionalWeakTable<object, IDictionary<object, ReactiveNode>>();
         static readonly ThreadLocal<ReactiveManagerThreadState> threadState = new ThreadLocal<ReactiveManagerThreadState>(() => new ReactiveManagerThreadState());
 
         /// <summary>
@@ -53,14 +54,35 @@ namespace SmartReactives.Core
         /// </summary>
         public static IEnumerable<IListener> GetDependents(object source)
         {
-            Func<object, IEnumerable<IListener>> getChildren =
-                node => forward.GetOrCreateValue(node).GetCopy().Select(reference => reference.Value).Where(child => child != null);
+            Func<object, IEnumerable<IListener>> getChildren = weakKey => GetNode(weakKey).GetCopy().Select(reference => reference.Value).Where(child => child != null);
             return Graph.GetReachableNodes<IListener>(getChildren(source), getChildren);
         }
 
         internal static ReactiveNode GetNode(object key)
         {
-            return forward.GetValue(key, CreateList);
+            if (key is WeakStrongReactive)
+            {
+                var weakStrong = (WeakStrongReactive) key;
+                return GetNode(weakStrong);
+            }
+            return weakNodes.GetValue(key, CreateList);
+        }
+
+        static ReactiveNode GetNode(WeakStrongReactive weakStrong)
+        {
+            var dictionary = weakStrongNodes.GetValue(weakStrong.Weak, CreateDictionary);
+            ReactiveNode result;
+            if (!dictionary.TryGetValue(weakStrong.Strong, out result))
+            {
+                result = new ReactiveNode();
+                dictionary[weakStrong.Strong] = result;
+            }
+            return result;
+        }
+
+        static IDictionary<object, ReactiveNode> CreateDictionary(object key)
+        {
+            return new Dictionary<object, ReactiveNode>();
         }
 
         static ReactiveNode CreateList(object key)

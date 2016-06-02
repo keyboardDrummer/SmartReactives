@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SmartReactives.Common
 {
@@ -20,6 +21,11 @@ namespace SmartReactives.Common
         public static ReactiveCache<T> Cache<T>(Func<T> expression)
         {
             return new ReactiveCache<T>(expression);
+        }
+
+        public static ReactiveList<T> ToReactive<T>(this IList<T> original)
+        {
+            return new ReactiveList<T>(original);
         }
     }
 }
