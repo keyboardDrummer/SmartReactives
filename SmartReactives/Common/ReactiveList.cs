@@ -55,7 +55,7 @@ namespace SmartReactives.Common
         public override void Clear()
         {
             int count = original.Count;
-            original.Clear();;
+            original.Clear();
             UpdateFrom(0, count);
         }
 
