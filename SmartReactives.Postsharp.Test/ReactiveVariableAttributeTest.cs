@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
+using SmartReactives.Common;
+using SmartReactives.PostSharp;
 using SmartReactives.PostSharp.NotifyPropertyChanged;
 using SmartReactives.Test;
 
@@ -9,8 +12,26 @@ using SmartReactives.Test;
 
 namespace SmartReactives.Postsharp.Test
 {
-    public class ReactiveVariableTest
+    public class ReactiveVariableAttributeTest
     {
+        class HasReactiveVariableAttribute
+        {
+            [ReactiveVariable]
+            public bool Woop { get; set; }
+        }
+
+        [Test]
+        public void TestReactiveVariable()
+        {
+            var woop = new HasReactiveVariableAttribute();
+            var expression = new ReactiveExpression<bool>(() => woop.Woop);
+            int counter = 0;
+            var expectation = 1;
+            expression.Subscribe(get => ReactiveManagerTest.Const(get, () => counter++));
+            woop.Woop = !woop.Woop;
+            Assert.AreEqual(++expectation, counter);
+        }
+
         [Test]
         public void ForceSink()
         {

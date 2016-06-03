@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Reflection;
 using PostSharp.Aspects;
+using PostSharp.Reflection;
 using SmartReactives.Core;
 
 namespace SmartReactives.PostSharp
@@ -9,41 +11,28 @@ namespace SmartReactives.PostSharp
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property)]
-    public class ReactiveVariableAttribute : LocationInterceptionAspect, IInstanceScopedAspect
+    public class ReactiveVariableAttribute : LocationInterceptionAspect
     {
-        public object CreateInstance(AdviceArgs adviceArgs)
-        {
-            return new ReactiveVariableAttribute();
-        }
-
-        public void RuntimeInitializeInstance()
-        {
-        }
+        PropertyInfo property;
 
         /// <inheritdoc />
         public sealed override void OnGetValue(LocationInterceptionArgs args)
         {
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (this != null) //This is because of the case in TestPropertyAccessDuringConstructionReflection
-            {
-                ReactiveManager.WasRead(this);
-            }
-
+            ReactiveManager.WasRead(new WeakStrongReactive(args.Instance, property));
             args.ProceedGetValue();
         }
 
         /// <inheritdoc />
         public sealed override void OnSetValue(LocationInterceptionArgs args)
         {
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (this == null) //This is because of the case in TestPropertyAccessDuringConstructionReflection
-            {
-                args.ProceedSetValue();
-                return;
-            }
-
             args.ProceedSetValue();
-            ReactiveManager.WasChanged(this);
+            ReactiveManager.WasChanged(new WeakStrongReactive(args.Instance, property));
+        }
+
+        public override void RuntimeInitialize(LocationInfo locationInfo)
+        {
+            property = locationInfo.PropertyInfo;
+            base.RuntimeInitialize(locationInfo);
         }
     }
 }

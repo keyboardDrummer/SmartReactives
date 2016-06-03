@@ -8,7 +8,7 @@ namespace SmartReactives.Common
     /// Wraps an <see cref="IList{T}"/> so it becomes reactive. 
     /// The reactive list is precise in the sense that it remembers which indices you access and only throws notifications if those particular indices change.
     /// </summary>
-    public class ReactiveList<T> : DefaultList<T>, IWeakListener
+    public class ReactiveList<T> : DefaultList<T>
     {
         readonly IList<T> original;
 
@@ -80,10 +80,6 @@ namespace SmartReactives.Common
                 original[index] = value;
                 ReactiveManager.WasChanged(new WeakStrongReactive(this, index));
             }
-        }
-
-        public void Notify(object strongKey)
-        {
         }
     }
 }

@@ -7,18 +7,18 @@ namespace SmartReactives.Core
     /// </summary>
     public struct WeakStrongReactive : IListener
     {
-        public WeakStrongReactive(IWeakListener weak, object strong)
+        public WeakStrongReactive(object weak, object strong)
         {
             Weak = weak;
             Strong = strong;
         }
 
-        public IWeakListener Weak { get; }
+        public object Weak { get; }
         public object Strong { get; }
 
         public void Notify()
         {
-            Weak.Notify(Strong);
+            (Weak as IWeakListener)?.Notify(Strong);
         }
     }
 }

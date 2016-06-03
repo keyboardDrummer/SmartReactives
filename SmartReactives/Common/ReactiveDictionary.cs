@@ -8,7 +8,7 @@ namespace SmartReactives.Common
     /// Wrap an <see cref="IDictionary{TKey,TValue}"/> into a reactive dictionary.
     /// The reactive dictionary is precise in the sense that it remembers which keys you access and only throws notifications if those particular keys change.
     /// </summary>
-    public class ReactiveDictionary<TKey, TValue> : DefaultDictionary<TKey, TValue>, IWeakListener
+    public class ReactiveDictionary<TKey, TValue> : DefaultDictionary<TKey, TValue>
     {
         readonly IDictionary<TKey, TValue> original;
 
@@ -102,10 +102,6 @@ namespace SmartReactives.Common
                 ReactiveManager.WasRead(GetKeyReactive(kv.Key));
                 return kv;
             }).GetEnumerator();
-        }
-
-        public void Notify(object strongKey)
-        {
         }
     }
 }
