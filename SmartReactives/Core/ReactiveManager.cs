@@ -68,6 +68,30 @@ namespace SmartReactives.Core
             return weakNodes.GetValue(key, CreateList);
         }
 
+        internal static ReactiveNode TryGetNode(object key)
+        {
+            if (key is WeakStrongReactive)
+            {
+                var weakStrong = (WeakStrongReactive)key;
+                return TryGetNode(weakStrong);
+            }
+            ReactiveNode result;
+            weakNodes.TryGetValue(key, out result);
+            return result;
+        }
+
+        static ReactiveNode TryGetNode(WeakStrongReactive weakStrong)
+        {
+            IDictionary<object, ReactiveNode> dictionary;
+            if (weakStrongNodes.TryGetValue(weakStrong.Weak, out dictionary))
+            {
+                ReactiveNode result;
+                dictionary.TryGetValue(weakStrong.Strong, out result);
+                return result;
+            }
+            return null;
+        }
+
         static ReactiveNode GetNode(WeakStrongReactive weakStrong)
         {
             var dictionary = weakStrongNodes.GetValue(weakStrong.Weak, CreateDictionary);

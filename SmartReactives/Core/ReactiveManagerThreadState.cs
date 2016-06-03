@@ -9,7 +9,7 @@ namespace SmartReactives.Core
     class ReactiveManagerThreadState
     {
         readonly IList<IListener> notifyList = new List<IListener>();
-        Stack<Dependency> DependentsEvaluating { get; } = new Stack<Dependency>();
+        Stack<Evaluation> DependentsEvaluating { get; } = new Stack<Evaluation>();
 
         public bool Enabled { get; set; } = true;
 
@@ -23,7 +23,7 @@ namespace SmartReactives.Core
                 return;
             }
 
-            ReactiveManager.GetNode(source).NotifyChildren(notifyList);
+            ReactiveManager.TryGetNode(source)?.NotifyChildren(notifyList);
             foreach (var toNotify in notifyList)
             {
                 toNotify.Notify();
@@ -44,7 +44,7 @@ namespace SmartReactives.Core
 
             if (DependentsEvaluating.Count != 0)
             {
-                var weakDependent = DependentsEvaluating.Peek();
+                var weakDependent = DependentsEvaluating.Peek().Dependency;
                 ReactiveManager.GetNode(source).Add(weakDependent);
             }
         }
@@ -61,12 +61,34 @@ namespace SmartReactives.Core
 
             WasRead(dependent);
 
-            var node = ReactiveManager.GetNode(dependent);
-            var dependentReference = node.GetDependency(dependent);
-            DependentsEvaluating.Push(dependentReference);
+            DependentsEvaluating.Push(new Evaluation(dependent));
             var result = func();
             DependentsEvaluating.Pop();
             return result;
+        }
+
+        class Evaluation
+        {
+            readonly IListener dependent;
+            Dependency dependentReference;
+
+            public Evaluation(IListener dependent)
+            {
+                this.dependent = dependent;
+            }
+
+            public Dependency Dependency
+            {
+                get
+                {
+                    if (dependentReference == null)
+                    {
+                        var node = ReactiveManager.GetNode(dependent);
+                        dependentReference = node.GetDependency(dependent);
+                    }
+                    return dependentReference;
+                }
+            }
         }
     }
 }
