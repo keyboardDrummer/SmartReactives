@@ -101,10 +101,10 @@ namespace SmartReactives.Examples
         public void TestIndex()
         {
             var reactiveList = new List<int> { 0, 1, 2 }.ToReactive();
-            var elementAtIndex2 = Reactive.Expression(() => reactiveList[1]);
+            var elementAtIndex1 = Reactive.Expression(() => reactiveList[1]);
 
             //Prints 'item at index 2 changed to 1'
-            elementAtIndex2.Subscribe(getValue => Console.WriteLine("item at index 1 changed to " + getValue())); 
+            elementAtIndex1.Subscribe(getValue => Console.WriteLine("item at index 1 changed to " + getValue())); 
 
             reactiveList[1] = 3; //Prints 'item at index 1 changed to 3'
             reactiveList[2] = 4; //Prints nothing
