@@ -113,9 +113,9 @@ class ReactiveProperties
 	public void Test()
 	{
 		var product = Reactive.Expression(() => UsingABackingField * UsingAnAttributeAndPostSharp);
-		product.Subscribe(getProduct => Console.WriteLine("product = " + getProduct())); //Prints 'multiplication = 1'
-        UsingAnAttributeAndPostSharp = 2; //Prints 'multiplication = 2'
-        UsingABackingField = 2; //Prints 'multiplication = 4'
+		product.Subscribe(getProduct => Console.WriteLine("product = " + getProduct())); //Prints 'product = 1'
+        UsingAnAttributeAndPostSharp = 2; //Prints 'product = 2'
+        UsingABackingField = 2; //Prints 'product = 4'
     }
 }
 ```
