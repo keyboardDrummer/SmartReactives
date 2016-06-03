@@ -62,6 +62,7 @@
     <Compile Include="Common\ReactiveList.cs" />
     <Compile Include="Common\ReactiveSet.cs" />
     <Compile Include="Core\Chain.cs" />
+    <Compile Include="Core\Evaluation.cs" />
     <Compile Include="Core\Graph.cs" />
     <Compile Include="Core\IWeakListener.cs" />
     <Compile Include="Core\WeakStrongReactive.cs" />

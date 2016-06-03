@@ -66,29 +66,5 @@ namespace SmartReactives.Core
             DependentsEvaluating.Pop();
             return result;
         }
-
-        class Evaluation
-        {
-            readonly IListener dependent;
-            Dependency dependentReference;
-
-            public Evaluation(IListener dependent)
-            {
-                this.dependent = dependent;
-            }
-
-            public Dependency Dependency
-            {
-                get
-                {
-                    if (dependentReference == null)
-                    {
-                        var node = ReactiveManager.GetNode(dependent);
-                        dependentReference = node.GetDependency(dependent);
-                    }
-                    return dependentReference;
-                }
-            }
-        }
     }
 }
