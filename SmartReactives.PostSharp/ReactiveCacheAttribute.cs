@@ -6,7 +6,7 @@ namespace SmartReactives.PostSharp
 {
     [Serializable]
     [AttributeUsage(AttributeTargets.Property)]
-    public class ReactiveCacheAttribute : LocationInterceptionAspect, IInstanceScopedAspect
+    public class ReactiveCacheAttribute : LocationInterceptionAspect, IInstanceScopedAspect //TODO this class should be implemented from scratch to make it more efficient.
     {
         [NonSerialized] ReactiveCache<object> cache;
 

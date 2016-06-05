@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using PostSharp.Aspects;
 using PostSharp.Aspects.Dependencies;
 using PostSharp.Reflection;
@@ -13,69 +14,25 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
     /// </summary>
     [Serializable]
     [ProvideAspectRole("SmartNotifyPropertyChanged")]
-    public class SmartNotifyPropertyChangedExpressionAttribute : LocationInterceptionAspect, IInstanceScopedAspect, IListener
+    public class SmartNotifyPropertyChangedExpressionAttribute : LocationInterceptionAspect, IAspectProvider
     {
-        readonly Action<string> raisePropertyChanged;
-
-        public SmartNotifyPropertyChangedExpressionAttribute()
-        {
-        }
-
-        protected SmartNotifyPropertyChangedExpressionAttribute(object instance, string propertyName)
-        {
-            Instance = instance;
-            PropertyName = propertyName;
-
-            var raisePropertyMethodInfo = SmartNotifyPropertyChangedVariableAttributeBase.GetRaiseMethod(Instance.GetType());
-            raisePropertyChanged = (Action<string>) Delegate.CreateDelegate(typeof(Action<string>), Instance, raisePropertyMethodInfo, true);
-        }
-
         /// <summary>
         /// Useful for debugging.
         /// </summary>
         // ReSharper disable once UnusedMember.Local
-        public string PropertyName { get; private set; }
-
-        /// <summary>
-        /// Useful for debugging.
-        /// </summary>
-        // ReSharper disable once UnusedMember.Local
-        public object Instance { get; }
-
+        public PropertyInfo Property { get; private set; }
+        
         /// <summary>
         /// Useful for debugging.
         /// </summary>
         // ReSharper disable once UnusedMember.Local
         public IEnumerable<object> Dependents => ReactiveManager.GetDependents(this);
 
-        /// <inheritdoc />
-        public virtual object CreateInstance(AdviceArgs adviceArgs)
-        {
-            return new SmartNotifyPropertyChangedExpressionAttribute(adviceArgs.Instance, PropertyName);
-        }
-
-        /// <inheritdoc />
-        public void RuntimeInitializeInstance()
-        {
-        }
-
-        /// <inheritdoc />
-        public void Notify()
-        {
-            raisePropertyChanged(PropertyName);
-        }
 
         /// <inheritdoc />
         public sealed override void OnGetValue(LocationInterceptionArgs args)
         {
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (this == null) //Look at NullAspectTest for more explanation.
-            {
-                args.ProceedGetValue();
-                return;
-            }
-
-            ReactiveManager.Evaluate(this, () =>
+            ReactiveManager.Evaluate(new WeakStrongReactive(args.Instance, Property), () =>
             {
                 args.ProceedGetValue();
                 return true;
@@ -85,20 +42,19 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
         /// <inheritdoc />
         public override string ToString()
         {
-            return "Sink from: " + Instance.GetType().Name + "." + PropertyName;
+            return "Sink from: " + Property.GetType().Name + "." + Property.Name;
+        }
+
+        public IEnumerable<AspectInstance> ProvideAspects(object targetElement)
+        {
+            return IntroduceWeakListener.IntroduceWeakListenerForType(((LocationInfo) targetElement).DeclaringType);
         }
 
         /// <inheritdoc />
         public override void CompileTimeInitialize(LocationInfo targetLocation, AspectInfo aspectInfo)
         {
-            PropertyName = targetLocation.Name;
+            Property = targetLocation.PropertyInfo;
             base.CompileTimeInitialize(targetLocation, aspectInfo);
-        }
-
-        public override bool CompileTimeValidate(LocationInfo locationInfo)
-        {
-            SmartNotifyPropertyChangedVariableAttributeBase.ValidateHasRaiseMethod(locationInfo);
-            return base.CompileTimeValidate(locationInfo);
         }
     }
 }

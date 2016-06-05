@@ -1,7 +1,6 @@
 using System;
 using PostSharp.Aspects;
 using PostSharp.Aspects.Dependencies;
-using PostSharp.Reflection;
 using SmartReactives.Core;
 
 namespace SmartReactives.PostSharp.NotifyPropertyChanged
@@ -13,51 +12,11 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
     [ProvideAspectRole("SmartNotifyPropertyChanged")]
     [Serializable]
     [AttributeUsage(AttributeTargets.Property)]
-    public class SmartNotifyPropertyChangedAttribute : SmartNotifyPropertyChangedVariableAttributeBase, IListener //TODO improve comment and name.
+    public class SmartNotifyPropertyChangedAttribute : SmartNotifyPropertyChangedVariableAttributeBase //TODO improve comment and name.
     {
-        readonly Action<string> raisePropertyChanged;
-
-        public SmartNotifyPropertyChangedAttribute()
-        {
-        }
-
-        protected SmartNotifyPropertyChangedAttribute(object instance, string propertyName)
-        {
-            Instance = instance;
-            PropertyName = propertyName;
-
-            var raisePropertyMethodInfo = GetRaiseMethod(Instance.GetType());
-            raisePropertyChanged = (Action<string>) Delegate.CreateDelegate(typeof(Action<string>), Instance, raisePropertyMethodInfo, true);
-        }
-
-        /// <summary>
-        /// Useful for debugging.
-        /// </summary>
-        // ReSharper disable once UnusedMember.Local
-        public string PropertyName { get; private set; }
-
-        /// <summary>
-        /// Useful for debugging.
-        /// </summary>
-        // ReSharper disable once UnusedMember.Local
-        object Instance { get; }
-
-        public void Notify()
-        {
-            raisePropertyChanged(PropertyName);
-        }
-
-        /// <inheritdoc />
         public sealed override void OnGetValue(LocationInterceptionArgs args)
         {
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (this == null) //Look at NullAspectTest for more explanation.
-            {
-                args.ProceedGetValue();
-                return;
-            }
-
-            ReactiveManager.Evaluate(this, () =>
+            ReactiveManager.Evaluate(new WeakStrongReactive(args.Instance, property), () =>
             {
                 args.ProceedGetValue();
                 return true;
@@ -67,25 +26,7 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
         /// <inheritdoc />
         public override string ToString()
         {
-            return "Sink from: " + Instance.GetType().Name + "." + PropertyName;
-        }
-
-        /// <inheritdoc />
-        public override object CreateInstance(AdviceArgs adviceArgs)
-        {
-            return new SmartNotifyPropertyChangedAttribute(adviceArgs.Instance, PropertyName);
-        }
-
-        /// <inheritdoc />
-        public override void CompileTimeInitialize(LocationInfo targetLocation, AspectInfo aspectInfo)
-        {
-            PropertyName = targetLocation.Name;
-            base.CompileTimeInitialize(targetLocation, aspectInfo);
-        }
-
-        /// <inheritdoc />
-        public override void RuntimeInitializeInstance()
-        {
+            return "Sink from: " + property.GetType().Name + "." + property.Name;
         }
     }
 }

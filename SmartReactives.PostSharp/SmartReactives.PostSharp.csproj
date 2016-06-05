@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NotifyPropertyChanged\IntroduceWeakListener.cs" />
     <Compile Include="NotifyPropertyChanged\RaisesNotifyPropertyChangedAttribute.cs" />
     <Compile Include="NotifyPropertyChanged\ReactiveListAttribute.cs" />
     <Compile Include="NotifyPropertyChanged\SmartNotifyPropertyChangedAttribute.cs" />
