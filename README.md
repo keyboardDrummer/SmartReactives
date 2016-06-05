@@ -43,6 +43,24 @@ Assert.AreEqual(9, cache.Get()); //Prints 'cache miss'
 Assert.AreEqual(9, cache.Get()); //Cache hit.
 ```
 
+### Reactive Collections
+This example shows off how to make an ```IList<T>``` reactive by calling ToReactive on it. The reactive list is precise: if you access an index you will only get an update if that particular index changes.
+
+```c#
+var reactiveList = new List<int> { 0, 1, 2 }.ToReactive();
+var elementAtIndex1 = Reactive.Expression(() => reactiveList[1]);
+
+//Prints 'item at index 2 changed to 1'
+elementAtIndex1.Subscribe(getValue => Console.WriteLine("item at index 1 changed to " + getValue())); 
+
+reactiveList[1] = 3; //Prints 'item at index 1 changed to 3'
+reactiveList[2] = 4; //Prints nothing
+reactiveList.Add(5); //Prints nothing
+reactiveList.Insert(0, 6); //Prints 'item at index 1 changed to 0'
+```
+
+Next to ```IList<T>``` there are also reactive collections for ```ISet<T>``` and ```IDictionary<T,U>```.
+
 ### Composition
 This example shows that a ReactiveExpression can refer to other ReactiveExpressions. In this way you can build arbitrary graphs of reactive objects. 
 The example demonstrates a graph in the shape of a diamond.  
@@ -75,24 +93,6 @@ right.Value = true; //Prints 'leftOrRight = True'
 left.Value = true; //Prints 'leftOrRight = True'
 right.Value = false; //Prints nothing
 ```
-
-### Reactive Collections
-This example shows off how to make an ```IList<T>``` reactive by calling ToReactive on it. The reactive list is precise: if you access an index you will only get an update if that particular index changes.
-
-```c#
-var reactiveList = new List<int> { 0, 1, 2 }.ToReactive();
-var elementAtIndex1 = Reactive.Expression(() => reactiveList[1]);
-
-//Prints 'item at index 2 changed to 1'
-elementAtIndex1.Subscribe(getValue => Console.WriteLine("item at index 1 changed to " + getValue())); 
-
-reactiveList[1] = 3; //Prints 'item at index 1 changed to 3'
-reactiveList[2] = 4; //Prints nothing
-reactiveList.Add(5); //Prints nothing
-reactiveList.Insert(0, 6); //Prints 'item at index 1 changed to 0'
-```
-
-Next to ```IList<T>``` there are also reactive collections for ```ISet<T>``` and ```IDictionary<T,U>```.
 
 ### Reactive Properties
 This examples demonstrates two methods to implement a reactive property. The first method uses the class ReactiveVariable that we already know as a backing field for our reactive property.
