@@ -23,7 +23,7 @@ If you're looking for something like SmartReactives but outside of .NET then tak
 ## Examples
 This section demonstrates the functionality of SmartReactives by showing a number of examples.
 
-### ReactiveCache
+### Caching
 This example shows how to use Reactive.Cache to get a cache which automatically clears itself when it becomes stale.
 ```c#
 var input = Reactive.Variable(2); //We define a reactive variable.
@@ -43,7 +43,7 @@ Assert.AreEqual(9, cache.Get()); //Prints 'cache miss'
 Assert.AreEqual(9, cache.Get()); //Cache hit.
 ```
 
-### Reactive Collections
+### Collections
 This example shows off how to make an ```IList<T>``` reactive by calling ToReactive on it. The reactive list is precise: if you access an index you will only get an update if that particular index changes.
 
 ```c#
@@ -94,7 +94,7 @@ left.Value = true; //Prints 'leftOrRight = True'
 right.Value = false; //Prints nothing
 ```
 
-### Reactive Properties
+### Properties
 This examples demonstrates two methods to implement a reactive property. The first method uses the class ReactiveVariable that we already know as a backing field for our reactive property.
 The second method applies ReactiveVariableAttribute to the property, which in combination with PostSharp does all the work.
 ```c#
