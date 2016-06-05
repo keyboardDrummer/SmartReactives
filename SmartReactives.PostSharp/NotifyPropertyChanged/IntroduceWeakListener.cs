@@ -9,7 +9,7 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
 {
     [Serializable]
     [IntroduceInterface(typeof(IWeakListener), OverrideAction = InterfaceOverrideAction.Ignore)]
-    class IntroduceWeakListener : InstanceLevelAspect, IWeakListener
+    public class IntroduceWeakListener : InstanceLevelAspect, IWeakListener
     {
 #pragma warning disable CS0649
         [ImportMember("OnPropertyChanged", IsRequired = true)]
