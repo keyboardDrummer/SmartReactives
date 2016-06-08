@@ -4,7 +4,7 @@ using SmartReactives.PostSharp;
 
 namespace SmartReactives.Postsharp.Test
 {
-    class CachingCalculator
+    class TestReactiveCacheAttribute
     {
         [ReactiveVariable]
         public bool UseInput { get; set; }
@@ -24,10 +24,20 @@ namespace SmartReactives.Postsharp.Test
             }
         }
 
+        [ReactiveCache]
+        public double ConstantCalculation
+        {
+            get
+            {
+                CacheMisses++;
+                return 2 * 2;
+            }
+        }
+
         [Test]
         public static void ReactiveCache()
         {
-            var calculator = new CachingCalculator();
+            var calculator = new TestReactiveCacheAttribute();
             calculator.UseInput = false;
             Assert.AreEqual(-1, calculator.HeavyCalculation);
             Assert.AreEqual(1, calculator.CacheMisses);
@@ -42,6 +52,10 @@ namespace SmartReactives.Postsharp.Test
             calculator.ComplexInput = 3; //Now HeavyCalculation does depend on ComplexInput, so the cache becomes stale.
             Assert.AreEqual(27, calculator.HeavyCalculation);
             Assert.AreEqual(3, calculator.CacheMisses);
+            Assert.AreEqual(4, calculator.ConstantCalculation);
+            Assert.AreEqual(4, calculator.CacheMisses);
+            Assert.AreEqual(4, calculator.ConstantCalculation);
+            Assert.AreEqual(4, calculator.CacheMisses);
         }
     }
 }

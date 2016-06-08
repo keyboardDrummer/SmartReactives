@@ -1,15 +1,19 @@
 ﻿using System;
 using PostSharp.Aspects;
+using PostSharp.Aspects.Advices;
 using SmartReactives.Common;
+using SmartReactives.Core;
 
 namespace SmartReactives.PostSharp
 {
     [Serializable]
     [AttributeUsage(AttributeTargets.Property)]
-    public class ReactiveCacheAttribute : LocationInterceptionAspect, IInstanceScopedAspect //TODO this class should be implemented from scratch to make it more efficient.
+    public class ReactiveCacheAttribute : LocationInterceptionAspect, IInstanceScopedAspect, IListener
     {
-        [NonSerialized] ReactiveCache<object> cache;
+        public object Value { get; set; }
 
+        public bool IsSet { get; set; }
+        
         public object CreateInstance(AdviceArgs adviceArgs)
         {
             return new ReactiveCacheAttribute();
@@ -21,8 +25,25 @@ namespace SmartReactives.PostSharp
 
         public sealed override void OnGetValue(LocationInterceptionArgs args)
         {
-            cache = cache ?? new ReactiveCache<object>(args.GetCurrentValue);
-            args.Value = cache.Get();
+            if (IsSet)
+            {
+                ReactiveManager.WasRead(this);
+                args.Value = Value;
+            }
+            else
+            {
+                Value = ReactiveManager.Evaluate(this, () =>
+                {
+                    args.ProceedGetValue();
+                    return args.Value;
+                });
+                IsSet = true;
+            }
+        }
+
+        public void Notify()
+        {
+            IsSet = false;
         }
     }
 }
