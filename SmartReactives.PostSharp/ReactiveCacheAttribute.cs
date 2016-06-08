@@ -6,6 +6,9 @@ using SmartReactives.Core;
 
 namespace SmartReactives.PostSharp
 {
+    /// <summary>
+    /// Adds a reactive cache to the applied property.
+    /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property)]
     public class ReactiveCacheAttribute : LocationInterceptionAspect, IInstanceScopedAspect, IListener
