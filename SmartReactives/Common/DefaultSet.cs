@@ -17,9 +17,10 @@ namespace SmartReactives.Common
 
         public void IntersectWith(IEnumerable<T> other)
         {
-            foreach (var element in other)
+            var otherSet = new HashSet<T>(other);
+            foreach (var element in this.ToList())
             {
-                if (!Contains(element))
+                if (!otherSet.Contains(element))
                     Remove(element);
             }
         }

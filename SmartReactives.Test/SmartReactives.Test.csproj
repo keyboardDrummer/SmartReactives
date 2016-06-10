@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SmartReactives.Test</RootNamespace>
     <AssemblyName>SmartReactives.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ComplexSink.cs" />
     <Compile Include="DebugReactiveExpression.cs" />
+    <Compile Include="DefaultListTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DebugReactiveVariable.cs" />
     <Compile Include="Dependent.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="SimpleSink.cs" />
     <Compile Include="SinkChain.cs" />
     <Compile Include="Source.cs" />
+    <Compile Include="TestDefaultDictionary.cs" />
+    <Compile Include="TestDefaultSet.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="Waiter.cs" />
     <Compile Include="WeakStrongListenerTest.cs" />

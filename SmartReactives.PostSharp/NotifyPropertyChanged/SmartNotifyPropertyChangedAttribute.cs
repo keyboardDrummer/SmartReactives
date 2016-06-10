@@ -12,7 +12,7 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
     [ProvideAspectRole("SmartNotifyPropertyChanged")]
     [Serializable]
     [AttributeUsage(AttributeTargets.Property)]
-    public class SmartNotifyPropertyChangedAttribute : SmartNotifyPropertyChangedVariableAttributeBase //TODO improve comment and name.
+    public class SmartNotifyPropertyChangedAttribute : SmartNotifyPropertyChangedVariableAttributeBase
     {
         public sealed override void OnGetValue(LocationInterceptionArgs args)
         {

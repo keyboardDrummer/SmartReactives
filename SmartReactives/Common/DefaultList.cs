@@ -10,7 +10,6 @@ namespace SmartReactives.Common
     /// </summary>
     public abstract class DefaultList<T> : DefaultCollection<T>, IList<T>
     {
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -23,7 +22,7 @@ namespace SmartReactives.Common
 
         public override bool Contains(T item)
         {
-            return Enumerable.Contains(this, item);
+            return IndexOf(item) >= 0;
         }
 
         public override bool Remove(T item)
@@ -39,7 +38,7 @@ namespace SmartReactives.Common
         public int IndexOf(T item)
         {
             int index = 0;
-            while (!Equals(item, this[index]))
+            while (index < Count && !Equals(item, this[index]))
             {
                 index++;
             }
