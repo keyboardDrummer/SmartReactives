@@ -12,7 +12,7 @@ namespace SmartReactives.Test
     {
         class TestCollection<T> : DefaultCollection<T>
         {
-            ICollection<T> data = new List<T>();
+            readonly ICollection<T> data = new List<T>();
             public override IEnumerator<T> GetEnumerator()
             {
                 return data.GetEnumerator();
