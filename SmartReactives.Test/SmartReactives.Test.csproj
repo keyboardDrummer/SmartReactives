@@ -76,6 +76,7 @@
     <Compile Include="SimpleSink.cs" />
     <Compile Include="SinkChain.cs" />
     <Compile Include="Source.cs" />
+    <Compile Include="TestDefaultCollection.cs" />
     <Compile Include="TestDefaultDictionary.cs" />
     <Compile Include="TestDefaultSet.cs" />
     <Compile Include="Tree.cs" />
