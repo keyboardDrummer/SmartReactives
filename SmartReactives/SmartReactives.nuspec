@@ -7,6 +7,7 @@
     <authors>keyboardDrummer</authors>
     <owners>keyboardDrummer</owners>
     <projectUrl>https://github.com/keyboardDrummer/SmartReactives</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/keyboardDrummer/SmartReactives/master/icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SmartReactives is a .NET library that will automatically discover dependencies between expressions and variables for you. </description>
     <tags>.NET Reactive</tags>
