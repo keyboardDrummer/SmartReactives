@@ -1,2 +1,2 @@
-nuget pack SmartReactives/SmartReactives.csproj
-nuget pack SmartReactives.PostSharp/SmartReactives.PostSharp.csproj
+nuget pack SmartReactives/SmartReactives.csproj -IncludeReferencedProjects
+nuget pack SmartReactives.PostSharp/SmartReactives.PostSharp.csproj -IncludeReferencedProjects
