@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Specialized;
-using System.Reactive;
 using System.Runtime.CompilerServices;
 using SmartReactives.Core;
 
@@ -13,8 +12,10 @@ namespace SmartReactives.List
     /// </summary>
     public static class ReactiveManagerWithList
     {
-        static readonly ConditionalWeakTable<INotifyCollectionChanged, IDisposable> _subscriptions =
-            new ConditionalWeakTable<INotifyCollectionChanged, IDisposable>();
+        static readonly ConditionalWeakTable<INotifyCollectionChanged, object> subscriptions =
+            new ConditionalWeakTable<INotifyCollectionChanged, object>();
+
+	    static readonly object value = new object();
 
         /// <summary>
         /// Evaluate a function that returns an <see cref="INotifyCollectionChanged" />
@@ -41,18 +42,17 @@ namespace SmartReactives.List
         static void RegisterChanges<T>(T result)
             where T : INotifyCollectionChanged
         {
-            IDisposable disposable;
-            if (!_subscriptions.TryGetValue(result, out disposable))
+            object useless;
+            if (!subscriptions.TryGetValue(result, out useless))
             {
-                var wrapper = new NotifyCollectionChangedAsObservable(result);
-                var subscription = wrapper.Subscribe(CollectionChangedHandler);
-                _subscriptions.Add(result, subscription);
+	            result.CollectionChanged += OnResultOnCollectionChanged;
+                subscriptions.Add(result, value);
             }
         }
 
-        static void CollectionChangedHandler(EventPattern<NotifyCollectionChangedEventArgs> eventPattern)
-        {
-            ReactiveManager.WasChanged(eventPattern.Sender);
-        }
+	    static void OnResultOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+	    {
+		    ReactiveManager.WasChanged(sender);
+	    }
     }
 }
