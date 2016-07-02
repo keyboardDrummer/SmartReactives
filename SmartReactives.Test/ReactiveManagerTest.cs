@@ -13,6 +13,57 @@ namespace SmartReactives.Test
     {
         public static bool RecoversAfterMissedChange = true;
 
+	    class LambdaListener : IListener
+	    {
+			public Action OnNotify { get; set; }
+
+		    public void Notify()
+			{
+				OnNotify?.Invoke();
+		    }
+	    }
+
+		[Test]
+		public void InfiniteRecursionRegression()
+		{
+			var source = new object();
+			var dependent = new LambdaListener();
+			dependent.OnNotify = () => ReactiveManager.WasChanged(source);
+			ReactiveManager.Evaluate(dependent, () =>
+			{
+				ReactiveManager.WasRead(source);
+				return true;
+			});
+
+			ReactiveManager.WasChanged(source);
+		}
+
+		[Test]
+	    public void CollectionModifiedRegression()
+	    {
+			var source = new object();
+			var dependent = new LambdaListener();
+
+			var secondDependent = new LambdaListener();
+		    dependent.OnNotify = () =>
+			{
+				ReactiveManager.Evaluate(secondDependent, () =>
+				{
+					ReactiveManager.WasRead(dependent);
+					return true;
+				});
+				dependent.OnNotify = null;
+				ReactiveManager.WasChanged(dependent);
+			};
+		    ReactiveManager.Evaluate(dependent, () =>
+		    {
+			    ReactiveManager.WasRead(source);
+			    return true;
+		    });
+
+			ReactiveManager.WasChanged(source);
+		}
+
         [Test]
         public void TestDebugMethodAndProperties()
         {

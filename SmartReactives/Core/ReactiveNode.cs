@@ -48,7 +48,7 @@ namespace SmartReactives.Core
             return Interlocked.Increment(ref notificationsHad);
         }
 
-        public void NotifyChildren(IList<IListener> result)
+        public void NotifyChildren(ref Chain<IListener> result)
         {
             Chain<Dependency> current;
             lock (this)
@@ -59,12 +59,12 @@ namespace SmartReactives.Core
 
             while (current != null)
             {
-                WasChangedForChild(result, current.Value);
+                WasChangedForChild(ref result, current.Value);
                 current = current.Next;
             }
         }
 
-        static void WasChangedForChild(IList<IListener> result, Dependency childEdge)
+        static void WasChangedForChild(ref Chain<IListener> result, Dependency childEdge)
         {
             var child = childEdge.Value;
             if (child == null)
@@ -74,8 +74,8 @@ namespace SmartReactives.Core
             if (childNode.notificationsHad == childEdge.NotificationsHad) //Determines if the edge is still up-to-date.
             {
                 childNode.WasNotified();
-                result.Add(child);
-                childNode.NotifyChildren(result);
+	            result = new Chain<IListener>(child, result);
+                childNode.NotifyChildren(ref result);
             }
         }
 

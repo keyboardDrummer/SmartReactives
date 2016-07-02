@@ -8,7 +8,6 @@ namespace SmartReactives.Core
     /// </summary>
     class ReactiveManagerThreadState
     {
-        readonly IList<IListener> notifyList = new List<IListener>();
         Stack<Evaluation> DependentsEvaluating { get; } = new Stack<Evaluation>();
 
         public bool Enabled { get; set; } = true;
@@ -23,12 +22,13 @@ namespace SmartReactives.Core
                 return;
             }
 
-            ReactiveManager.TryGetNode(source)?.NotifyChildren(notifyList);
-            foreach (var toNotify in notifyList)
-            {
-                toNotify.Notify();
-            }
-            notifyList.Clear();
+	        Chain<IListener> notifyChain = null;
+            ReactiveManager.TryGetNode(source)?.NotifyChildren(ref notifyChain);
+	        while (notifyChain != null)
+	        {
+		        notifyChain.Value.Notify();
+		        notifyChain = notifyChain.Next;
+	        }
             (source as IListener)?.Notify();
         }
 
