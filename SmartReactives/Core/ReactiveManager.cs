@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -20,7 +21,7 @@ namespace SmartReactives.Core
     public static class ReactiveManager
     {
         static readonly ConditionalWeakTable<object, ReactiveNode> weakNodes = new ConditionalWeakTable<object, ReactiveNode>();
-        static readonly ConditionalWeakTable<object, IDictionary<object, ReactiveNode>> weakStrongNodes = new ConditionalWeakTable<object, IDictionary<object, ReactiveNode>>();
+        static readonly ConditionalWeakTable<object, ConcurrentDictionary<object, ReactiveNode>> weakStrongNodes = new ConditionalWeakTable<object, ConcurrentDictionary<object, ReactiveNode>>();
         static readonly ThreadLocal<ReactiveManagerThreadState> threadState = new ThreadLocal<ReactiveManagerThreadState>(() => new ReactiveManagerThreadState());
 
         /// <summary>
@@ -82,7 +83,7 @@ namespace SmartReactives.Core
 
         static ReactiveNode TryGetNode(WeakStrongReactive weakStrong)
         {
-            IDictionary<object, ReactiveNode> dictionary;
+            ConcurrentDictionary<object, ReactiveNode> dictionary;
             if (weakStrongNodes.TryGetValue(weakStrong.Weak, out dictionary))
             {
                 ReactiveNode result;
@@ -95,18 +96,12 @@ namespace SmartReactives.Core
         static ReactiveNode GetNode(WeakStrongReactive weakStrong)
         {
             var dictionary = weakStrongNodes.GetValue(weakStrong.Weak, CreateDictionary);
-            ReactiveNode result;
-            if (!dictionary.TryGetValue(weakStrong.Strong, out result))
-            {
-                result = new ReactiveNode();
-                dictionary[weakStrong.Strong] = result;
-            }
-            return result;
+            return dictionary.GetOrAdd(weakStrong.Strong, CreateList);
         }
 
-        static IDictionary<object, ReactiveNode> CreateDictionary(object key)
+        static ConcurrentDictionary<object, ReactiveNode> CreateDictionary(object key)
         {
-            return new Dictionary<object, ReactiveNode>();
+            return new ConcurrentDictionary<object, ReactiveNode>();
         }
 
         static ReactiveNode CreateList(object key)

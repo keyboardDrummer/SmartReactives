@@ -6,14 +6,14 @@ namespace SmartReactives.Core
     class Evaluation
     {
         readonly IListener dependent;
-        Dependency dependentReference;
+		IDependency dependentReference;
 
         public Evaluation(IListener dependent)
         {
             this.dependent = dependent;
         }
 
-        public Dependency Dependency
+        public IDependency Dependency
         {
             get
             {

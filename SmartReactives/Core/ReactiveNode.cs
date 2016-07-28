@@ -26,13 +26,13 @@ namespace SmartReactives.Core
     class ReactiveNode
     {
         long notificationsHad;
-        Chain<Dependency> dependencies; //Since this is a write often read once scenario, we use a singly linked list instead of an array.
+        Chain<IDependency> dependencies; //Since this is a write often read once scenario, we use a singly linked list instead of an array.
 
-        public IList<Dependency> GetCopy()
+        public IList<IDependency> GetCopy()
         {
             lock (this)
             {
-                var result = new List<Dependency>();
+                var result = new List<IDependency>();
                 var current = dependencies;
                 while (current != null)
                 {
@@ -50,7 +50,7 @@ namespace SmartReactives.Core
 
         public void NotifyChildren(ref Chain<IListener> result)
         {
-            Chain<Dependency> current;
+            Chain<IDependency> current;
             lock (this)
             {
                 current = dependencies;
@@ -64,7 +64,7 @@ namespace SmartReactives.Core
             }
         }
 
-        static void WasChangedForChild(ref Chain<IListener> result, Dependency childEdge)
+        static void WasChangedForChild(ref Chain<IListener> result, IDependency childEdge)
         {
             var child = childEdge.Value;
             if (child == null)
@@ -79,17 +79,19 @@ namespace SmartReactives.Core
             }
         }
 
-        internal void Add(Dependency element)
+        internal void Add(IDependency element)
         {
             lock (this)
             {
-                dependencies = new Chain<Dependency>(element, dependencies);
+				dependencies = new Chain<IDependency>(element, dependencies);
             }
         }
 
-        public Dependency GetDependency(IListener dependent)
+        public IDependency GetDependency(IListener dependent)
         {
-            return new Dependency(notificationsHad, dependent);
+            return dependent is WeakStrongReactive 
+				? new WeakStrongDependency(notificationsHad, (WeakStrongReactive)dependent) 
+				: (IDependency)new WeakDependency(notificationsHad, dependent);
         }
     }
 }

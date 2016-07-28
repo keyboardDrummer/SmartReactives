@@ -67,7 +67,7 @@ namespace SmartReactives.Test
         [Test]
         public void TestDebugMethodAndProperties()
         {
-            var dependency = new Dependency(0, null);
+            var dependency = new WeakDependency(0, null);
             Assert.AreEqual("empty reference", dependency.ToString());
 
             var variable = new DebugReactiveVariable<bool>(false, "yo");
