@@ -17,7 +17,7 @@ namespace SmartReactives.Test
             var weak2 = new object();
             var dependency = new WeakStrongReactive(weak, 0);
 
-            var firsts = Enumerable.Range(0, 10000).Select(i => new WeakStrongReactive(weak2, i)).ToList();
+            var firsts = Enumerable.Range(0, 1000).Select(i => new WeakStrongReactive(weak2, i)).ToList();
             var first = new Thread(() =>
             {
                 foreach (var obj in firsts)
@@ -30,7 +30,7 @@ namespace SmartReactives.Test
                 }
             });
             var weak3 = new object();
-            var seconds = Enumerable.Range(0, 10000).Select(i => new WeakStrongReactive(weak3, i)).ToList();
+            var seconds = Enumerable.Range(0, 1000).Select(i => new WeakStrongReactive(weak3, i)).ToList();
             var second = new Thread(() =>
             {
                 foreach (var obj in seconds)
@@ -49,7 +49,25 @@ namespace SmartReactives.Test
             second.Join();
 
             var dependencyCount = ReactiveManager.GetDependents(dependency).Count();
-            Assert.AreEqual(20000, dependencyCount);
+            Assert.AreEqual(2000, dependencyCount);
         }
-    }
+
+		[Test]
+		public void TestRobustAgainstGarbageCollection()
+		{
+			var dependency = new WeakStrongReactive(new object(), 0);
+			var dependent = new object();
+			foreach (var i in Enumerable.Range(0, 1000))
+			{
+				ReactiveManager.Evaluate(new WeakStrongReactive(dependent, i), () =>
+				{
+					ReactiveManager.WasRead(dependency);
+					return true;
+				});
+			}
+
+			GC.Collect();
+			Assert.AreEqual(1000, ReactiveManager.GetDependents(dependency).Count());
+		}
+	}
 }
