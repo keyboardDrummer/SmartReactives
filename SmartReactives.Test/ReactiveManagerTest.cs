@@ -194,12 +194,28 @@ namespace SmartReactives.Test
             Assert.AreNotEqual(value1, table.GetOrCreateValue(source2));
         }
 
-        [Test]
+		[Test]
+		public void TestExceptionBehavior()
+		{
+			var dependent = new Dependent("TestExceptionBehavior");
+			Assert.Throws<NotSupportedException>(() =>
+			{
+				ReactiveManager.Evaluate<bool>(dependent, () =>
+				{
+					throw new NotSupportedException("woeps");
+				});
+			});
+			var dependency = new object();
+			ReactiveManager.WasRead(dependency);
+			Assert.AreEqual(0, ReactiveManager.GetDependents(dependency).Count());
+		}
+
+		[Test]
         public void TestNullCannotBeASource()
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                ReactiveManager.Evaluate(new Dependent(), () =>
+                ReactiveManager.Evaluate(new Dependent("TestNullCannotBeASource"), () =>
                 {
                     ReactiveManager.WasRead(null);
                     return true;

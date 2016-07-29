@@ -4,7 +4,14 @@ namespace SmartReactives.Test
 {
     public class Dependent : IListener
     {
-        public void Notify()
+		public string Name { get; }
+
+	    public Dependent(string name = "")
+	    {
+		    Name = name;
+	    }
+
+	    public void Notify()
         {
         }
     }

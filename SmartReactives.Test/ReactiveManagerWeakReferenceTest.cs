@@ -39,7 +39,7 @@ namespace SmartReactives.Test
 
             foreach (var obj in Enumerable.Range(0, 10000))
             {
-                ReactiveManager.Evaluate(new Dependent(), () =>
+                ReactiveManager.Evaluate(new Dependent("TestDependentWeakness"), () =>
                 {
                     ReactiveManager.WasRead(dependency);
                     return true;

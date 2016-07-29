@@ -59,7 +59,7 @@ namespace SmartReactives.Test
 			var dependent = new object();
 			foreach (var i in Enumerable.Range(0, 1000))
 			{
-				ReactiveManager.Evaluate(new WeakStrongReactive(dependent, i), () =>
+				ReactiveManager.Evaluate(new WeakStrongReactive(dependent, i.ToString()), () =>
 				{
 					ReactiveManager.WasRead(dependency);
 					return true;

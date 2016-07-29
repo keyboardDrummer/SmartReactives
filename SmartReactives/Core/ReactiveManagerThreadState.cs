@@ -62,9 +62,14 @@ namespace SmartReactives.Core
             WasRead(dependent);
 
             DependentsEvaluating.Push(new Evaluation(dependent));
-            var result = func();
-            DependentsEvaluating.Pop();
-            return result;
+	        try
+	        {
+		        return func();
+			}
+	        finally
+			{
+				DependentsEvaluating.Pop();
+			}
         }
     }
 }
