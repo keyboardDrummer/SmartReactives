@@ -7,8 +7,9 @@ using SmartReactives.Common;
 
 namespace SmartReactives.Examples
 {
-    class Examples
+	class Examples
     {
+
         public void Square()
         {
             var input = Reactive.Variable(1);
