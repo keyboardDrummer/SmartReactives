@@ -121,8 +121,7 @@ class ReactiveProperties
 ```
 
 ### ReactiveCacheAttribute
-The bottom example demonstrates using ReactiveVariableAttribute and ReactiveCacheAttribute to effortlessly setup a cache. 
-The calculation in the example has dependencies that change during runtime, so it's not statically known which variable changes will cause the cache to become stale.
+The following example demonstrates using ReactiveVariableAttribute and ReactiveCacheAttribute to effortlessly setup a cache.
 ```c#
 class CachingCalculator
 {
