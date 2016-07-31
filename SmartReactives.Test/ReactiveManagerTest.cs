@@ -194,10 +194,56 @@ namespace SmartReactives.Test
             Assert.AreNotEqual(value1, table.GetOrCreateValue(source2));
         }
 
+	    class ExceptionInNotify : IListener
+	    {
+		    public void Notify()
+		    {
+			    throw new NotSupportedException("ExceptionInNotify");
+		    }
+	    }
+
 		[Test]
-		public void TestExceptionBehavior()
+		public void TestExceptionInNotify()
 		{
-			var dependent = new Dependent("TestExceptionBehavior");
+			var dependent = new ExceptionInNotify();
+			var dependency = new object();
+			ReactiveManager.Evaluate(dependent, () =>
+			{
+				ReactiveManager.WasRead(dependency);
+				return true;
+			});
+			Assert.Throws<NotSupportedException>(() =>
+			{
+				ReactiveManager.WasChanged(dependency);
+			});
+		}
+
+		[Test]
+		public void TestExceptionInNotifyMultiple()
+		{
+			var dependency = new object();
+			var dependent1 = new ExceptionInNotify();
+			ReactiveManager.Evaluate(dependent1, () =>
+			{
+				ReactiveManager.WasRead(dependency);
+				return true;
+			});
+			var dependent2 = new ExceptionInNotify();
+			ReactiveManager.Evaluate(dependent2, () =>
+			{
+				ReactiveManager.WasRead(dependency);
+				return true;
+			});
+			Assert.Throws<AggregateException>(() =>
+			{
+				ReactiveManager.WasChanged(dependency);
+			});
+		}
+
+		[Test]
+		public void TestExceptionInEvaluate()
+		{
+			var dependent = new Dependent("TestExceptionInEvaluate");
 			Assert.Throws<NotSupportedException>(() =>
 			{
 				ReactiveManager.Evaluate<bool>(dependent, () =>

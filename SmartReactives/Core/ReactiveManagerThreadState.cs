@@ -26,11 +26,53 @@ namespace SmartReactives.Core
             ReactiveManager.TryGetNode(source)?.NotifyChildren(ref notifyChain);
 	        while (notifyChain != null)
 	        {
-		        notifyChain.Value.Notify();
+		        try
+				{
+					notifyChain.Value.Notify();
+				}
+		        catch (Exception e)
+				{
+					HandleNotifyException(source, e, notifyChain);
+				}
 		        notifyChain = notifyChain.Next;
 	        }
-            (source as IListener)?.Notify();
+            (source as IListener)?.Notify(); //TODO maybe remove this?
         }
+
+	    void HandleNotifyException(object source, Exception e, Chain<IListener> notifyChain)
+	    {
+		    var exceptions = new List<Exception> {e};
+		    CollectExceptionsFromNotifyChain(source, notifyChain.Next, exceptions);
+		    if (exceptions.Count > 1)
+		    {
+			    throw new AggregateException(exceptions);
+		    }
+		    throw exceptions[0];
+	    }
+
+	    void CollectExceptionsFromNotifyChain(object source, Chain<IListener> notifyChain, IList<Exception> exceptions)
+	    {
+			while (notifyChain != null)
+			{
+				try
+				{
+					notifyChain.Value.Notify();
+				}
+				catch (Exception e)
+				{
+					exceptions.Add(e);
+				}
+				notifyChain = notifyChain.Next;
+			}
+			try
+			{
+				(source as IListener)?.Notify(); //TODO maybe remove this?
+			}
+			catch (Exception e)
+			{
+				exceptions.Add(e);
+			}
+	    }
 
         /// <summary>
         /// Indicate that the given variable was read. May cause other objects to become dependend on the given variable.
