@@ -156,9 +156,9 @@ class CachingCalculator
 ```
 
 ### NotifyPropertyChanged
-Implementing PropertyChanged for a property is a known cause for boilerplate. PostSharp allows you to remove this boilerplate using its attribute NotifyPropertyChanged.
+Implementing ```PropertyChanged``` for a property is a known cause for boilerplate. PostSharp allows you to remove this boilerplate using its attribute ```NotifyPropertyChanged```.
 However, sometimes a property A depends on another property B. In this case we would like both properties to call PropertyChanged when B changes. 
-The PostSharp attribute NotifyPropertyChanged won't do this, but SmartNotifyPropertyChanged will, as shown in the following example.
+The PostSharp attribute ```NotifyPropertyChanged``` won't do this, but ```SmartNotifyPropertyChanged``` will, as shown in the following example.
 
 ```c#
 class Calculator : HasNotifyPropertyChanged
