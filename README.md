@@ -13,7 +13,7 @@ input.Value = 3; //Prints 'square = 9'
 ```
 ```Reactive.Expression``` returns a ```ReactiveExpression<T>``` which implements ```IObservable<Func<T>>``` so we can subscribe to it. The function ```getSquare``` is simply a shortcut to ```ReactiveExpression<T>.Evaluate```, which evaluates the function you created the reactive expression with, namely ```() => input * input```.
 
-To start using SmartReactives simply add the NuGet package [SmartReactives](https://www.nuget.org/packages/SmartReactives/) to your project. Also add [SmartReactives.PostSharp](https://www.nuget.org/packages/SmartReactives.PostSharp/) if you're using PostSharp.
+To start using SmartReactives simply add the NuGet package [SmartReactives](https://www.nuget.org/packages/SmartReactives/) to your project. Also add [SmartReactives.PostSharp](https://www.nuget.org/packages/SmartReactives.PostSharp/) if you're using PostSharp. Documentation can be found [on the Wiki](https://github.com/keyboardDrummer/SmartReactives/wiki/Documentation).
 
 If you're looking for something like SmartReactives but outside of .NET then take a look at these projects:
 - Scala: [Scala.Rx](https://github.com/lihaoyi/scala.rx)
