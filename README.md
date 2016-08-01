@@ -75,14 +75,12 @@ input.Value = 2; //Prints 'sumOfBoth = 10'
 input.Value = 3; //Prints 'sumOfBoth = 15'
 ```
 
-Note that although the input has two paths in the graph to sumOfBoth, there is only one notification for sumOfBoth when input changes. SmartReactives makes sure to notify an expression once and only once when it changes value.
+Note that although the input has two paths in the graph to sumOfBoth, there is only one notification for sumOfBoth when input changes. SmartReactives makes sure to notify an expression only once when its values changes.
 
 ### Precise
-In the following example, the expression leftOrRight only depends on variable right when variable left is false, since we are using the lazy or operator ||. 
-If we change right while left is false, then we don't get any updates from leftOrRight. 
+In the following example, the expression ```leftOrRight``` only depends on variable ```right``` when variable ```left``` is false, since we are using the lazy or operator ```||```. 
+If we change ```right``` while ```left``` is false, then we don't get any updates from ```leftOrRight```. 
 In general, SmartReactives won't give you any updates for old dependencies or possible future dependencies.
-Note that if we only want to get updates if leftOrRight changes then we can use ```leftOrRight.DistinctUntilChanged().Subscribe(...)```.
-
 ```c#
 var left = Reactive.Variable(false);
 var right = Reactive.Variable(false);
@@ -93,6 +91,7 @@ right.Value = true; //Prints 'leftOrRight = True'
 left.Value = true; //Prints 'leftOrRight = True'
 right.Value = false; //Prints nothing
 ```
+Note that if we only want to get updates if leftOrRight changes then we can use ```leftOrRight.DistinctUntilChanged().Subscribe(...)```.
 
 ### Properties
 This examples demonstrates two methods to implement a reactive property. The first method uses the class ReactiveVariable that we already know as a backing field for our reactive property.
