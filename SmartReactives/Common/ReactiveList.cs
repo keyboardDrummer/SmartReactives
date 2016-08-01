@@ -21,7 +21,7 @@ namespace SmartReactives.Common
         {
             return original.Select((element, index) =>
             {
-                ReactiveManager.WasRead(new WeakStrongReactive(this, index));
+                ReactiveManager.WasRead(new CompositeReactiveObject(this, index));
                 return element;
             }).GetEnumerator();
         }
@@ -63,7 +63,7 @@ namespace SmartReactives.Common
         {
             for (int changedIndex = start; changedIndex < exclusiveTo; changedIndex++)
             {
-                ReactiveManager.WasChanged(new WeakStrongReactive(this, changedIndex));
+                ReactiveManager.WasChanged(new CompositeReactiveObject(this, changedIndex));
             }
             ReactiveManager.WasChanged(CountReactiveObject);
         }
@@ -72,13 +72,13 @@ namespace SmartReactives.Common
         {
             get
             {
-                ReactiveManager.WasRead(new WeakStrongReactive(this, index));
+                ReactiveManager.WasRead(new CompositeReactiveObject(this, index));
                 return original[index];
             }
             set
             {
                 original[index] = value;
-                ReactiveManager.WasChanged(new WeakStrongReactive(this, index));
+                ReactiveManager.WasChanged(new CompositeReactiveObject(this, index));
             }
         }
     }

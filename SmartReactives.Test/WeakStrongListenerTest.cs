@@ -29,7 +29,7 @@ namespace SmartReactives.Test
         {
             var listener = new Listener();
             var source = new ReactiveVariable<int>(3);
-            var listenerValue = ReactiveManager.Evaluate(new WeakStrongReactive(listener, "first"), () => source.Value);
+            var listenerValue = ReactiveManager.Evaluate(new CompositeReactiveObject(listener, "first"), () => source.Value);
             Assert.AreEqual(source.Value, listenerValue);
             var results = new List<object>();
             listener.Notifications.Subscribe(result => results.Add(result));
@@ -41,9 +41,9 @@ namespace SmartReactives.Test
         public void TestWeakStrongVariable()
         {
             var listener = new Listener();
-            var source = new WeakStrongReactive(listener, "first");
-            var sameSource = new WeakStrongReactive(listener, "first");
-            var otherSource = new WeakStrongReactive(listener, "second");
+            var source = new CompositeReactiveObject(listener, "first");
+            var sameSource = new CompositeReactiveObject(listener, "first");
+            var otherSource = new CompositeReactiveObject(listener, "second");
             var expression = Reactive.Expression(() =>
             {
                 ReactiveManager.WasRead(source);

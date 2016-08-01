@@ -61,9 +61,9 @@ namespace SmartReactives.Core
 
         internal static ReactiveNode GetNode(object key)
         {
-            if (key is WeakStrongReactive)
+            if (key is CompositeReactiveObject)
             {
-                var weakStrong = (WeakStrongReactive) key;
+                var weakStrong = (CompositeReactiveObject) key;
                 return GetNode(weakStrong);
             }
             return weakNodes.GetValue(key, CreateList);
@@ -71,9 +71,9 @@ namespace SmartReactives.Core
 
         internal static ReactiveNode TryGetNode(object key)
         {
-            if (key is WeakStrongReactive)
+            if (key is CompositeReactiveObject)
             {
-                var weakStrong = (WeakStrongReactive)key;
+                var weakStrong = (CompositeReactiveObject)key;
                 return TryGetNode(weakStrong);
             }
             ReactiveNode result;
@@ -81,22 +81,22 @@ namespace SmartReactives.Core
             return result;
         }
 
-        static ReactiveNode TryGetNode(WeakStrongReactive weakStrong)
+        static ReactiveNode TryGetNode(CompositeReactiveObject composite)
         {
             ConcurrentDictionary<object, ReactiveNode> dictionary;
-            if (weakStrongNodes.TryGetValue(weakStrong.Weak, out dictionary))
+            if (weakStrongNodes.TryGetValue(composite.Weak, out dictionary))
             {
                 ReactiveNode result;
-                dictionary.TryGetValue(weakStrong.Strong, out result);
+                dictionary.TryGetValue(composite.Strong, out result);
                 return result;
             }
             return null;
         }
 
-        static ReactiveNode GetNode(WeakStrongReactive weakStrong)
+        static ReactiveNode GetNode(CompositeReactiveObject composite)
         {
-            var dictionary = weakStrongNodes.GetValue(weakStrong.Weak, CreateDictionary);
-            return dictionary.GetOrAdd(weakStrong.Strong, CreateList);
+            var dictionary = weakStrongNodes.GetValue(composite.Weak, CreateDictionary);
+            return dictionary.GetOrAdd(composite.Strong, CreateList);
         }
 
         static ConcurrentDictionary<object, ReactiveNode> CreateDictionary(object key)

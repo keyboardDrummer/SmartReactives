@@ -16,7 +16,7 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
     {
         public sealed override void OnGetValue(LocationInterceptionArgs args)
         {
-            ReactiveManager.WasRead(new WeakStrongReactive(args.Instance, property));
+            ReactiveManager.WasRead(new CompositeReactiveObject(args.Instance, property));
             args.ProceedGetValue();
         }
     }

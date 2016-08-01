@@ -89,8 +89,8 @@ namespace SmartReactives.Core
 
         public IDependency GetDependency(IListener dependent)
         {
-            return dependent is WeakStrongReactive 
-				? new WeakStrongDependency(notificationsHad, (WeakStrongReactive)dependent) 
+            return dependent is CompositeReactiveObject 
+				? new WeakStrongDependency(notificationsHad, (CompositeReactiveObject)dependent) 
 				: (IDependency)new WeakDependency(notificationsHad, dependent);
         }
     }

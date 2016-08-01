@@ -66,7 +66,7 @@
     <Compile Include="Core\IDependency.cs" />
     <Compile Include="Core\IWeakListener.cs" />
     <Compile Include="Core\WeakStrongDependency.cs" />
-    <Compile Include="Core\WeakStrongReactive.cs" />
+    <Compile Include="Core\CompositeReactiveObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\WeakDependency.cs" />
     <Compile Include="Core\IListener.cs" />

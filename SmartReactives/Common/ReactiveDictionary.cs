@@ -48,9 +48,9 @@ namespace SmartReactives.Common
             return original.ContainsKey(key);
         }
 
-        WeakStrongReactive GetKeyReactive(TKey key)
+        CompositeReactiveObject GetKeyReactive(TKey key)
         {
-            return new WeakStrongReactive(this, key);
+            return new CompositeReactiveObject(this, key);
         }
 
         public override void Add(TKey key, TValue value)

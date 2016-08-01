@@ -15,9 +15,9 @@ namespace SmartReactives.Test
         {
             var weak = new object();
             var weak2 = new object();
-            var dependency = new WeakStrongReactive(weak, 0);
+            var dependency = new CompositeReactiveObject(weak, 0);
 
-            var firsts = Enumerable.Range(0, 1000).Select(i => new WeakStrongReactive(weak2, i)).ToList();
+            var firsts = Enumerable.Range(0, 1000).Select(i => new CompositeReactiveObject(weak2, i)).ToList();
             var first = new Thread(() =>
             {
                 foreach (var obj in firsts)
@@ -30,7 +30,7 @@ namespace SmartReactives.Test
                 }
             });
             var weak3 = new object();
-            var seconds = Enumerable.Range(0, 1000).Select(i => new WeakStrongReactive(weak3, i)).ToList();
+            var seconds = Enumerable.Range(0, 1000).Select(i => new CompositeReactiveObject(weak3, i)).ToList();
             var second = new Thread(() =>
             {
                 foreach (var obj in seconds)
@@ -55,11 +55,11 @@ namespace SmartReactives.Test
 		[Test]
 		public void TestRobustAgainstGarbageCollection()
 		{
-			var dependency = new WeakStrongReactive(new object(), 0);
+			var dependency = new CompositeReactiveObject(new object(), 0);
 			var dependent = new object();
 			foreach (var i in Enumerable.Range(0, 1000))
 			{
-				ReactiveManager.Evaluate(new WeakStrongReactive(dependent, i.ToString()), () =>
+				ReactiveManager.Evaluate(new CompositeReactiveObject(dependent, i.ToString()), () =>
 				{
 					ReactiveManager.WasRead(dependency);
 					return true;

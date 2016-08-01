@@ -3,11 +3,11 @@ namespace SmartReactives.Core
     /// <summary>
     /// A reactive object that consists of both a weak and a strong part.
     /// The weak part is only weakly referenced by <see cref="ReactiveManager"/> while the strong part is strongly referenced.
-    /// If the weak part is no longer referenced from outside <see cref="ReactiveManager"/>, then <see cref="ReactiveManager"/> forgets the entire <see cref="WeakStrongReactive"/>
+    /// If the weak part is no longer referenced from outside <see cref="ReactiveManager"/>, then <see cref="ReactiveManager"/> forgets the entire <see cref="CompositeReactiveObject"/>
     /// </summary>
-    public struct WeakStrongReactive : IListener
+    public struct CompositeReactiveObject : IListener
     {
-        public WeakStrongReactive(object weak, object strong)
+        public CompositeReactiveObject(object weak, object strong)
         {
             Weak = weak;
             Strong = strong;

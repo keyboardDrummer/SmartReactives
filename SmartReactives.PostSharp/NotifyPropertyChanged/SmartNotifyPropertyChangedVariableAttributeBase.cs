@@ -34,7 +34,7 @@ namespace SmartReactives.PostSharp.NotifyPropertyChanged
                 return;
             }
             args.SetNewValue(newValue);
-            ReactiveManager.WasChanged(new WeakStrongReactive(args.Instance, property));
+            ReactiveManager.WasChanged(new CompositeReactiveObject(args.Instance, property));
         }
 
         public override void CompileTimeInitialize(LocationInfo targetLocation, AspectInfo aspectInfo)

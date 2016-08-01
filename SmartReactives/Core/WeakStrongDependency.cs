@@ -19,11 +19,11 @@ namespace SmartReactives.Core
 				var weakValue = weakReference.Target;
 				if (weakValue == null)
 					return null;
-				return new WeakStrongReactive(weakValue, strong);
+				return new CompositeReactiveObject(weakValue, strong);
 			}
 		}
 
-		public WeakStrongDependency(long notificationsHad, WeakStrongReactive dependent)
+		public WeakStrongDependency(long notificationsHad, CompositeReactiveObject dependent)
 		{
 			NotificationsHad = notificationsHad;
 			weakReference = new WeakReference(dependent.Weak);
