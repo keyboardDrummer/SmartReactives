@@ -65,6 +65,7 @@
     <Compile Include="Core\Graph.cs" />
     <Compile Include="Core\IDependency.cs" />
     <Compile Include="Core\IWeakListener.cs" />
+    <Compile Include="Core\StrongDependency.cs" />
     <Compile Include="Core\WeakStrongDependency.cs" />
     <Compile Include="Core\CompositeReactiveObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

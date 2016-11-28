@@ -21,7 +21,9 @@ namespace SmartReactives.Test
 			{
 				OnNotify?.Invoke();
 		    }
-	    }
+
+			public bool StrongReference => false;
+		}
 
 		[Test]
 		public void InfiniteRecursionRegression()
@@ -200,7 +202,9 @@ namespace SmartReactives.Test
 		    {
 			    throw new NotSupportedException("ExceptionInNotify");
 		    }
-	    }
+
+			public bool StrongReference => false;
+		}
 
 		[Test]
 		public void TestExceptionInNotify()

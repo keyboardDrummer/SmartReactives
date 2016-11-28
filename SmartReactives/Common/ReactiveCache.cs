@@ -34,7 +34,9 @@ namespace SmartReactives.Common
             IsSet = false;
         }
 
-        /// <summary>
+	    public bool StrongReference => false;
+
+	    /// <summary>
         /// Get a value from the cache.
         /// </summary>
         public T Get()

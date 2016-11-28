@@ -20,5 +20,7 @@ namespace SmartReactives.Core
         {
             (Weak as IWeakListener)?.Notify(Strong);
         }
+
+	    public bool StrongReference => false;
     }
 }

@@ -48,5 +48,7 @@ namespace SmartReactives.PostSharp
         {
             IsSet = false;
         }
+
+	    public bool StrongReference => false;
     }
 }

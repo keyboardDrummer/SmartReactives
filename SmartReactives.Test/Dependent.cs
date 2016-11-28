@@ -14,5 +14,7 @@ namespace SmartReactives.Test
 	    public void Notify()
         {
         }
-    }
+
+		public bool StrongReference => false;
+	}
 }

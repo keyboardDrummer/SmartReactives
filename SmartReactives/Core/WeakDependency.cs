@@ -3,7 +3,7 @@ using System;
 namespace SmartReactives.Core
 {
 	/// <summary>
-	/// An edge in the dependency graph of <see cref="ReactiveManager"/>.
+	/// A weak edge in the dependency graph of <see cref="ReactiveManager"/>.
 	/// </summary>
 	class WeakDependency : IDependency
 	{

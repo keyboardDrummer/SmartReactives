@@ -10,5 +10,7 @@ namespace SmartReactives.Test
         {
             Counter++;
         }
-    }
+
+		public bool StrongReference => false;
+	}
 }

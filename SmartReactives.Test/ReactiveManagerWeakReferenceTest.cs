@@ -49,5 +49,38 @@ namespace SmartReactives.Test
             GC.Collect();
             Assert.AreEqual(0, ReactiveManager.GetDependents(dependency).Count());
         }
+
+		[Test]
+		public void TestReactiveExpressionWeakness()
+		{
+			var dependency = new ReactiveVariable<int>();
+
+			AddDependents(dependency, false);
+
+			Assert.AreEqual(10000, ReactiveManager.GetDependents(dependency).Count());
+			GC.Collect();
+			Assert.AreEqual(10000, ReactiveManager.GetDependents(dependency).Count());
+		}
+
+		[Test]
+		public void TestReactiveExpressionWeakness2()
+		{
+			var dependency = new ReactiveVariable<int>();
+
+			AddDependents(dependency, true);
+
+			GC.Collect();
+			Assert.AreEqual(0, ReactiveManager.GetDependents(dependency).Count());
+		}
+
+		static void AddDependents(ReactiveVariable<int> dependency, bool weak)
+	    {
+		    int sum = 0;
+		    foreach (var obj in Enumerable.Range(0, 10000))
+		    {
+			    var expression = new ReactiveExpression<int>(() => dependency.Value, weak);
+			    sum += expression.Evaluate();
+		    }
+	    }
     }
 }
