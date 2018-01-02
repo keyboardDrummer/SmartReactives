@@ -99,20 +99,20 @@ The second method applies ReactiveVariableAttribute to the property, which in co
 ```c#
 class ReactiveProperties
 {
-	readonly ReactiveVariable<int> usingABackingField = Reactive.Variable(1);
-	int UsingABackingField
-	{
-		get { return usingABackingField.Value; }
-		set { usingABackingField.Value = value; }
-	}
+    readonly ReactiveVariable<int> usingABackingField = Reactive.Variable(1);
+    int UsingABackingField
+    {
+        get { return usingABackingField.Value; }
+        set { usingABackingField.Value = value; }
+    }
 
-	[ReactiveVariable]
-	int UsingAnAttributeAndPostSharp { get; set; } = 1;
+    [ReactiveVariable]
+    int UsingAnAttributeAndPostSharp { get; set; } = 1;
 
-	public void Test()
-	{
-		var product = Reactive.Expression(() => UsingABackingField * UsingAnAttributeAndPostSharp);
-		product.Subscribe(getProduct => Console.WriteLine("product = " + getProduct())); //Prints 'product = 1'
+    public void Test()
+    {
+        var product = Reactive.Expression(() => UsingABackingField * UsingAnAttributeAndPostSharp);
+        product.Subscribe(getProduct => Console.WriteLine("product = " + getProduct())); //Prints 'product = 1'
         UsingAnAttributeAndPostSharp = 2; //Prints 'product = 2'
         UsingABackingField = 2; //Prints 'product = 4'
     }
@@ -124,33 +124,33 @@ The following example demonstrates using ReactiveVariableAttribute and ReactiveC
 ```c#
 class CachingCalculator
 {
-	[ReactiveVariable]
-	public int Input { get; set; }
+    [ReactiveVariable]
+    public int Input { get; set; }
 
-	[ReactiveCache]
-	public double Square
-	{
-		get
-		{
-			Console.WriteLine("cache miss");
-			return Math.Pow(Input, 2);
-		}
-	}
+    [ReactiveCache]
+    public double Square
+    {
+        get
+        {
+            Console.WriteLine("cache miss");
+            return Math.Pow(Input, 2);
+        }
+    }
 
-	[Test]
-	public static void ReactiveCache()
-	{
-		var calculator = new CachingCalculator();
-		calculator.Input = 2;
+    [Test]
+    public static void ReactiveCache()
+    {
+        var calculator = new CachingCalculator();
+        calculator.Input = 2;
 
-		Assert.AreEqual(4, calculator.Square); //Cache miss. Prints 'cache miss'
-		Assert.AreEqual(4, calculator.Square); //Cache hit.
+        Assert.AreEqual(4, calculator.Square); //Cache miss. Prints 'cache miss'
+        Assert.AreEqual(4, calculator.Square); //Cache hit.
 
-		calculator.Input = 3; //Cache becomes stale.
+        calculator.Input = 3; //Cache becomes stale.
 
-		Assert.AreEqual(9, calculator.Square); //Cache miss. Prints 'cache miss'
-		Assert.AreEqual(9, calculator.Square); //Cache hit.
-	}
+        Assert.AreEqual(9, calculator.Square); //Cache miss. Prints 'cache miss'
+        Assert.AreEqual(9, calculator.Square); //Cache hit.
+    }
 }
 ```
 
@@ -172,7 +172,7 @@ class Calculator : HasNotifyPropertyChanged
     {
         var calculator = new Calculator();
         calculator.Number = 1;
-        
+
         Console.WriteLine("square = " + calculator.SquareOfNumber); //Prints 'square = 1'
         calculator.PropertyChanged += (sender, eventArgs) =>
         {
