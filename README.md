@@ -181,7 +181,7 @@ class Calculator : HasNotifyPropertyChanged
         };
 
         calculator.Number = 2; //Prints 'square = 4'
-        calculator.Number = 3;; //Prints 'square = 9'
+        calculator.Number = 3; //Prints 'square = 9'
     }
 }
 ```
